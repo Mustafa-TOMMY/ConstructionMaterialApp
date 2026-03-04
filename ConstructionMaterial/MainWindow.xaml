@@ -6,7 +6,10 @@
         xmlns:local="clr-namespace:ConstructionMaterial"
         xmlns:controls="clr-namespace:ConstructionMaterial.UserControls"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="800">
+        Title="MainWindow" 
+        Height="600" 
+        Width="800"
+        Closing="Window_Closing">
     <Border Margin="20" Style="{StaticResource ModernBorder}">
         <Grid Margin="15">
             <Grid.RowDefinitions>

@@ -24,16 +24,20 @@ namespace ConstructionMaterial
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            CalculatorWindow window2 = new CalculatorWindow();
-            window2.Show();
+            CalculatorWindow orderWindow = new CalculatorWindow(_data);
+            orderWindow.Show();
         }
 
         private void AddMaterial_Click(object sender, RoutedEventArgs e)
         {
-            // Open the Add Material window
             AddMaterialWindow addMaterialWindow = new AddMaterialWindow(_data);
             addMaterialWindow.ShowDialog();
 
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Application.Current.Shutdown();
         }
     }
 }
