@@ -1,0 +1,21 @@
+﻿using ConstructionMaterial.Models.Enum;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+
+namespace ConstructionMaterial.Models
+{
+    public class Order
+    {
+        public int OrderNumber { get; set; }
+        public string MaterialName { get; set; }
+
+        [JsonConverter(typeof(StringEnumConverter))]
+        public MaterialType Category { get; set; }
+        public decimal Quantity { get; set; }
+        public string Unit { get; set; }
+        public decimal UnitPrice { get; set; }
+        public decimal Total => Quantity * UnitPrice; 
+        public DateTime Date { get; set; } = DateTime.Now;
+        public string Status { get; set; } // Pending or Delivered
+    }
+}
