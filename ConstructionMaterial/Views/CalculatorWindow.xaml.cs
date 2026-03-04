@@ -12,12 +12,15 @@ namespace ConstructionMaterial.Views
     public partial class CalculatorWindow : Window
     {
         public List<ElementType> ElementTypes { get; set; }
+        public List<string> MaterialNames { get; set; }
         public AppData _data { get; set; }
 
-        public CalculatorWindow()
+        public CalculatorWindow(AppData data)
         {
             InitializeComponent();
+            _data = data;
             ElementTypes = Enum.GetValues(typeof(ElementType)).Cast<ElementType>().ToList();
+            MaterialNames = data.Materials.Where(m => m.Category == MaterialType.Concrete).Select(m => m.Name).ToList();
             DataContext = this;
         }
 
