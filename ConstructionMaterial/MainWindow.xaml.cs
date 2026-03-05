@@ -13,6 +13,7 @@ namespace ConstructionMaterial
     {
         public ObservableCollection<MainMaterial> MaterialCatalog { get; set; }
         private AppData _data;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -34,8 +35,41 @@ namespace ConstructionMaterial
             addMaterialWindow.ShowDialog();
 
         }
+        private void DeleteMaterial_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedMaterial = MyDataGrid.SelectedItem as MainMaterial;
+
+            if (selectedMaterial == null)
+            {
+                MessageBox.Show("Please select a material to delete.",
+                                "No Selection",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Information);
+                return;
+            }
+            MessageBoxResult result = MessageBox.Show($"Are you sure you want to delete {selectedMaterial.Name}?",
+                                                        "Confirm Deletion", 
+                                                        MessageBoxButton.YesNo, 
+                                                        MessageBoxImage.Warning);
+            if (result == MessageBoxResult.Yes)
+            {
+                _data.Materials.Remove(selectedMaterial);
+                Helper.SaveToJson(_data);
+            }
+        }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void Save_Click(object sender, RoutedEventArgs e)
+        {
+            Helper.SaveToJson(_data);
+            StatusBarControl.UpdateLastSaved();
+        }
+
+        private void Exit_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
         }

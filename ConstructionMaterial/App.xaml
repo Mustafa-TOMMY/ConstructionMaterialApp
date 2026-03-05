@@ -17,6 +17,19 @@
         <SolidColorBrush x:Key="SecTextBrush" Color="#212121"/>
         <SolidColorBrush x:Key="IconsBrush" Color="#172030"/>
         <SolidColorBrush x:Key="BtnSecondeBrush" Color="#10B981"/>
+        <SolidColorBrush x:Key="GrayBackBrush" Color="Gray"/>
+        <SolidColorBrush x:Key="BtnDangerBrush" Color="DarkRed"/>
+
+        <Style x:Key="DashboardCard" TargetType="Border">
+            <Setter Property="Width" Value="220"/>
+            <Setter Property="Height" Value="80"/>
+            <Setter Property="BorderBrush" Value="{StaticResource GrayBackBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Background" Value="White"/>
+        </Style>
 
         <Style x:Key="ModernBox" TargetType="TextBox">
             <Setter Property="Height" Value="32"/>
@@ -104,6 +117,33 @@
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="border" Property="Background" Value="{StaticResource MainBrushHover}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Style x:Key="DangerButton" TargetType="Button">
+            <Setter Property="Foreground" Value="{StaticResource MainTextBrush}"/>
+            <Setter Property="Background" Value="{StaticResource BtnDangerBrush}"/>
+            <Setter Property="Height" Value="38"/>
+            <Setter Property="Padding" Value="15,0"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Padding="10 0" Background="{TemplateBinding Background}" CornerRadius="7">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="Red"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>

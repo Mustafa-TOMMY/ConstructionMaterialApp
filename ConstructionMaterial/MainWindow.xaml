@@ -21,19 +21,93 @@
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
 
-            <controls:MenuBar Grid.Row="0"/>
+            <!--<controls:MenuBar Grid.Row="0" x:Name="MenuBarControl"/>-->
+            <StackPanel Grid.Row="0">
+                <Menu>
+                    <MenuItem Header="File">
+                        <MenuItem.Icon >
+                            <TextBlock 
+                        FontFamily="{StaticResource FontAwesome}"
+                        Text="&#xf15b;" />
+                        </MenuItem.Icon>
 
-            <StackPanel Grid.Row="1">
-                
+                        <MenuItem x:Name="Save" Header="Save" Click="Save_Click">
+                            <MenuItem.Icon >
+                                <TextBlock 
+                        FontFamily="{StaticResource FontAwesome}"
+                        Text="&#xf0c7;"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+
+                        <MenuItem Header="Load">
+                            <MenuItem.Icon >
+                                <TextBlock 
+                        FontFamily="{StaticResource FontAwesome}"
+                        Text="&#xf0ab;"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+
+                        <MenuItem Header="About">
+                            <MenuItem.Icon >
+                                <TextBlock 
+                        FontFamily="{StaticResource FontAwesome}"
+                        Text="&#xf05a;"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <Separator/>
+                        <MenuItem Header="Exit" Click="Exit_Click"></MenuItem>
+                    </MenuItem>
+
+                    <MenuItem Header="Help">
+                        <MenuItem.Icon >
+                            <TextBlock 
+                        FontFamily="{StaticResource FontAwesome}"
+                        Text="&#xf059;"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </Menu>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+
+                <Border Style="{StaticResource DashboardCard}">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock Text="CATALOG" FontWeight="Bold" HorizontalAlignment="Center"/>
+                        <TextBlock Text="{Binding MaterialCatalog.Count}" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Materials" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Style="{StaticResource DashboardCard}">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock Text="ORDERS" FontWeight="Bold" HorizontalAlignment="Center"/>
+                        <TextBlock Text="8" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Pending: 3" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Style="{StaticResource DashboardCard}">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock Text="TOTAL SPENT" FontWeight="Bold" HorizontalAlignment="Center"/>
+                        <TextBlock Text="EGP 45,200" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center"/>
+                        <TextBlock Text="This Month" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+
             </StackPanel>
 
             <DockPanel Grid.Row="2" LastChildFill="False">
-                <TextBlock Style="{StaticResource ModernText}" DockPanel.Dock="Left">Material Catalog:</TextBlock>
-                <Button x:Name="AddMaterial" Click="AddMaterial_Click" Style="{StaticResource ModernButton}" DockPanel.Dock="Right">Add Material</Button>
+                <TextBlock Style="{StaticResource ModernText}" 
+                           DockPanel.Dock="Left">Material Catalog:</TextBlock>
+                <Button x:Name="AddMaterial" Click="AddMaterial_Click" 
+                        Style="{StaticResource ModernButton}" 
+                        DockPanel.Dock="Right">Add Material</Button>
+                <Button x:Name="DeleteMaterial" Click="DeleteMaterial_Click" 
+                        Style="{StaticResource DangerButton}" 
+                        DockPanel.Dock="Right">Delete Material</Button>
             </DockPanel>
 
-            <DataGrid x:Name="MyDataGrid"
-                      Grid.Row="3"
+            <DataGrid x:Name="MyDataGrid" Grid.Row="3"
                       AutoGenerateColumns="False"
                       CanUserAddRows="False"
                       ItemsSource="{Binding MaterialCatalog}">
@@ -56,7 +130,10 @@
                         <TextBlock Text="Open Calculator" Style="{StaticResource ModernText}" Foreground="White"/>
                     </StackPanel>
                 </Button>
-                <Button Style="{StaticResource ModernButton}" Width="200" Margin="120 0" Height="30">
+                <Button Style="{StaticResource ModernButton}" 
+                        Width="200" 
+                        Margin="120 0" 
+                        Height="30">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock FontFamily="{StaticResource FontAwesome}" Text="&#xf0ae;" Style="{StaticResource ModernText}"/>
                         <TextBlock Text="Open Orders" Style="{StaticResource ModernText}" Foreground="White"/>
@@ -64,9 +141,9 @@
                 </Button>
             </StackPanel>
 
-            <controls:StatusBar x:Name="StatusBarControl" 
+            <controls:StatusBar Grid.Row="5"
+                                x:Name="StatusBarControl" 
                                 MaterialsCount="{Binding MaterialCatalog.Count}" 
-                                Grid.Row="5" 
                                 Margin="0 10"/>
         </Grid>
     </Border>
