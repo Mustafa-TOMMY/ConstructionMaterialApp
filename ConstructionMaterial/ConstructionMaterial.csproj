@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <None Remove="icons\Font Awesome 7 Free-Solid-900.otf" />
+    <None Remove="MainWindow.xaml~RF2f6a25b9.TMP" />
   </ItemGroup>
 
   <ItemGroup>

@@ -17,12 +17,12 @@ namespace ConstructionMaterial
         {
             InitializeComponent();
             _data = Helper.LoadFromJson();
-
+            StatusBarControl.UpdateLastSaved();
             MaterialCatalog = _data.Materials;
             DataContext = this;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Calculator_Click(object sender, RoutedEventArgs e)
         {
             CalculatorWindow orderWindow = new CalculatorWindow(_data);
             orderWindow.Show();
