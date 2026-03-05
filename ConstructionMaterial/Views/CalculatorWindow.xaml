@@ -48,11 +48,13 @@
                         <TextBlock Text="Material Name:" 
                                    Grid.Row="1" 
                                    Style="{StaticResource FieldLabel}"/>
-                        <ComboBox Grid.Row="1" 
+                        <ComboBox Grid.Row="1"
+                                  x:Name="MaterialComboBox"
                                   Grid.Column="1" 
                                   Height="32" 
                                   Margin="0,5"
                                   ItemsSource="{Binding MaterialNames}"
+                                  DisplayMemberPath="Name"
                                   SelectedIndex="0"/>
 
                         <TextBlock Text="Length (m):" 

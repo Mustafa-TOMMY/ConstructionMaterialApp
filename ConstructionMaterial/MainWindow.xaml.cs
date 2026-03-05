@@ -12,6 +12,7 @@ namespace ConstructionMaterial
     public partial class MainWindow : Window
     {
         public ObservableCollection<MainMaterial> MaterialCatalog { get; set; }
+        public ObservableCollection<Order> Orders { get; set; }
         private AppData _data;
 
         public MainWindow()
@@ -20,6 +21,7 @@ namespace ConstructionMaterial
             _data = Helper.LoadFromJson();
             StatusBarControl.UpdateLastSaved();
             MaterialCatalog = _data.Materials;
+            Orders = _data.Orders;
             DataContext = this;
         }
 
@@ -29,6 +31,11 @@ namespace ConstructionMaterial
             orderWindow.Show();
         }
 
+        private void OrderWindow_Click(object sender, RoutedEventArgs e)
+        {
+            OrdersWindow orderWindow = new OrdersWindow(_data);
+            orderWindow.Show();
+        }
         private void AddMaterial_Click(object sender, RoutedEventArgs e)
         {
             AddMaterialWindow addMaterialWindow = new AddMaterialWindow(_data);
@@ -48,8 +55,8 @@ namespace ConstructionMaterial
                 return;
             }
             MessageBoxResult result = MessageBox.Show($"Are you sure you want to delete {selectedMaterial.Name}?",
-                                                        "Confirm Deletion", 
-                                                        MessageBoxButton.YesNo, 
+                                                        "Confirm Deletion",
+                                                        MessageBoxButton.YesNo,
                                                         MessageBoxImage.Warning);
             if (result == MessageBoxResult.Yes)
             {
@@ -73,5 +80,6 @@ namespace ConstructionMaterial
         {
             Application.Current.Shutdown();
         }
+
     }
 }

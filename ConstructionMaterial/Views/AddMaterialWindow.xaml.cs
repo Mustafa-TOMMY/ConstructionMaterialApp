@@ -82,8 +82,8 @@ namespace ConstructionMaterial.Views
 
         private void TurnOnOffBtn()
         {
-            bool isNameValid = !string.IsNullOrWhiteSpace(MaterialNameTxt.Text) && double.TryParse(MaterialNameTxt.Text, out _);
-            bool isUnitValid = !string.IsNullOrWhiteSpace(UnitTxt.Text) && double.TryParse(UnitTxt.Text, out _);
+            bool isNameValid = !string.IsNullOrWhiteSpace(MaterialNameTxt.Text) && !double.TryParse(MaterialNameTxt.Text, out _);
+            bool isUnitValid = !string.IsNullOrWhiteSpace(UnitTxt.Text) && !double.TryParse(UnitTxt.Text, out _);
             bool isPriceValid = double.TryParse(UnitPriceTxt.Text, out double price) && price > 0;
 
             if (BtnSave != null)

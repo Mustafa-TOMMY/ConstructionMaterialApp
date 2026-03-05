@@ -11,10 +11,10 @@ namespace ConstructionMaterial.Models
 
         [JsonConverter(typeof(StringEnumConverter))]
         public MaterialType Category { get; set; }
-        public decimal Quantity { get; set; }
+        public double Quantity { get; set; }
         public string Unit { get; set; }
-        public decimal UnitPrice { get; set; }
-        public decimal Total => Quantity * UnitPrice; 
+        public double UnitPrice { get; set; }
+        public double Total => Quantity * UnitPrice; 
         public DateTime Date { get; set; } = DateTime.Now;
         public string Status { get; set; } // Pending or Delivered
     }

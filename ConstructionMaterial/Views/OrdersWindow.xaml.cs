@@ -1,5 +1,7 @@
-﻿using System;
+﻿using ConstructionMaterial.Models;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,9 +21,14 @@ namespace ConstructionMaterial.Views
     /// </summary>
     public partial class OrdersWindow : Window
     {
-        public OrdersWindow()
+        public ObservableCollection<Order> Orders { get; set; }
+        public AppData _data { get; set; }
+        public OrdersWindow(AppData data)
         {
             InitializeComponent();
+            _data = data;
+            Orders = _data.Orders;
+            DataContext = this;
         }
     }
 }

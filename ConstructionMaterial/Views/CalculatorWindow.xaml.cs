@@ -12,7 +12,7 @@ namespace ConstructionMaterial.Views
     public partial class CalculatorWindow : Window
     {
         public List<ElementType> ElementTypes { get; set; }
-        public List<string> MaterialNames { get; set; }
+        public List<MainMaterial> MaterialNames { get; set; }
         public AppData _data { get; set; }
 
         public CalculatorWindow(AppData data)
@@ -20,7 +20,7 @@ namespace ConstructionMaterial.Views
             InitializeComponent();
             _data = data;
             ElementTypes = Enum.GetValues(typeof(ElementType)).Cast<ElementType>().ToList();
-            MaterialNames = data.Materials.Where(m => m.Category == MaterialType.Concrete).Select(m => m.Name).ToList();
+            MaterialNames = data.Materials.Where(m => m.Category == MaterialType.Concrete).ToList();
             DataContext = this;
         }
 
@@ -36,19 +36,30 @@ namespace ConstructionMaterial.Views
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            //var newOrder = new Order
-            //{
-            //    OrderNumber = Helper.GetNumericalValue(OrderNumberTxt),
-            //    MaterialName = (MaterialType)MaterialComboBox.SelectedItem,
-            //    Category = CategoryTxt.Text,
-            //    Quantity = Helper.GetNumericalValue(QuantityTxt),
-            //    Unit = UnitTxt.Text,
-            //    UnitPrice = Helper.GetNumericalValue(UnitPriceTxt),
-            //    Status = "Pending",
-            //    Date = DateTime.Now
-            //};
-            //_data.Orders.Add(newOrder);
+            var selectedMaterial = MaterialComboBox.SelectedItem as MainMaterial;
+
+            if (selectedMaterial == null)
+            {
+                MessageBox.Show("Please select a material from the list first.",
+                                "Selection Required", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            var newOrder = new Order
+            {
+                OrderNumber = _data.Orders.Count + 1,
+                MaterialName = selectedMaterial.Name,
+                Category = selectedMaterial.Category,
+                Quantity = Helper.GetNumericalValue(QuantityTxt),
+                Unit = selectedMaterial.Unit,
+                UnitPrice = selectedMaterial.UnitPrice,
+                Status = "Pending",
+                Date = DateTime.Now
+            };
+            _data.Orders.Add(newOrder);
             Helper.SaveToJson(_data);
+
+            MessageBox.Show($"Order for {selectedMaterial.Name} has been saved!",
+                            "Success", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 }

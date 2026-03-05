@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         Title="OrdersWindow" Height="450" Width="800">
     <Grid>
-        <TextBlock>Order window</TextBlock>
+        <DataGrid x:Name="OrdersDataGrid" AutoGenerateColumns="True" Margin="10" ItemsSource="{Binding Orders}">
+        </DataGrid>
     </Grid>
 </Window>
