@@ -20,9 +20,15 @@ namespace ConstructionMaterial.UserControls
     /// </summary>
     public partial class MenuBar : UserControl
     {
+        public event EventHandler SaveClicked;
         public MenuBar()
         {
             InitializeComponent();
+        }
+
+        private void Save_Click(object sender, RoutedEventArgs e)
+        {
+            SaveClicked?.Invoke(this, EventArgs.Empty);
         }
     }
 }

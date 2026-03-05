@@ -30,7 +30,7 @@
                             Text="&#xf15b;" />
                 </MenuItem.Icon>
 
-                <MenuItem Header="Save">
+                <MenuItem Header="Save" Click="Save_Click">
                     <MenuItem.Icon >
                         <TextBlock 
                             FontFamily="{StaticResource FontAwesome}"
