@@ -3,10 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Material Calculator" 
         Height="550" 
-        Width="480"
+        Width="500"
         xmlns:local="clr-namespace:ConstructionMaterial.Models.Enum"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
-        WindowStartupLocation="CenterScreen" Background="#F0F2F5">
+        xmlns:controls="clr-namespace:ConstructionMaterial.UserControls"
+        WindowStartupLocation="CenterScreen" 
+        Background="{StaticResource MainTextBrush}">
 
     <Window.Resources>
 
@@ -44,7 +46,7 @@
                                   Margin="0,5"
                                   ItemsSource="{Binding ElementTypes}"
                                   SelectedIndex="0"/>
-                        
+
                         <TextBlock Text="Material Name:" 
                                    Grid.Row="1" 
                                    Style="{StaticResource FieldLabel}"/>
@@ -88,11 +90,10 @@
                         <TextBox Grid.Row="5" 
                                  Grid.Column="1"
                                  x:Name="QuantityTxt"
-                                Style="{StaticResource ModernBox}"
-                                 />
+                                Style="{StaticResource ModernBox}"/>
 
                         <StackPanel Grid.Row="6" 
-                                    Grid.ColumnSpan="2" 
+                                    Grid.Column="2" 
                                     Orientation="Horizontal" 
                                     HorizontalAlignment="Right" 
                                     Margin="0,15">
@@ -106,30 +107,264 @@
                                     Click="SaveButton_Click"/>
                         </StackPanel>
 
-                        <StackPanel Grid.Row="7" 
-                                    Grid.ColumnSpan="2" 
-                                    Background="{StaticResource MainTextBrush}"
-                                    Margin="20">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Total Order Volume:" 
-                                           VerticalAlignment="Center" 
-                                           FontWeight="SemiBold"/>
-                                <TextBlock x:Name="TotalOrderValue" 
-                                           Text="0.00 m³" 
-                                           Margin="10,0" 
-                                           Foreground="#059669" 
-                                           FontWeight="Bold" 
-                                           FontSize="20"/>
-                            </StackPanel>
-                            <TextBlock Text="Note: The total order volume is calculated assuming 10% waste factor."
-                                       FontSize="10"
-                                       FontStyle="Italic"/>
-                        </StackPanel>
+                        <controls:CalculationOutput Grid.Row="7" 
+                                                    Grid.ColumnSpan="2" 
+                                                    x:Name="OutputControl"
+                                                    OutputValue="0.0 m³"
+                                                    OutputLabel="Total Order Value:"/>
                     </Grid>
                 </TabItem>
 
-                <TabItem Header="Steel" Width="100"/>
-                <TabItem Header="Paint" Width="100"/>
+                <TabItem Header="Steel" Width="100">
+                    <Grid Margin="0,20,0,0">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="110"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="Bar Diameter:"
+                                    Grid.Row="0"
+                                    Style="{StaticResource FieldLabel}"/>
+
+                        <ComboBox Grid.Row="0"
+                                    Grid.Column="1"
+                                    x:Name="BarDiameterComboBox"
+                                    Height="32"
+                                    Margin="0,5"
+                                    ItemsSource="{Binding BarDiameters}"
+                                    DisplayMemberPath="Name"
+                                    SelectedIndex="0"/>
+
+                        <TextBlock Text="Bar Length (m):"
+                                    Grid.Row="1"
+                                    Style="{StaticResource FieldLabel}"/>
+
+                        <TextBox Grid.Row="1"
+                                Grid.Column="1"
+                                x:Name="BarLengthTxt"
+                                Style="{StaticResource ModernBox}"/>
+
+                        <TextBlock Text="Number Of Bars:"
+                                    Grid.Row="2"
+                                    Style="{StaticResource FieldLabel}"/>
+
+                        <TextBox Grid.Row="2"
+                                Grid.Column="1"
+                                x:Name="NoOfBarsTxt"
+                                Style="{StaticResource ModernBox}"/>
+                        
+                        <StackPanel Grid.Row="3"
+                                    Grid.ColumnSpan="2"
+                                    Orientation="Horizontal"
+                                    HorizontalAlignment="Right"
+                                    Margin="0,15">
+
+                            <Button Content="Calculate"
+                                    Name="CalculateButton2"
+                                    Style="{StaticResource ModernButton}"
+                                    Click="CalculateButton_Click"/>
+
+                            <Button Content="Save Data"
+                                    Name="SaveButton2"
+                                    Style="{StaticResource SecondaryButton}"
+                                    Click="SaveButton_Click"/>
+                        </StackPanel>
+
+                        <controls:CalculationOutput Grid.Row="7" 
+                                                    Grid.ColumnSpan="2" 
+                                                    x:Name="OutputSteelControl"
+                                                    VerticalAlignment="Bottom"
+                                                    OutputValue="0.0 m³"
+                                                    OutputLabel="Total Order Value:"/>
+                    </Grid>
+                </TabItem>
+
+                <TabItem Header="Paint" Width="100">
+                    <Grid Margin="0,20,0,0">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Surface Type -->
+                        <TextBlock Text="Surface Type:"
+                                    Grid.Row="0"
+                                    Style="{StaticResource FieldLabel}"/>
+
+                        <ComboBox Grid.Row="0"
+                                x:Name="SurfaceTypeComboBox"
+                                Grid.Column="1"
+                                ItemsSource="{Binding SurfaceTypes}"
+                                DisplayMemberPath="Name"
+                                Height="32"
+                                Margin="0,5"
+                                SelectedIndex="0"/>
+
+
+                        <!-- Surface Area -->
+                        <TextBlock Text="Surface Area (m²):"
+                                    Grid.Row="1"
+                                    Style="{StaticResource FieldLabel}"/>
+
+                        <TextBox Grid.Row="1"
+                                 Grid.Column="1"
+                                 x:Name="SurfaceAreaTxt"
+                                 Style="{StaticResource ModernBox}"/>
+
+                        <!-- Number Of Coats -->
+                        <TextBlock Text="Number Of Coats:"
+                                    Grid.Row="2"
+                                    Style="{StaticResource FieldLabel}"/>
+
+                        <TextBox Grid.Row="2"
+                                Grid.Column="1"
+                                Height="32"
+                                Margin="0,5"/>
+
+                        <!-- Coverage Rate -->
+                        <TextBlock Text="Coverage Rate(m²/L):"
+                                    Grid.Row="3"
+                                    Style="{StaticResource FieldLabel}"/>
+
+                        <TextBox Grid.Row="3"
+                                Grid.Column="1"
+                                x:Name="CoverageRateTxt"
+                                Style="{StaticResource ModernBox}"/>
+
+                        <!-- Buttons -->
+                        <StackPanel Grid.Row="4"
+                                    Grid.ColumnSpan="2"
+                                    Orientation="Horizontal"
+                                    HorizontalAlignment="Right"
+                                    Margin="0,15">
+
+                            <Button Content="Calculate"
+                                    Name="CalculateButton3"
+                                    Style="{StaticResource ModernButton}"
+                                    Click="CalculateButton_Click"/>
+
+                            <Button Content="Save Data"
+                                    Name="SaveButton3"
+                                    Style="{StaticResource SecondaryButton}"
+                                    Click="SaveButton_Click"/>
+                        </StackPanel>
+
+                        <controls:CalculationOutput Grid.Row="7" 
+                                                    Grid.ColumnSpan="2" 
+                                                    x:Name="OutputPaintControl"
+                                                    VerticalAlignment="Bottom"
+                                                    OutputValue="0.0 m³"
+                                                    OutputLabel="Total Order Value:"/>
+                    </Grid>
+                </TabItem>
+
+                <TabItem Header="Tiles" Width="100">
+                    <Grid Margin="0,20,0,0">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="130"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Room Length -->
+                        <TextBlock Text="Room Length (m):"
+                                    Grid.Row="0"
+                                    Style="{StaticResource FieldLabel}"/>
+
+                        <TextBox Grid.Row="0"
+                                Grid.Column="1"
+                                x:Name="RoomLengthTxt"
+                                Style="{StaticResource ModernBox}"/>
+
+                        <!-- Room Width -->
+                        <TextBlock Text="Room Width (m):"
+                                    Grid.Row="1"
+                                    Style="{StaticResource FieldLabel}"/>
+
+                        <TextBox Grid.Row="1"
+                                Grid.Column="1"
+                                x:Name="RoomWidthTxt"
+                                Style="{StaticResource ModernBox}"/>
+
+                        <!-- Tile Size -->
+                        <TextBlock Text="Tile Size:"
+                                    Grid.Row="2"
+                                    Style="{StaticResource FieldLabel}"/>
+
+                        <ComboBox Grid.Row="2"
+                                x:Name="TileSizeComboBox"
+                                Grid.Column="1"
+                                Height="32"
+                                Margin="0,5"
+                                ItemsSource="{Binding TileSizes}"
+                                DisplayMemberPath="Name"
+                                SelectedIndex="1"/>
+
+                        <!-- Waste -->
+                        <TextBlock Text="Waste Percentage (%):"
+                                Grid.Row="3"
+                                Style="{StaticResource FieldLabel}"/>
+
+                        <TextBox Grid.Row="3"
+                                Grid.Column="1"
+                                x:Name="WasteTxt"
+                                Text="10"
+                                Style="{StaticResource ModernBox}"/>
+
+                        <!-- Buttons -->
+                        <StackPanel Grid.Row="4"
+                                    Grid.ColumnSpan="2"
+                                    Orientation="Horizontal"
+                                    HorizontalAlignment="Right"
+                                    Margin="0,15">
+
+                            <Button Content="Calculate"
+                                    Name="CalculateButton4"
+                                    Style="{StaticResource ModernButton}"
+                                    Click="CalculateButton_Click"/>
+
+                            <Button Content="Save Data"
+                                    Name="SaveButton4"
+                                    Style="{StaticResource SecondaryButton}"
+                                    Click="SaveButton_Click"/>
+
+                        </StackPanel>
+                        <controls:CalculationOutput Grid.Row="7" 
+                                                    Grid.ColumnSpan="2" 
+                                                    x:Name="OutputTilesControl"
+                                                    VerticalAlignment="Bottom"
+                                                    OutputValue="0.0 m³"
+                                                    OutputLabel="Total Order Value:"/>
+                    </Grid>
+                </TabItem>
             </TabControl>
         </Grid>
     </Border>

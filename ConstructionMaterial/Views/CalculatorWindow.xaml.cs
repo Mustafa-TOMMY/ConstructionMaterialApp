@@ -12,6 +12,7 @@ namespace ConstructionMaterial.Views
     {
         public List<ElementType> ElementTypes { get; set; }
         public List<MainMaterial> MaterialNames { get; set; }
+        public List<MainMaterial> BarDiameters { get; set; }
         public AppData _data { get; set; }
 
         public CalculatorWindow(AppData data)
@@ -20,6 +21,7 @@ namespace ConstructionMaterial.Views
             _data = data;
             ElementTypes = Enum.GetValues(typeof(ElementType)).Cast<ElementType>().ToList();
             MaterialNames = data.Materials.Where(m => m.Category == MaterialType.Concrete).ToList();
+            BarDiameters = data.Materials.Where(m => m.Category == MaterialType.Steel).ToList();
             DataContext = this;
         }
 
@@ -30,7 +32,7 @@ namespace ConstructionMaterial.Views
             double depth = Helper.GetNumericalValue(DepthTxt);
             double quantity = Helper.GetNumericalValue(QuantityTxt);
 
-            TotalOrderValue.Text = (length * width * depth * quantity * 1.1).ToString() + " m³";
+            //TotalOrderValue.Text = (length * width * depth * quantity * 1.1).ToString() + " m³";
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
