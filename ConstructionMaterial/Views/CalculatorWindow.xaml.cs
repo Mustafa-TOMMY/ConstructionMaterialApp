@@ -2,7 +2,6 @@
 using ConstructionMaterial.Models;
 using ConstructionMaterial.Models.Enum;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace ConstructionMaterial.Views
 {

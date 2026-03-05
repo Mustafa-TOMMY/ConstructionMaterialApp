@@ -30,7 +30,6 @@ namespace ConstructionMaterial
             CalculatorWindow orderWindow = new CalculatorWindow(_data);
             orderWindow.Show();
         }
-
         private void OrderWindow_Click(object sender, RoutedEventArgs e)
         {
             OrdersWindow orderWindow = new OrdersWindow(_data);
@@ -64,18 +63,15 @@ namespace ConstructionMaterial
                 Helper.SaveToJson(_data);
             }
         }
-
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             Application.Current.Shutdown();
         }
-
         private void Save_Click(object sender, RoutedEventArgs e)
         {
             Helper.SaveToJson(_data);
             StatusBarControl.UpdateLastSaved();
         }
-
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
