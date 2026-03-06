@@ -3,47 +3,201 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ConstructionMaterial.Views"
         mc:Ignorable="d"
-        Title="OrdersWindow" 
-        Height="450" 
-        Width="800"
+        Title="Order Management System" 
+        Height="600" 
+        Width="940"
+        WindowStartupLocation="CenterScreen"
         Background="{StaticResource MainTextBrush}">
+    <Grid>
+        <Border Margin="20" Style="{StaticResource ModernBorder}">
+            <Grid Margin="15">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+                    <TextBlock Text="&#xf0d1;" FontFamily="{StaticResource FontAwesome}" 
+                               FontSize="24" Foreground="{StaticResource MainBrush}" 
+                               VerticalAlignment="Center" Margin="0,0,10,0"/>
+                    <TextBlock Text="Order History &amp; Tracking" FontSize="22" FontWeight="Bold" 
+                               Foreground="{StaticResource IconsBrush}" VerticalAlignment="Center"/>
+                </StackPanel>
 
+                <Border Grid.Row="1" Background="#F8FAFC" CornerRadius="8" Padding="15,5" Margin="0,0,0,15">
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Margin="0,0,20,0">
+                            <TextBlock Text="Category" Style="{StaticResource FieldLabel}" FontSize="12" Margin="0,0,0,2"/>
+                            <ComboBox x:Name="CategorySearchComboBox" Width="150" Height="32"
+                                      ItemsSource="{Binding SearchOptions}"
+                                      SelectionChanged="SearchComboBox_SelectionChanged"/>
+                        </StackPanel>
 
-    <Border Margin="20" Style="{StaticResource ModernBorder}">
-        <Grid Margin="15">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
+                        <StackPanel Margin="0,0,20,0">
+                            <TextBlock Text="Material" Style="{StaticResource FieldLabel}" FontSize="12" Margin="0,0,0,2"/>
+                            <ComboBox x:Name="MaterialSearchComboBox" Width="120" Height="32">
+                                <ComboBoxItem Content="All"/>
+                                <ComboBoxItem Content="Pending"/>
+                                <ComboBoxItem Content="Delivered"/>
+                            </ComboBox>
+                        </StackPanel>
 
+                        <StackPanel Margin="0,0,20,0">
+                            <TextBlock Text="Status" Style="{StaticResource FieldLabel}" FontSize="12" Margin="0,0,0,2"/>
+                            <ComboBox x:Name="StatusSearchComboBox" Width="120" Height="32">
+                                <ComboBoxItem Content="All"/>
+                                <ComboBoxItem Content="Pending"/>
+                                <ComboBoxItem Content="Delivered"/>
+                            </ComboBox>
+                        </StackPanel>
 
-            <DataGrid x:Name="OrdersDataGrid" 
-                  AutoGenerateColumns="False" 
-                  IsReadOnly="True"
-                  ItemsSource="{Binding Orders}">
+                        <StackPanel Margin="0,0,10,0">
+                            <TextBlock Text="From:" Style="{StaticResource FieldLabel}" FontSize="12" Margin="0,0,0,2"/>
+                            <DatePicker x:Name="FromDatePicker" Width="120" Height="32" 
+                        SelectedDateChanged="DatePicker_SelectedDateChanged" />
+                        </StackPanel>
 
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Order #" Binding="{Binding OrderNumber}" Width="80" />
-                    <DataGridTextColumn Header="Date" Binding="{Binding Date, StringFormat=\{0:dd/MM/yyyy\}}" Width="100" />
-                    <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="*" />
-                    <DataGridTextColumn Header="Material" Binding="{Binding MaterialName}" Width="*" />
-                    <DataGridTextColumn Header="Qty" Binding="{Binding Quantity}" Width="50" />
-                    <DataGridTextColumn Header="Unit" Binding="{Binding Unit}" Width="50" />
-                    <DataGridTextColumn Header="Price" Binding="{Binding UnitPrice, StringFormat=\{0:N2\}}" Width="80" />
-                    <DataGridTextColumn Header="Total" Binding="{Binding Total, StringFormat=\{0:N2\}}" Width="80">
-                        <DataGridTextColumn.ElementStyle>
-                            <Style TargetType="TextBlock">
-                                <Setter Property="FontWeight" Value="Bold" />
-                                <Setter Property="Foreground" Value="{StaticResource BtnSecondeBrush}" />
-                            </Style>
-                        </DataGridTextColumn.ElementStyle>
-                    </DataGridTextColumn>
-                    <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="100" />
-                </DataGrid.Columns>
+                        <StackPanel Margin="0,0,15,0">
+                            <TextBlock Text="To:" Style="{StaticResource FieldLabel}" FontSize="12" Margin="0,0,0,2"/>
+                            <DatePicker x:Name="ToDatePicker" Width="120" Height="32" 
+                        SelectedDateChanged="DatePicker_SelectedDateChanged" />
+                        </StackPanel>
 
-            </DataGrid>
-        </Grid>
-    </Border>
+                        <Button x:Name="ResetBtn" 
+                                Click="ResetBtn_Click" 
+                                Style="{StaticResource ModernButton}" 
+                                Width="100" 
+                                Height="32"
+                                VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock FontFamily="{StaticResource FontAwesome}" 
+                                           Text="&#xf2f9;" 
+                                           VerticalAlignment="Center"
+                                           Foreground="{StaticResource IconsBrush}"
+                                           FontSize="14"/>
+                                <TextBlock Text="Reset" 
+                                           Margin="8,0,0,0" 
+                                           VerticalAlignment="Center"
+                                           FontSize="13"
+                                           FontWeight="SemiBold"
+                                           Foreground="White"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Border>
+
+                <DataGrid x:Name="OrdersDataGrid"
+                          Grid.Row="2"
+                          AutoGenerateColumns="False" 
+                          IsReadOnly="True"
+                          ItemsSource="{Binding Orders}"
+                          Background="Transparent"
+                          RowHeight="35">
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Order #" Binding="{Binding OrderNumber}" Width="80" />
+                        <DataGridTextColumn Header="Date" Binding="{Binding Date, StringFormat=\{0:dd/MM/yyyy\}}" Width="100" />
+                        <DataGridTextColumn Header="Material Name" Binding="{Binding MaterialName}" Width="*" />
+                        <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="100" />
+                        <DataGridTextColumn Header="Qty" Binding="{Binding Quantity}" Width="50" />
+                        <DataGridTextColumn Header="Price" Binding="{Binding UnitPrice, StringFormat=\{0:N2\}}" Width="100" />
+
+                        <DataGridTextColumn ElementStyle="{StaticResource ValueText}" 
+                                            Header="Total Amount" 
+                                            Binding="{Binding Total, StringFormat=\{0:N2\}}" 
+                                            Width="130"/>
+
+                        <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="100" />
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <Border Grid.Row="3" Style="{StaticResource ModernBorder}" Padding="0 10 0 0">
+                    <DockPanel LastChildFill="False">
+
+                        <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" VerticalAlignment="Center">
+
+                            <TextBlock Text="Items:" Style="{StaticResource FieldLabel}" Foreground="Gray" FontSize="11"/>
+                            <TextBlock x:Name="ItemsCountText" Text="0" FontWeight="Bold" Margin="0,0,15,0"/>
+
+                            <TextBlock Text="Total Cost:" Style="{StaticResource FieldLabel}" Foreground="Gray" FontSize="11"/>
+                            <TextBlock x:Name="TotalCostText" Text="0.00 EGP" FontWeight="Bold" Foreground="{StaticResource BtnSecondeBrush}" Margin="0,0,15,0"/>
+
+                            <TextBlock Text="Pending:" Style="{StaticResource FieldLabel}" Foreground="Gray" FontSize="11"/>
+                            <TextBlock x:Name="PendingText" Text="0" FontWeight="Bold" Foreground="OrangeRed"/>
+
+                        </StackPanel>
+
+                        <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                            <Button x:Name="DeliveryMarkBtn" 
+                                    Click="DeliveryMarkBtn_Click" 
+                                    Style="{StaticResource SecondaryButton}" 
+                                    Width="160" 
+                                    Height="38"
+                                    Margin="5,0">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock FontFamily="{StaticResource FontAwesome}" 
+                                            Text="&#xf058;" 
+                                            Foreground="{StaticResource IconsBrush}"
+                                            VerticalAlignment="Center"
+                                            FontSize="16"/>
+                                    <TextBlock Text="Mark Delivered" 
+                                                Margin="8,0,0,0" 
+                                                VerticalAlignment="Center"
+                                                FontSize="14"
+                                                FontWeight="SemiBold"
+                                                Foreground="Black"/>
+                                </StackPanel>
+                            </Button>
+
+                            <Button x:Name="ExportBtn" 
+                                    Click="ExportBtn_Click" 
+                                    Style="{StaticResource ModernButton}" 
+                                    Width="120" 
+                                    Height="38"
+                                    Margin="5,0">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock FontFamily="{StaticResource FontAwesome}" 
+                                               Text="&#xf56e;"
+                                               Foreground="{StaticResource IconsBrush}"
+                                               VerticalAlignment="Center"
+                                               FontSize="16"/>
+                                    <TextBlock Text="Export" 
+                                               Margin="8,0,0,0" 
+                                               VerticalAlignment="Center"
+                                               FontSize="14"
+                                               FontWeight="SemiBold"
+                                               Foreground="White"/>
+                                </StackPanel>
+                            </Button>
+
+                            <Button x:Name="DeleteBtn" 
+                                    Click="DeleteBtn_Click" 
+                                    Style="{StaticResource DangerButton}" 
+                                    Width="110" 
+                                    Height="38"
+                                    Margin="5,0">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock FontFamily="{StaticResource FontAwesome}" 
+                                               Text="&#xf2ed;" 
+                                               VerticalAlignment="Center"
+                                               Foreground="{StaticResource IconsBrush}"
+                                               FontSize="16"/>
+                                    <TextBlock Text="Delete" 
+                                               Margin="8,0,0,0" 
+                                               VerticalAlignment="Center"
+                                               FontSize="14"
+                                               FontWeight="SemiBold"
+                                               Foreground="White"/>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+
+                    </DockPanel>
+                </Border>
+            </Grid>
+        </Border>
+    </Grid>
 </Window>

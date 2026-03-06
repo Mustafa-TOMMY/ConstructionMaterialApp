@@ -9,6 +9,7 @@
         Title="MainWindow" 
         Height="600" 
         Width="800"
+        Background="{StaticResource MainTextBrush}"
         Closing="Window_Closing">
     <Border Margin="20" Style="{StaticResource ModernBorder}">
         <Grid Margin="15">

@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="App.xaml~RF3a4dea2.TMP" />
     <None Remove="icons\Font Awesome 7 Free-Solid-900.otf" />
     <None Remove="MainWindow.xaml~RF2f6a25b9.TMP" />
     <None Remove="Views\CalculatorWindow.xaml.cs~RF8db47d.TMP" />
