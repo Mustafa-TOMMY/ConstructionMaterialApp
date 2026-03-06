@@ -27,43 +27,57 @@
                                Foreground="{StaticResource IconsBrush}" VerticalAlignment="Center"/>
                 </StackPanel>
 
-                <Border Grid.Row="1" Background="#F8FAFC" CornerRadius="8" Padding="15,5" Margin="0,0,0,15">
+                <Border Grid.Row="1" Background="#F8FAFC" CornerRadius="8" 
+                        Padding="15,5" Margin="0,0,0,15">
                     <StackPanel Orientation="Horizontal">
                         <StackPanel Margin="0,0,20,0">
                             <TextBlock Text="Category" Style="{StaticResource FieldLabel}" FontSize="12" Margin="0,0,0,2"/>
-                            <ComboBox x:Name="CategorySearchComboBox" Width="150" Height="32"
-                                      ItemsSource="{Binding SearchOptions}"
-                                      SelectionChanged="SearchComboBox_SelectionChanged"/>
+                            <ComboBox x:Name="CategorySearchComboBox" Width="150"
+                                      SelectionChanged="Filter"
+                                      Height="32"
+                                      ItemsSource="{Binding SearchOptions}"/>
                         </StackPanel>
 
                         <StackPanel Margin="0,0,20,0">
                             <TextBlock Text="Material" Style="{StaticResource FieldLabel}" FontSize="12" Margin="0,0,0,2"/>
-                            <ComboBox x:Name="MaterialSearchComboBox" Width="120" Height="32">
-                                <ComboBoxItem Content="All"/>
-                                <ComboBoxItem Content="Pending"/>
-                                <ComboBoxItem Content="Delivered"/>
-                            </ComboBox>
+                            <ComboBox x:Name="MaterialSearchComboBox" 
+                                      SelectionChanged="Filter"
+                                      Width="120" 
+                                      ItemsSource="{Binding MaterialForSearch}"
+                                      Height="32"/>
+
                         </StackPanel>
 
                         <StackPanel Margin="0,0,20,0">
-                            <TextBlock Text="Status" Style="{StaticResource FieldLabel}" FontSize="12" Margin="0,0,0,2"/>
-                            <ComboBox x:Name="StatusSearchComboBox" Width="120" Height="32">
+                            <TextBlock Text="Status" Style="{StaticResource FieldLabel}" 
+                                       FontSize="12" Margin="0,0,0,2"/>
+                            <ComboBox x:Name="StatusSearchComboBox" 
+                                      Width="120"
+                                      Height="32"
+                                      SelectionChanged="Filter">
                                 <ComboBoxItem Content="All"/>
                                 <ComboBoxItem Content="Pending"/>
                                 <ComboBoxItem Content="Delivered"/>
                             </ComboBox>
+
                         </StackPanel>
 
                         <StackPanel Margin="0,0,10,0">
-                            <TextBlock Text="From:" Style="{StaticResource FieldLabel}" FontSize="12" Margin="0,0,0,2"/>
-                            <DatePicker x:Name="FromDatePicker" Width="120" Height="32" 
-                        SelectedDateChanged="DatePicker_SelectedDateChanged" />
+                            <TextBlock Text="From:" Style="{StaticResource FieldLabel}" 
+                                       FontSize="12" Margin="0,0,0,2"/>
+                            <DatePicker x:Name="FromDatePicker" 
+                                        Width="120" 
+                                        Height="32" 
+                                        SelectedDateChanged="Filter" />
                         </StackPanel>
 
                         <StackPanel Margin="0,0,15,0">
-                            <TextBlock Text="To:" Style="{StaticResource FieldLabel}" FontSize="12" Margin="0,0,0,2"/>
-                            <DatePicker x:Name="ToDatePicker" Width="120" Height="32" 
-                        SelectedDateChanged="DatePicker_SelectedDateChanged" />
+                            <TextBlock Text="To:" Style="{StaticResource FieldLabel}" 
+                                       FontSize="12" Margin="0,0,0,2"/>
+                            <DatePicker x:Name="ToDatePicker" 
+                                        Width="120" 
+                                        Height="32"
+                                        SelectedDateChanged="Filter"/>
                         </StackPanel>
 
                         <Button x:Name="ResetBtn" 
@@ -93,7 +107,7 @@
                           Grid.Row="2"
                           AutoGenerateColumns="False" 
                           IsReadOnly="True"
-                          ItemsSource="{Binding Orders}"
+                          ItemsSource="{Binding OrdersCollection}"
                           Background="Transparent"
                           RowHeight="35">
 
