@@ -13,6 +13,7 @@ namespace ConstructionMaterial.Views
         public List<ElementType> ElementTypes { get; set; }
         public List<BarDiameter> BarDiameters { get; set; }
         public List<MainMaterial> MaterialNames { get; set; }
+        public List<SurfaceType> SurfaceTypes { get; set; }
         public AppData _data { get; set; }
 
         public CalculatorWindow(AppData data)
@@ -21,6 +22,7 @@ namespace ConstructionMaterial.Views
             _data = data;
             ElementTypes = Enum.GetValues(typeof(ElementType)).Cast<ElementType>().ToList();
             BarDiameters = Enum.GetValues(typeof(BarDiameter)).Cast<BarDiameter>().ToList();
+            SurfaceTypes = Enum.GetValues(typeof(SurfaceType)).Cast<SurfaceType>().ToList();
             MaterialNames = data.Materials.Where(m => m.Category == MaterialType.Concrete).ToList();
             DataContext = this;
         }

@@ -102,7 +102,7 @@
                                     Name="ConcreteCalculateButton"
                                     Style="{StaticResource ModernButton}"
                                     Click="CalculateButton_Click"/>
-                            <Button Content="Save Data" 
+                            <Button Content="Create Order" 
                                     Name="SaveButton"
                                     Style="{StaticResource SecondaryButton}"
                                     Click="SaveButton_Click"/>
@@ -173,7 +173,7 @@
                                     Style="{StaticResource ModernButton}"
                                     Click="CalculateButton_Click"/>
 
-                            <Button Content="Save Data"
+                            <Button Content="Create Order"
                                     Name="SaveButton2"
                                     Style="{StaticResource SecondaryButton}"
                                     Click="SaveButton_Click"/>
@@ -214,7 +214,6 @@
                                 x:Name="SurfaceTypeComboBox"
                                 Grid.Column="1"
                                 ItemsSource="{Binding SurfaceTypes}"
-                                DisplayMemberPath="Name"
                                 Height="32"
                                 Margin="0,5"
                                 SelectedIndex="0"/>
@@ -263,7 +262,7 @@
                                     Style="{StaticResource ModernButton}"
                                     Click="CalculateButton_Click"/>
 
-                            <Button Content="Save Data"
+                            <Button Content="Create Order"
                                     Name="SaveButton3"
                                     Style="{StaticResource SecondaryButton}"
                                     Click="SaveButton_Click"/>
@@ -352,7 +351,7 @@
                                     Style="{StaticResource ModernButton}"
                                     Click="CalculateButton_Click"/>
 
-                            <Button Content="Save Data"
+                            <Button Content="Create Order"
                                     Name="SaveButton4"
                                     Style="{StaticResource SecondaryButton}"
                                     Click="SaveButton_Click"/>
