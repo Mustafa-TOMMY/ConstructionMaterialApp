@@ -41,6 +41,7 @@
                                    Grid.Row="0" 
                                    Style="{StaticResource FieldLabel}"/>
                         <ComboBox Grid.Row="0" 
+                                  x:Name="ElementTypeComboBox"
                                   Grid.Column="1" 
                                   Height="32" 
                                   Margin="0,5"
@@ -98,7 +99,7 @@
                                     HorizontalAlignment="Right" 
                                     Margin="0,15">
                             <Button Content="Calculate" 
-                                    Name="CalculateButton"
+                                    Name="ConcreteCalculateButton"
                                     Style="{StaticResource ModernButton}"
                                     Click="CalculateButton_Click"/>
                             <Button Content="Save Data" 
@@ -141,7 +142,6 @@
                                     Height="32"
                                     Margin="0,5"
                                     ItemsSource="{Binding BarDiameters}"
-                                    DisplayMemberPath="Name"
                                     SelectedIndex="0"/>
 
                         <TextBlock Text="Bar Length (m):"
@@ -169,7 +169,7 @@
                                     Margin="0,15">
 
                             <Button Content="Calculate"
-                                    Name="CalculateButton2"
+                                    Name="SteelCalculateButton"
                                     Style="{StaticResource ModernButton}"
                                     Click="CalculateButton_Click"/>
 
@@ -238,6 +238,7 @@
                         <TextBox Grid.Row="2"
                                 Grid.Column="1"
                                 Height="32"
+                                 x:Name="NoOfCoatsTxt"
                                 Margin="0,5"/>
 
                         <!-- Coverage Rate -->
@@ -258,7 +259,7 @@
                                     Margin="0,15">
 
                             <Button Content="Calculate"
-                                    Name="CalculateButton3"
+                                    Name="PaintCalculateButton"
                                     Style="{StaticResource ModernButton}"
                                     Click="CalculateButton_Click"/>
 
@@ -325,7 +326,7 @@
                                 Height="32"
                                 Margin="0,5"
                                 ItemsSource="{Binding TileSizes}"
-                                DisplayMemberPath="Name"
+                                DisplayMemberPath="Size"
                                 SelectedIndex="1"/>
 
                         <!-- Waste -->
@@ -347,7 +348,7 @@
                                     Margin="0,15">
 
                             <Button Content="Calculate"
-                                    Name="CalculateButton4"
+                                    Name="TilesCalculateButton"
                                     Style="{StaticResource ModernButton}"
                                     Click="CalculateButton_Click"/>
 
