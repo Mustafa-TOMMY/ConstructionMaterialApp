@@ -5,7 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ConstructionMaterial.Views"
         mc:Ignorable="d"
-        Title="OrdersWindow" Height="450" Width="800">
+        Title="OrdersWindow" 
+        Height="450" 
+        Width="800"
+        Background="{StaticResource MainTextBrush}">
 
 
 

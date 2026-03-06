@@ -4,7 +4,8 @@
         Title="Add Material"
         Height="330" Width="400"
         WindowStartupLocation="CenterScreen"
-        ResizeMode="NoResize">
+        ResizeMode="NoResize"
+        Background="{StaticResource MainTextBrush}">
 
     <Window.Resources>
         <Style TargetType="TextBox">

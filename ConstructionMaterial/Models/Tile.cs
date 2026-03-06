@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ConstructionMaterial.Models
 {
-    class Tile
+    public class Tile
     {
         public string Name { get; set; }
         public double Size { get; set; }

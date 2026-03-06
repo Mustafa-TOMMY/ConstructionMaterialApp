@@ -14,6 +14,7 @@ namespace ConstructionMaterial.Views
         public List<BarDiameter> BarDiameters { get; set; }
         public List<MainMaterial> MaterialNames { get; set; }
         public List<SurfaceType> SurfaceTypes { get; set; }
+        public List<Tile> TileSizes { get; set; }
         public AppData _data { get; set; }
 
         public CalculatorWindow(AppData data)
@@ -24,6 +25,13 @@ namespace ConstructionMaterial.Views
             BarDiameters = Enum.GetValues(typeof(BarDiameter)).Cast<BarDiameter>().ToList();
             SurfaceTypes = Enum.GetValues(typeof(SurfaceType)).Cast<SurfaceType>().ToList();
             MaterialNames = data.Materials.Where(m => m.Category == MaterialType.Concrete).ToList();
+            TileSizes = new List<Tile>
+            {
+                new Tile { Name = "30x30", Size = 0.09 },
+                new Tile { Name = "50x50", Size = 0.1 },
+                new Tile { Name = "60x60", Size = 0.12 },
+                new Tile { Name = "80x80", Size = 0.64 }
+            };
             DataContext = this;
         }
 
