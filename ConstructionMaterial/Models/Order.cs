@@ -11,6 +11,8 @@ namespace ConstructionMaterial.Models
 
         [JsonConverter(typeof(StringEnumConverter))]
         public MaterialType Category { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
+        public ElementType ElementType { get; set; }
         public double Quantity { get; set; }
         public string Unit { get; set; }
         public double UnitPrice { get; set; }
