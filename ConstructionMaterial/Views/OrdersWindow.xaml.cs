@@ -15,8 +15,7 @@ namespace ConstructionMaterial.Views
         public ICollectionView OrdersCollection { get; set; }
         public List<MaterialType> SearchOptions { get; set; }
         public List<string> MaterialForSearch { get; set; }
-        public AppData _data { get; set; }
-
+        private AppData _data { get; set; }
         public OrdersWindow(AppData data)
         {
             InitializeComponent();
@@ -25,6 +24,8 @@ namespace ConstructionMaterial.Views
             OrdersCollection = CollectionViewSource.GetDefaultView(Orders);
             SearchOptions = Enum.GetValues<MaterialType>().ToList();
             DataContext = this;
+            UpdateMaterialList();
+            UpdateSummary();
         }
 
         private void ApplyFilter()
@@ -81,6 +82,8 @@ namespace ConstructionMaterial.Views
 
         private void UpdateSummary()
         {
+            if (ItemsCountText == null || TotalCostText == null || PendingText == null) return;
+
             var filteredOrders = OrdersCollection.Cast<Order>().ToList();
 
             ItemsCountText.Text = filteredOrders.Count.ToString();

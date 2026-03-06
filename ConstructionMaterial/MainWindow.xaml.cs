@@ -14,6 +14,7 @@ namespace ConstructionMaterial
         public ObservableCollection<MainMaterial> MaterialCatalog { get; set; }
         public ObservableCollection<Order> Orders { get; set; }
         private AppData _data;
+        public string TotalCost { get; set; }
 
         public MainWindow()
         {
@@ -22,6 +23,7 @@ namespace ConstructionMaterial
             StatusBarControl.UpdateLastSaved();
             MaterialCatalog = _data.Materials;
             Orders = _data.Orders;
+            TotalCost = $"EGP {Orders.Sum(p => p.Total)}";
             DataContext = this;
         }
 

@@ -69,7 +69,9 @@
                 </Menu>
             </StackPanel>
 
-            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <StackPanel Grid.Row="1" 
+                        Orientation="Horizontal" 
+                        HorizontalAlignment="Center">
 
                 <Border Style="{StaticResource DashboardCard}">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -90,7 +92,7 @@
                 <Border Style="{StaticResource DashboardCard}">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                         <TextBlock Text="TOTAL SPENT" FontWeight="Bold" HorizontalAlignment="Center"/>
-                        <TextBlock Text="EGP 45,200" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center"/>
+                        <TextBlock Text="{Binding TotalCost}" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center"/>
                         <TextBlock Text="This Month" HorizontalAlignment="Center"/>
                     </StackPanel>
                 </Border>
@@ -121,7 +123,10 @@
                 </DataGrid.Columns>
             </DataGrid>
 
-            <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 10">
+            <StackPanel Grid.Row="4" 
+                        Orientation="Horizontal" 
+                        HorizontalAlignment="Center" 
+                        Margin="0 10">
                 <Button Style="{StaticResource ModernButton}" 
                         Width="200" 
                         Margin="120 0" 

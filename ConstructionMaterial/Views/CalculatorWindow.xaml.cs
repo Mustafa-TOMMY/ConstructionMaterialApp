@@ -72,9 +72,7 @@ namespace ConstructionMaterial.Views
 
             double tons = totalWeight / 1000;
 
-            OutputSteelControl.OutputValue =
-                totalWeight.ToString("0.00") + " kg | " +
-                tons.ToString("0.000") + " ton";
+            OutputSteelControl.OutputValue = totalWeight.ToString("0.00") + " kg | " + tons.ToString("0.000") + " ton";
         }
         private void CalculatePaint()
         {
@@ -84,8 +82,7 @@ namespace ConstructionMaterial.Views
 
             double liters = (area * coats) / coverage;
 
-            OutputPaintControl.OutputValue =
-                liters.ToString("0.00") + " Liters";
+            OutputPaintControl.OutputValue = liters.ToString("0.00") + " Liters";
         }
         private void CalculateTiles()
         {
@@ -103,8 +100,7 @@ namespace ConstructionMaterial.Views
 
             tiles = Math.Ceiling(tiles);
 
-            OutputTilesControl.OutputValue =
-                tiles.ToString() + " Tiles";
+            OutputTilesControl.OutputValue = tiles.ToString() + " Tiles";
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
@@ -207,6 +203,11 @@ namespace ConstructionMaterial.Views
         {
             _data.Orders.Add(order);
             Helper.SaveToJson(_data);
+        }
+
+        private void TextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+
         }
     }
 }

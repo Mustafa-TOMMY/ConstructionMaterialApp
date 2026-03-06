@@ -11,9 +11,9 @@
         Background="{StaticResource MainTextBrush}">
 
     <Window.Resources>
-        <!--<Style TargetType="TextBox">
+        <Style TargetType="TextBox">
             <EventSetter Event="TextChanged" Handler="TextBox_TextChanged"/>
-        </Style>-->
+        </Style>
     </Window.Resources>
 
     <Border Margin="20" Style="{StaticResource ModernBorder}">

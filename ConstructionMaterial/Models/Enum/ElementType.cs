@@ -5,6 +5,7 @@
         Wall,
         Floor,
         Roof,
+        Column,
         Foundation
     }
 }
