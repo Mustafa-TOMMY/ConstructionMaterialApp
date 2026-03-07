@@ -33,6 +33,7 @@ namespace ConstructionMaterial.Views
                 new Tile { Name = "80x80", Size = 0.64 }
             };
             DataContext = this;
+            BtmsToggle(false);
         }
 
         private void CalculateButton_Click(object sender, RoutedEventArgs e)
@@ -281,6 +282,54 @@ namespace ConstructionMaterial.Views
                 textBox.ClearValue(BorderThicknessProperty);
                 textBox.ToolTip = null;
             }
+            ToggleButtons();
+        }
+
+        private void BtmsToggle(bool state) 
+        {
+            ConcreteCalculateButton.IsEnabled = state;
+            SteelCalculateButton.IsEnabled = state;
+            PaintCalculateButton.IsEnabled = state;
+            TilesCalculateButton.IsEnabled = state;
+
+            SaveButton.IsEnabled = state;
+            SaveButton2.IsEnabled = state;
+            SaveButton3.IsEnabled = state;
+            SaveButton4.IsEnabled = state;
+        }
+        private void ToggleButtons()
+        {
+            bool concreteValid =
+                double.TryParse(LengthTxt.Text, out double l) && l > 0 &&
+                double.TryParse(WidthTxt.Text, out double w) && w > 0 &&
+                double.TryParse(DepthTxt.Text, out double d) && d > 0 &&
+                double.TryParse(QuantityTxt.Text, out double q) && q > 0;
+
+            ConcreteCalculateButton.IsEnabled = concreteValid;
+            SaveButton.IsEnabled = concreteValid;
+
+            bool steelValid =
+                double.TryParse(BarLengthTxt.Text, out double bl) && bl > 0 &&
+                double.TryParse(NoOfBarsTxt.Text, out double nb) && nb > 0;
+
+            SteelCalculateButton.IsEnabled = steelValid;
+            SaveButton2.IsEnabled = steelValid;
+
+            bool paintValid =
+                double.TryParse(SurfaceAreaTxt.Text, out double sa) && sa > 0 &&
+                double.TryParse(NoOfCoatsTxt.Text, out double nc) && nc > 0 &&
+                double.TryParse(CoverageRateTxt.Text, out double cr) && cr > 0;
+
+            PaintCalculateButton.IsEnabled = paintValid;
+            SaveButton3.IsEnabled = paintValid;
+
+            bool tilesValid =
+                double.TryParse(RoomLengthTxt.Text, out double rl) && rl > 0 &&
+                double.TryParse(RoomWidthTxt.Text, out double rw) && rw > 0 &&
+                double.TryParse(WasteTxt.Text, out double wa) && wa >= 0;
+
+            TilesCalculateButton.IsEnabled = tilesValid;
+            SaveButton4.IsEnabled = tilesValid;
         }
     }
 }
