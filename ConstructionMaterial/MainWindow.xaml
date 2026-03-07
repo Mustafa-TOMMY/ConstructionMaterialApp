@@ -74,26 +74,47 @@
                         HorizontalAlignment="Center">
 
                 <Border Style="{StaticResource DashboardCard}">
-                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <TextBlock Text="CATALOG" FontWeight="Bold" HorizontalAlignment="Center"/>
-                        <TextBlock Text="{Binding MaterialCatalog.Count}" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center"/>
-                        <TextBlock Text="Materials" HorizontalAlignment="Center"/>
+                    <StackPanel HorizontalAlignment="Center" 
+                                VerticalAlignment="Center">
+                        <TextBlock Text="CATALOG" 
+                                   FontWeight="Bold" 
+                                   HorizontalAlignment="Center"/>
+                        <TextBlock Text="{Binding MaterialCatalog.Count}" 
+                                   FontSize="20" 
+                                   FontWeight="Bold" 
+                                   HorizontalAlignment="Center"/>
+                        <TextBlock Text="Materials" 
+                                   HorizontalAlignment="Center"/>
                     </StackPanel>
                 </Border>
 
                 <Border Style="{StaticResource DashboardCard}">
-                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <TextBlock Text="ORDERS" FontWeight="Bold" HorizontalAlignment="Center"/>
-                        <TextBlock Text="{Binding Orders.Count}" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center"/>
-                        <TextBlock Text="Pending: 3" HorizontalAlignment="Center"/>
+                    <StackPanel HorizontalAlignment="Center" 
+                                VerticalAlignment="Center">
+                        <TextBlock Text="ORDERS" 
+                                   FontWeight="Bold" 
+                                   HorizontalAlignment="Center"/>
+                        <TextBlock Text="{Binding Orders.Count}" 
+                                   FontSize="20" 
+                                   FontWeight="Bold" 
+                                   HorizontalAlignment="Center"/>
+                        <TextBlock Text="Pending: 3" 
+                                   HorizontalAlignment="Center"/>
                     </StackPanel>
                 </Border>
 
                 <Border Style="{StaticResource DashboardCard}">
-                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <TextBlock Text="TOTAL SPENT" FontWeight="Bold" HorizontalAlignment="Center"/>
-                        <TextBlock Text="{Binding TotalCost}" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center"/>
-                        <TextBlock Text="This Month" HorizontalAlignment="Center"/>
+                    <StackPanel HorizontalAlignment="Center" 
+                                VerticalAlignment="Center">
+                        <TextBlock Text="TOTAL SPENT" 
+                                   FontWeight="Bold" 
+                                   HorizontalAlignment="Center"/>
+                        <TextBlock Text="{Binding TotalCost}" 
+                                   FontSize="16" 
+                                   FontWeight="Bold" 
+                                   HorizontalAlignment="Center"/>
+                        <TextBlock Text="This Month" 
+                                   HorizontalAlignment="Center"/>
                     </StackPanel>
                 </Border>
 
@@ -105,7 +126,8 @@
                 <Button x:Name="AddMaterial" Click="AddMaterial_Click" 
                         Style="{StaticResource ModernButton}" 
                         DockPanel.Dock="Right">Add Material</Button>
-                <Button x:Name="DeleteMaterial" Click="DeleteMaterial_Click" 
+                <Button x:Name="DeleteMaterial" 
+                        Click="DeleteMaterial_Click" 
                         Style="{StaticResource DangerButton}" 
                         DockPanel.Dock="Right">Delete Material</Button>
             </DockPanel>
@@ -116,10 +138,18 @@
                       IsReadOnly="True"
                       ItemsSource="{Binding MaterialCatalog}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="*" />
-                    <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" />
-                    <DataGridTextColumn Header="Unit" Binding="{Binding Unit}" Width="120" />
-                    <DataGridTextColumn Header="Price" Binding="{Binding UnitPrice}" Width="120" />
+                    <DataGridTextColumn Header="Category" 
+                                        Binding="{Binding Category}" 
+                                        Width="*" />
+                    <DataGridTextColumn Header="Name" 
+                                        Binding="{Binding Name}" 
+                                        Width="*" />
+                    <DataGridTextColumn Header="Unit" 
+                                        Binding="{Binding Unit}" 
+                                        Width="120" />
+                    <DataGridTextColumn Header="Price" 
+                                        Binding="{Binding UnitPrice}" 
+                                        Width="120" />
                 </DataGrid.Columns>
             </DataGrid>
 
@@ -133,8 +163,12 @@
                         Height="30"
                         Click="Calculator_Click">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock FontFamily="{StaticResource FontAwesome}" Text="&#xf1ec;" Style="{StaticResource ModernText}"/>
-                        <TextBlock Text="Open Calculator" Style="{StaticResource ModernText}" Foreground="White"/>
+                        <TextBlock FontFamily="{StaticResource FontAwesome}" 
+                                   Text="&#xf1ec;" 
+                                   Style="{StaticResource ModernText}"/>
+                        <TextBlock Text="Open Calculator" 
+                                   Style="{StaticResource ModernText}" 
+                                   Foreground="White"/>
                     </StackPanel>
                 </Button>
                 <Button Style="{StaticResource ModernButton}" 
@@ -144,8 +178,12 @@
                         Height="30"
                         Click="OrderWindow_Click">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock FontFamily="{StaticResource FontAwesome}" Text="&#xf0ae;" Style="{StaticResource ModernText}"/>
-                        <TextBlock Text="Open Orders" Style="{StaticResource ModernText}" Foreground="White"/>
+                        <TextBlock FontFamily="{StaticResource FontAwesome}" 
+                                   Text="&#xf0ae;" 
+                                   Style="{StaticResource ModernText}"/>
+                        <TextBlock Text="Open Orders" 
+                                   Style="{StaticResource ModernText}" 
+                                   Foreground="White"/>
                     </StackPanel>
                 </Button>
             </StackPanel>
