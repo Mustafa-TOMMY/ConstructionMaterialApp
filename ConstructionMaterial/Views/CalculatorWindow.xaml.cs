@@ -94,7 +94,7 @@ namespace ConstructionMaterial.Views
 
             double tileSize = (TileSizeComboBox.SelectedItem as Tile).Size;
 
-            double tileArea = tileSize * tileSize;
+            double tileArea = tileSize;
 
             double tiles = (roomArea / tileArea) * (1 + waste / 100);
 
@@ -207,7 +207,80 @@ namespace ConstructionMaterial.Views
 
         private void TextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
+            if (!IsInitialized) return;
 
+            if (sender is not System.Windows.Controls.TextBox textBox)
+                return;
+
+            string input = textBox.Text.Trim();
+
+            bool isEmpty = string.IsNullOrWhiteSpace(input);
+            bool isNumber = double.TryParse(input, out double value);
+
+            bool isValid = true;
+            string errorMessage = "";
+
+            string[] numericFields =
+            {
+                "LengthTxt",
+                "WidthTxt",
+                "DepthTxt",
+                "QuantityTxt",
+                "BarLengthTxt",
+                "NoOfBarsTxt",
+                "SurfaceAreaTxt",
+                "NoOfCoatsTxt",
+                "CoverageRateTxt",
+                "RoomLengthTxt",
+                "RoomWidthTxt",
+                "WasteTxt"
+            };
+
+            if (numericFields.Contains(textBox.Name))
+            {
+                if (isEmpty)
+                {
+                    isValid = false;
+                    errorMessage = "This field cannot be empty";
+                }
+                else if (!isNumber)
+                {
+                    isValid = false;
+                    errorMessage = "Please enter a valid number";
+                }
+                else
+                {
+                    if (textBox.Name == "WasteTxt")
+                    {
+                        if (value < 0)
+                        {
+                            isValid = false;
+                            errorMessage = "Waste cannot be negative";
+                        }
+                    }
+                    else
+                    {
+                        if (value <= 0)
+                        {
+                            isValid = false;
+                            errorMessage = "Value must be greater than 0";
+                        }
+                    }
+                }
+            }
+
+            if (!isValid)
+            {
+                textBox.BorderBrush = System.Windows.Media.Brushes.Red;
+                textBox.BorderThickness = new Thickness(1.5);
+                textBox.ToolTip = errorMessage;
+            }
+            else
+            {
+                textBox.ClearValue(BorderBrushProperty);
+                textBox.ClearValue(BorderThicknessProperty);
+                textBox.ToolTip = null;
+            }
         }
     }
 }
