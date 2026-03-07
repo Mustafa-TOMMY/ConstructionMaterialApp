@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="ConstructionMaterial.UserControls.TileCalculationTab"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="350" d:DesignWidth="400">
+
+    <Grid Margin="0,10,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Text="Room Length (m):" Grid.Row="0" Style="{StaticResource FieldLabel}"/>
+        <TextBox Grid.Row="0" Grid.Column="1" x:Name="RoomLengthTxt" 
+                 Style="{StaticResource ModernBox}" TextChanged="TextBox_TextChanged"/>
+
+        <TextBlock Text="Room Width (m):" Grid.Row="1" Style="{StaticResource FieldLabel}"/>
+        <TextBox Grid.Row="1" Grid.Column="1" x:Name="RoomWidthTxt" 
+                 Style="{StaticResource ModernBox}" TextChanged="TextBox_TextChanged"/>
+
+        <TextBlock Text="Tile Size (m²):" Grid.Row="2" Style="{StaticResource FieldLabel}"/>
+        <ComboBox Grid.Row="2" Grid.Column="1" x:Name="TileSizeComboBox" 
+                  ItemsSource="{Binding TileSizes}" DisplayMemberPath="Name" 
+                  Height="32" Margin="0,5" SelectedIndex="0"/>
+
+        <TextBlock Text="Waste Percentage (%):" Grid.Row="3" Style="{StaticResource FieldLabel}"/>
+        <TextBox Grid.Row="3" Grid.Column="1" x:Name="WasteTxt" Text="10"
+                 Style="{StaticResource ModernBox}" TextChanged="TextBox_TextChanged"/>
+
+        <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,15">
+            <Button Content="Calculate" Style="{StaticResource ModernButton}" Click="TilesTabCalculateButton_Click"/>
+            <Button Content="Create Order" Style="{StaticResource SecondaryButton}" Click="TilesTabSaveButton_Click"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

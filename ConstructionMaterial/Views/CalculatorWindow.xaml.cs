@@ -18,6 +18,8 @@ namespace ConstructionMaterial.Views
         public List<SurfaceType> SurfaceTypes { get; set; }
         public List<Tile> TileSizes { get; set; }
 
+
+        #region INotify properity
         private string _steelOutputValue;
 
         public string SteelOutputValue
@@ -29,6 +31,46 @@ namespace ConstructionMaterial.Views
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SteelOutputValue)));
             }
         }
+        private string _concreteOutputValue;
+
+        public string ConcreteOutputValue
+        {
+            get => _concreteOutputValue;
+            set
+            {
+                _concreteOutputValue = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ConcreteOutputValue)));
+            }
+        }
+        private string _paintOutputValue;
+
+        public string PaintOutputValue
+        {
+            get => _paintOutputValue;
+            set
+            {
+                _paintOutputValue = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PaintOutputValue)));
+            }
+        }
+        private string _tilesOutputValue;
+
+        public string TilesOutputValue
+        {
+            get => _tilesOutputValue;
+            set
+            {
+                _tilesOutputValue = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TilesOutputValue)));
+            }
+        } 
+
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        #endregion
+
+
+
         public AppData _data { get; set; }
 
         public CalculatorWindow(AppData data)
@@ -50,7 +92,6 @@ namespace ConstructionMaterial.Views
             //BtmsToggle(false);
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
 
         //private void CalculateButton_Click(object sender, RoutedEventArgs e)
         //{
