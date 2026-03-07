@@ -1,6 +1,7 @@
 ﻿using ConstructionMaterial.Helpers;
 using ConstructionMaterial.Models;
 using ConstructionMaterial.Models.Enum;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -9,13 +10,25 @@ namespace ConstructionMaterial.Views
     /// <summary>
     /// Interaction logic for CalculatorWindow.xaml
     /// </summary>
-    public partial class CalculatorWindow : Window
+    public partial class CalculatorWindow : Window, INotifyPropertyChanged
     {
         public List<ElementType> ElementTypes { get; set; }
         public List<BarDiameter> BarDiameters { get; set; }
         public List<MainMaterial> MaterialNames { get; set; }
         public List<SurfaceType> SurfaceTypes { get; set; }
         public List<Tile> TileSizes { get; set; }
+
+        private string _steelOutputValue;
+
+        public string SteelOutputValue
+        {
+            get => _steelOutputValue;
+            set
+            {
+                _steelOutputValue = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SteelOutputValue)));
+            }
+        }
         public AppData _data { get; set; }
 
         public CalculatorWindow(AppData data)
@@ -34,303 +47,305 @@ namespace ConstructionMaterial.Views
                 new Tile { Name = "80x80", Size = 0.64 }
             };
             DataContext = this;
-            BtmsToggle(false);
+            //BtmsToggle(false);
         }
 
-        private void CalculateButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (sender == ConcreteCalculateButton)
-                CalculateConcrete();
+        public event PropertyChangedEventHandler? PropertyChanged;
 
-            else if (sender == SteelCalculateButton)
-                CalculateSteel();
+        //private void CalculateButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    if (sender == ConcreteCalculateButton)
+        //        CalculateConcrete();
 
-            else if (sender == PaintCalculateButton)
-                CalculatePaint();
+        //    else if (sender == SteelCalculateButton)
+        //        CalculateSteel();
 
-            else if (sender == TilesCalculateButton)
-                CalculateTiles();
-        }
-        private void CalculateConcrete()
-        {
-            double length = Helper.GetNumericalValue(LengthTxt);
-            double width = Helper.GetNumericalValue(WidthTxt);
-            double depth = Helper.GetNumericalValue(DepthTxt);
-            double quantity = Helper.GetNumericalValue(QuantityTxt);
+        //    else if (sender == PaintCalculateButton)
+        //        CalculatePaint();
 
-            double volume = length * width * depth * quantity * 1.1;
+        //    else if (sender == TilesCalculateButton)
+        //        CalculateTiles();
+        //}
+        //private void CalculateConcrete()
+        //{
+        //    double length = Helper.GetNumericalValue(LengthTxt);
+        //    double width = Helper.GetNumericalValue(WidthTxt);
+        //    double depth = Helper.GetNumericalValue(DepthTxt);
+        //    double quantity = Helper.GetNumericalValue(QuantityTxt);
 
-            OutputControl.OutputValue = volume.ToString("0.00") + " m³";
-        }
-        private void CalculateSteel()
-        {
-            double diameter = Convert.ToDouble(BarDiameterComboBox.SelectedItem);
-            double length = Helper.GetNumericalValue(BarLengthTxt);
-            double bars = Helper.GetNumericalValue(NoOfBarsTxt);
+        //    double volume = length * width * depth * quantity * 1.1;
 
-            double weightPerBar = (diameter * diameter / 162) * length;
+        //    OutputControl.OutputValue = volume.ToString("0.00") + " m³";
+        //}
+        //private void CalculateSteel()
+        //{
+        //    double diameter = Convert.ToDouble(BarDiameterComboBox.SelectedItem);
+        //    double length = Helper.GetNumericalValue(BarLengthTxt);
+        //    double bars = Helper.GetNumericalValue(NoOfBarsTxt);
 
-            double totalWeight = weightPerBar * bars;
+        //    double weightPerBar = (diameter * diameter / 162) * length;
 
-            double tons = totalWeight / 1000;
+        //    double totalWeight = weightPerBar * bars;
 
-            OutputSteelControl.OutputValue = totalWeight.ToString("0.00") + " kg | " + tons.ToString("0.000") + " ton";
-        }
-        private void CalculatePaint()
-        {
-            double area = Helper.GetNumericalValue(SurfaceAreaTxt);
-            double coats = Helper.GetNumericalValue(NoOfCoatsTxt);
-            double coverage = Helper.GetNumericalValue(CoverageRateTxt);
+        //    double tons = totalWeight / 1000;
 
-            double liters = (area * coats) / coverage;
+        //    OutputSteelControl.OutputValue = totalWeight.ToString("0.00") + " kg | " + tons.ToString("0.000") + " ton";
+        //}
+        //private void CalculatePaint()
+        //{
+        //    double area = Helper.GetNumericalValue(SurfaceAreaTxt);
+        //    double coats = Helper.GetNumericalValue(NoOfCoatsTxt);
+        //    double coverage = Helper.GetNumericalValue(CoverageRateTxt);
 
-            OutputPaintControl.OutputValue = liters.ToString("0.00") + " Liters";
-        }
-        private void CalculateTiles()
-        {
-            double length = Helper.GetNumericalValue(RoomLengthTxt);
-            double width = Helper.GetNumericalValue(RoomWidthTxt);
-            double waste = Helper.GetNumericalValue(WasteTxt);
+        //    double liters = (area * coats) / coverage;
 
-            double roomArea = length * width;
+        //    OutputPaintControl.OutputValue = liters.ToString("0.00") + " Liters";
+        //}
+        //private void CalculateTiles()
+        //{
+        //    double length = Helper.GetNumericalValue(RoomLengthTxt);
+        //    double width = Helper.GetNumericalValue(RoomWidthTxt);
+        //    double waste = Helper.GetNumericalValue(WasteTxt);
 
-            double tileSize = (TileSizeComboBox.SelectedItem as Tile).Size;
+        //    double roomArea = length * width;
 
-            double tileArea = tileSize;
+        //    double tileSize = (TileSizeComboBox.SelectedItem as Tile).Size;
 
-            double tiles = (roomArea / tileArea) * (1 + waste / 100);
+        //    double tileArea = tileSize;
 
-            tiles = Math.Ceiling(tiles);
+        //    double tiles = (roomArea / tileArea) * (1 + waste / 100);
 
-            OutputTilesControl.OutputValue = tiles.ToString() + " Tiles";
-        }
+        //    tiles = Math.Ceiling(tiles);
 
-        private void SaveButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (sender == SaveButton)
-                SaveConcrete();
+        //    OutputTilesControl.OutputValue = tiles.ToString() + " Tiles";
+        //}
 
-            else if (sender == SaveButton2)
-                SaveSteel();
+        //private void SaveButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    if (sender == SaveButton)
+        //        SaveConcrete();
 
-            else if (sender == SaveButton3)
-                SavePaint();
+        //    else if (sender == SaveButton2)
+        //        SaveSteel();
 
-            else if (sender == SaveButton4)
-                SaveTiles();
-        }
-        private void SaveConcrete()
-        {
-            var selectedMaterial = MaterialComboBox.SelectedItem as MainMaterial;
+        //    else if (sender == SaveButton3)
+        //        SavePaint();
 
-            if (selectedMaterial == null)
-            {
-                MessageBox.Show("Please select a material first.",
-                    "Selection Required", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
+        //    else if (sender == SaveButton4)
+        //        SaveTiles();
+        //}
+        //private void SaveConcrete()
+        //{
+        //    var selectedMaterial = MaterialComboBox.SelectedItem as MainMaterial;
 
-            var order = new Order
-            {
-                OrderNumber = _data.Orders.Count + 1,
-                MaterialName = selectedMaterial.Name,
-                Category = selectedMaterial.Category,
-                Quantity = Helper.GetNumericalValue(QuantityTxt),
-                Unit = selectedMaterial.Unit,
-                ElementType = (ElementType)ElementTypeComboBox.SelectedItem,
-                UnitPrice = selectedMaterial.UnitPrice,
-                Status = "Pending",
-                Date = DateTime.Now
-            };
+        //    if (selectedMaterial == null)
+        //    {
+        //        MessageBox.Show("Please select a material first.",
+        //            "Selection Required", MessageBoxButton.OK, MessageBoxImage.Warning);
+        //        return;
+        //    }
 
-            SaveOrder(order);
+        //    var order = new Order
+        //    {
+        //        OrderNumber = _data.Orders.Count + 1,
+        //        MaterialName = selectedMaterial.Name,
+        //        Category = selectedMaterial.Category,
+        //        Quantity = Helper.GetNumericalValue(QuantityTxt),
+        //        Unit = selectedMaterial.Unit,
+        //        ElementType = (ElementType)ElementTypeComboBox.SelectedItem,
+        //        UnitPrice = selectedMaterial.UnitPrice,
+        //        Status = "Pending",
+        //        Date = DateTime.Now
+        //    };
 
-            MessageBox.Show("Concrete order saved successfully.");
-        }
-        private void SaveSteel()
-        {
-            var order = new Order
-            {
-                OrderNumber = _data.Orders.Count + 1,
-                MaterialName = "Steel Bars",
-                Category = MaterialType.Steel,
-                Quantity = Helper.GetNumericalValue(NoOfBarsTxt),
-                Unit = "Bars",
-                UnitPrice = 0,
-                Status = "Pending",
-                Date = DateTime.Now
-            };
+        //    SaveOrder(order);
 
-            SaveOrder(order);
+        //    MessageBox.Show("Concrete order saved successfully.");
+        //}
+        //private void SaveSteel()
+        //{
+        //    var order = new Order
+        //    {
+        //        OrderNumber = _data.Orders.Count + 1,
+        //        MaterialName = "Steel Bars",
+        //        Category = MaterialType.Steel,
+        //        Quantity = Helper.GetNumericalValue(NoOfBarsTxt),
+        //        Unit = "Bars",
+        //        UnitPrice = 0,
+        //        Status = "Pending",
+        //        Date = DateTime.Now
+        //    };
 
-            MessageBox.Show("Steel order saved successfully.");
-        }
-        private void SavePaint()
-        {
-            var order = new Order
-            {
-                OrderNumber = _data.Orders.Count + 1,
-                MaterialName = "Paint",
-                Category = MaterialType.Paint,
-                Quantity = Helper.GetNumericalValue(SurfaceAreaTxt),
-                Unit = "m²",
-                UnitPrice = 0,
-                Status = "Pending",
-                Date = DateTime.Now
-            };
+        //    SaveOrder(order);
 
-            SaveOrder(order);
+        //    MessageBox.Show("Steel order saved successfully.");
+        //}
+        //private void SavePaint()
+        //{
+        //    var order = new Order
+        //    {
+        //        OrderNumber = _data.Orders.Count + 1,
+        //        MaterialName = "Paint",
+        //        Category = MaterialType.Paint,
+        //        Quantity = Helper.GetNumericalValue(SurfaceAreaTxt),
+        //        Unit = "m²",
+        //        UnitPrice = 0,
+        //        Status = "Pending",
+        //        Date = DateTime.Now
+        //    };
 
-            MessageBox.Show("Paint order saved successfully.");
-        }
-        private void SaveTiles()
-        {
-            var order = new Order
-            {
-                OrderNumber = _data.Orders.Count + 1,
-                MaterialName = "Tiles",
-                Category = MaterialType.Tiles,
-                Quantity = Helper.GetNumericalValue(RoomLengthTxt) * Helper.GetNumericalValue(RoomWidthTxt),
-                Unit = "m²",
-                UnitPrice = 0,
-                Status = "Pending",
-                Date = DateTime.Now
-            };
+        //    SaveOrder(order);
 
-            SaveOrder(order);
+        //    MessageBox.Show("Paint order saved successfully.");
+        //}
+        //private void SaveTiles()
+        //{
+        //    var order = new Order
+        //    {
+        //        OrderNumber = _data.Orders.Count + 1,
+        //        MaterialName = "Tiles",
+        //        Category = MaterialType.Tiles,
+        //        Quantity = Helper.GetNumericalValue(RoomLengthTxt) * Helper.GetNumericalValue(RoomWidthTxt),
+        //        Unit = "m²",
+        //        UnitPrice = 0,
+        //        Status = "Pending",
+        //        Date = DateTime.Now
+        //    };
 
-            MessageBox.Show("Tiles order saved successfully.");
-        }
-        private void SaveOrder(Order order)
-        {
-            _data.Orders.Add(order);
-            Helper.SaveToJson(_data);
-        }
+        //    SaveOrder(order);
 
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (!IsInitialized) return;
+        //    MessageBox.Show("Tiles order saved successfully.");
+        //}
+        //private void SaveOrder(Order order)
+        //{
+        //    _data.Orders.Add(order);
+        //    Helper.SaveToJson(_data);
+        //}
 
-            if (sender is not System.Windows.Controls.TextBox textBox)
-                return;
+        //private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        //{
+        //    if (!IsInitialized) return;
 
-            string input = textBox.Text.Trim();
+        //    if (sender is not System.Windows.Controls.TextBox textBox)
+        //        return;
 
-            bool isEmpty = string.IsNullOrWhiteSpace(input);
-            bool isNumber = double.TryParse(input, out double value);
+        //    string input = textBox.Text.Trim();
 
-            bool isValid = true;
-            string errorMessage = "";
+        //    bool isEmpty = string.IsNullOrWhiteSpace(input);
+        //    bool isNumber = double.TryParse(input, out double value);
 
-            string[] numericFields =
-            {
-                "LengthTxt",
-                "WidthTxt",
-                "DepthTxt",
-                "QuantityTxt",
-                "BarLengthTxt",
-                "NoOfBarsTxt",
-                "SurfaceAreaTxt",
-                "NoOfCoatsTxt",
-                "CoverageRateTxt",
-                "RoomLengthTxt",
-                "RoomWidthTxt",
-                "WasteTxt"
-            };
+        //    bool isValid = true;
+        //    string errorMessage = "";
 
-            if (numericFields.Contains(textBox.Name))
-            {
-                if (isEmpty)
-                {
-                    isValid = false;
-                    errorMessage = "This field cannot be empty";
-                }
-                else if (!isNumber)
-                {
-                    isValid = false;
-                    errorMessage = "Please enter a valid number";
-                }
-                else
-                {
-                    if (textBox.Name == "WasteTxt")
-                    {
-                        if (value < 0)
-                        {
-                            isValid = false;
-                            errorMessage = "Waste cannot be negative";
-                        }
-                    }
-                    else
-                    {
-                        if (value <= 0)
-                        {
-                            isValid = false;
-                            errorMessage = "Value must be greater than 0";
-                        }
-                    }
-                }
-            }
+        //    string[] numericFields =
+        //    {
+        //        "LengthTxt",
+        //        "WidthTxt",
+        //        "DepthTxt",
+        //        "QuantityTxt",
+        //        "BarLengthTxt",
+        //        "NoOfBarsTxt",
+        //        "SurfaceAreaTxt",
+        //        "NoOfCoatsTxt",
+        //        "CoverageRateTxt",
+        //        "RoomLengthTxt",
+        //        "RoomWidthTxt",
+        //        "WasteTxt"
+        //    };
 
-            if (!isValid)
-            {
-                textBox.BorderBrush = System.Windows.Media.Brushes.Red;
-                textBox.BorderThickness = new Thickness(1.5);
-                textBox.ToolTip = errorMessage;
-            }
-            else
-            {
-                textBox.ClearValue(BorderBrushProperty);
-                textBox.ClearValue(BorderThicknessProperty);
-                textBox.ToolTip = null;
-            }
-            ToggleButtons();
-        }
+        //    if (numericFields.Contains(textBox.Name))
+        //    {
+        //        if (isEmpty)
+        //        {
+        //            isValid = false;
+        //            errorMessage = "This field cannot be empty";
+        //        }
+        //        else if (!isNumber)
+        //        {
+        //            isValid = false;
+        //            errorMessage = "Please enter a valid number";
+        //        }
+        //        else
+        //        {
+        //            if (textBox.Name == "WasteTxt")
+        //            {
+        //                if (value < 0)
+        //                {
+        //                    isValid = false;
+        //                    errorMessage = "Waste cannot be negative";
+        //                }
+        //            }
+        //            else
+        //            {
+        //                if (value <= 0)
+        //                {
+        //                    isValid = false;
+        //                    errorMessage = "Value must be greater than 0";
+        //                }
+        //            }
+        //        }
+        //    }
 
-        private void BtmsToggle(bool state)
-        {
-            ConcreteCalculateButton.IsEnabled = state;
-            SteelCalculateButton.IsEnabled = state;
-            PaintCalculateButton.IsEnabled = state;
-            TilesCalculateButton.IsEnabled = state;
+        //    if (!isValid)
+        //    {
+        //        textBox.BorderBrush = System.Windows.Media.Brushes.Red;
+        //        textBox.BorderThickness = new Thickness(1.5);
+        //        textBox.ToolTip = errorMessage;
+        //    }
+        //    else
+        //    {
+        //        textBox.ClearValue(BorderBrushProperty);
+        //        textBox.ClearValue(BorderThicknessProperty);
+        //        textBox.ToolTip = null;
+        //    }
+        //    ToggleButtons();
+        //}
 
-            SaveButton.IsEnabled = state;
-            SaveButton2.IsEnabled = state;
-            SaveButton3.IsEnabled = state;
-            SaveButton4.IsEnabled = state;
-        }
-        private void ToggleButtons()
-        {
-            bool concreteValid =
-                double.TryParse(LengthTxt.Text, out double l) && l > 0 &&
-                double.TryParse(WidthTxt.Text, out double w) && w > 0 &&
-                double.TryParse(DepthTxt.Text, out double d) && d > 0 &&
-                double.TryParse(QuantityTxt.Text, out double q) && q > 0;
+        //private void BtmsToggle(bool state)
+        //{
+        //    ConcreteCalculateButton.IsEnabled = state;
+        //    SteelCalculateButton.IsEnabled = state;
+        //    PaintCalculateButton.IsEnabled = state;
+        //    TilesCalculateButton.IsEnabled = state;
 
-            ConcreteCalculateButton.IsEnabled = concreteValid;
-            SaveButton.IsEnabled = concreteValid;
+        //    SaveButton.IsEnabled = state;
+        //    SaveButton2.IsEnabled = state;
+        //    SaveButton3.IsEnabled = state;
+        //    SaveButton4.IsEnabled = state;
+        //}
+        //private void ToggleButtons()
+        //{
+        //    bool concreteValid =
+        //        double.TryParse(LengthTxt.Text, out double l) && l > 0 &&
+        //        double.TryParse(WidthTxt.Text, out double w) && w > 0 &&
+        //        double.TryParse(DepthTxt.Text, out double d) && d > 0 &&
+        //        double.TryParse(QuantityTxt.Text, out double q) && q > 0;
 
-            bool steelValid =
-                double.TryParse(BarLengthTxt.Text, out double bl) && bl > 0 &&
-                double.TryParse(NoOfBarsTxt.Text, out double nb) && nb > 0;
+        //    ConcreteCalculateButton.IsEnabled = concreteValid;
+        //    SaveButton.IsEnabled = concreteValid;
 
-            SteelCalculateButton.IsEnabled = steelValid;
-            SaveButton2.IsEnabled = steelValid;
+        //    bool steelValid =
+        //        double.TryParse(BarLengthTxt.Text, out double bl) && bl > 0 &&
+        //        double.TryParse(NoOfBarsTxt.Text, out double nb) && nb > 0;
 
-            bool paintValid =
-                double.TryParse(SurfaceAreaTxt.Text, out double sa) && sa > 0 &&
-                double.TryParse(NoOfCoatsTxt.Text, out double nc) && nc > 0 &&
-                double.TryParse(CoverageRateTxt.Text, out double cr) && cr > 0;
+        //    SteelCalculateButton.IsEnabled = steelValid;
+        //    SaveButton2.IsEnabled = steelValid;
 
-            PaintCalculateButton.IsEnabled = paintValid;
-            SaveButton3.IsEnabled = paintValid;
+        //    bool paintValid =
+        //        double.TryParse(SurfaceAreaTxt.Text, out double sa) && sa > 0 &&
+        //        double.TryParse(NoOfCoatsTxt.Text, out double nc) && nc > 0 &&
+        //        double.TryParse(CoverageRateTxt.Text, out double cr) && cr > 0;
 
-            bool tilesValid =
-                double.TryParse(RoomLengthTxt.Text, out double rl) && rl > 0 &&
-                double.TryParse(RoomWidthTxt.Text, out double rw) && rw > 0 &&
-                double.TryParse(WasteTxt.Text, out double wa) && wa >= 0;
+        //    PaintCalculateButton.IsEnabled = paintValid;
+        //    SaveButton3.IsEnabled = paintValid;
 
-            TilesCalculateButton.IsEnabled = tilesValid;
-            SaveButton4.IsEnabled = tilesValid;
-        }
+        //    bool tilesValid =
+        //        double.TryParse(RoomLengthTxt.Text, out double rl) && rl > 0 &&
+        //        double.TryParse(RoomWidthTxt.Text, out double rw) && rw > 0 &&
+        //        double.TryParse(WasteTxt.Text, out double wa) && wa >= 0;
+
+        //    TilesCalculateButton.IsEnabled = tilesValid;
+        //    SaveButton4.IsEnabled = tilesValid;
+        //}
     }
 }

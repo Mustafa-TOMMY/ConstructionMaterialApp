@@ -10,11 +10,11 @@
         xmlns:controls="clr-namespace:ConstructionMaterial.UserControls"
         WindowStartupLocation="CenterScreen" 
         Background="{StaticResource MainWindowBrush}">
-    
+
     <Border Margin="20" Style="{StaticResource ModernBorder}">
         <Grid Margin="15">
             <TabControl Background="Transparent" BorderThickness="0">
-                <TabItem Header="Concrete" Width="100">
+                <!--<TabItem Header="Concrete" Width="100">
                     <Grid Margin="0,20,0,0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -113,15 +113,12 @@
                                                     OutputValue="0.0 m³"
                                                     OutputLabel="Total Order Value:"/>
                     </Grid>
-                </TabItem>
+                </TabItem>-->
 
                 <TabItem Header="Steel" Width="100">
                     <Grid Margin="0,20,0,0">
 
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
@@ -131,65 +128,22 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Text="Bar Diameter:"
-                                    Grid.Row="0"
-                                    Style="{StaticResource FieldLabel}"/>
+                        <controls:SteelCalculationTab Grid.Row="0" 
+                                                      Grid.ColumnSpan="2"
+                                                      DataContext="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                                                      OutputSteelValue="{Binding SteelOutputValue,Mode=TwoWay}"/>
 
-                        <ComboBox Grid.Row="0"
-                                    Grid.Column="1"
-                                    x:Name="BarDiameterComboBox"
-                                    Height="32"
-                                    Margin="0,5"
-                                    ItemsSource="{Binding BarDiameters}"
-                                    SelectedIndex="0"/>
 
-                        <TextBlock Text="Bar Length (m):"
-                                    Grid.Row="1"
-                                    Style="{StaticResource FieldLabel}"/>
-
-                        <TextBox Grid.Row="1"
-                                Grid.Column="1"
-                                 TextChanged="TextBox_TextChanged"
-                                x:Name="BarLengthTxt"
-                                Style="{StaticResource ModernBox}"/>
-
-                        <TextBlock Text="Number Of Bars:"
-                                    Grid.Row="2"
-                                    Style="{StaticResource FieldLabel}"/>
-
-                        <TextBox Grid.Row="2"
-                                Grid.Column="1"
-                                 TextChanged="TextBox_TextChanged"
-                                x:Name="NoOfBarsTxt"
-                                Style="{StaticResource ModernBox}"/>
-
-                        <StackPanel Grid.Row="3"
-                                    Grid.ColumnSpan="2"
-                                    Orientation="Horizontal"
-                                    HorizontalAlignment="Right"
-                                    Margin="0,15">
-
-                            <Button Content="Calculate"
-                                    Name="SteelCalculateButton"
-                                    Style="{StaticResource ModernButton}"
-                                    Click="CalculateButton_Click"/>
-
-                            <Button Content="Create Order"
-                                    Name="SaveButton2"
-                                    Style="{StaticResource SecondaryButton}"
-                                    Click="SaveButton_Click"/>
-                        </StackPanel>
-
-                        <controls:CalculationOutput Grid.Row="7" 
+                        <controls:CalculationOutput Grid.Row="1" 
                                                     Grid.ColumnSpan="2" 
                                                     x:Name="OutputSteelControl"
                                                     VerticalAlignment="Bottom"
-                                                    OutputValue="0.0 m³"
+                                                    OutputValue="{Binding SteelOutputValue}"
                                                     OutputLabel="Total Order Value:"/>
                     </Grid>
                 </TabItem>
 
-                <TabItem Header="Paint" Width="100">
+                <!--<TabItem Header="Paint" Width="100">
                     <Grid Margin="0,20,0,0">
 
                         <Grid.RowDefinitions>
@@ -206,7 +160,9 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <!-- Surface Type -->
+                        -->
+                <!-- Surface Type -->
+                <!--
                         <TextBlock Text="Surface Type:"
                                     Grid.Row="0"
                                     Style="{StaticResource FieldLabel}"/>
@@ -220,7 +176,9 @@
                                 SelectedIndex="0"/>
 
 
-                        <!-- Surface Area -->
+                        -->
+                <!-- Surface Area -->
+                <!--
                         <TextBlock Text="Surface Area (m²):"
                                     Grid.Row="1"
                                     Style="{StaticResource FieldLabel}"/>
@@ -231,7 +189,9 @@
                                  x:Name="SurfaceAreaTxt"
                                  Style="{StaticResource ModernBox}"/>
 
-                        <!-- Number Of Coats -->
+                        -->
+                <!-- Number Of Coats -->
+                <!--
                         <TextBlock Text="Number Of Coats:"
                                     Grid.Row="2"
                                     Style="{StaticResource FieldLabel}"/>
@@ -244,7 +204,9 @@
                                 Margin="0,5"
                                 Style="{StaticResource ModernBox}"/>
 
-                        <!-- Coverage Rate -->
+                        -->
+                <!-- Coverage Rate -->
+                <!--
                         <TextBlock Text="Coverage Rate(m²/L):"
                                     Grid.Row="3"
                                     Style="{StaticResource FieldLabel}"/>
@@ -255,7 +217,9 @@
                                 x:Name="CoverageRateTxt"
                                 Style="{StaticResource ModernBox}"/>
 
-                        <!-- Buttons -->
+                        -->
+                <!-- Buttons -->
+                <!--
                         <StackPanel Grid.Row="4"
                                     Grid.ColumnSpan="2"
                                     Orientation="Horizontal"
@@ -299,7 +263,9 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <!-- Room Length -->
+                        -->
+                <!-- Room Length -->
+                <!--
                         <TextBlock Text="Room Length (m):"
                                     Grid.Row="0"
                                     Style="{StaticResource FieldLabel}"/>
@@ -310,7 +276,9 @@
                                 x:Name="RoomLengthTxt"
                                 Style="{StaticResource ModernBox}"/>
 
-                        <!-- Room Width -->
+                        -->
+                <!-- Room Width -->
+                <!--
                         <TextBlock Text="Room Width (m):"
                                     Grid.Row="1"
                                     Style="{StaticResource FieldLabel}"/>
@@ -321,7 +289,9 @@
                                 x:Name="RoomWidthTxt"
                                 Style="{StaticResource ModernBox}"/>
 
-                        <!-- Tile Size -->
+                        -->
+                <!-- Tile Size -->
+                <!--
                         <TextBlock Text="Tile Size:"
                                     Grid.Row="2"
                                     Style="{StaticResource FieldLabel}"/>
@@ -335,7 +305,9 @@
                                 DisplayMemberPath="Size"
                                 SelectedIndex="1"/>
 
-                        <!-- Waste -->
+                        -->
+                <!-- Waste -->
+                <!--
                         <TextBlock Text="Waste Percentage (%):"
                                 Grid.Row="3"
                                 Style="{StaticResource FieldLabel}"/>
@@ -347,7 +319,9 @@
                                 Text="10"
                                 Style="{StaticResource ModernBox}"/>
 
-                        <!-- Buttons -->
+                        -->
+                <!-- Buttons -->
+                <!--
                         <StackPanel Grid.Row="4"
                                     Grid.ColumnSpan="2"
                                     Orientation="Horizontal"
@@ -372,7 +346,7 @@
                                                     OutputValue="0.0 m³"
                                                     OutputLabel="Total Order Value:"/>
                     </Grid>
-                </TabItem>
+                </TabItem>-->
             </TabControl>
         </Grid>
     </Border>
