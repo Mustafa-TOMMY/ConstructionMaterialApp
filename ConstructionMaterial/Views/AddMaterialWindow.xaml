@@ -5,7 +5,7 @@
         Height="330" Width="400"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
-        Background="{StaticResource MainTextBrush}">
+        Background="{StaticResource MainWindowBrush}">
 
     <Window.Resources>
         <Style TargetType="TextBox">

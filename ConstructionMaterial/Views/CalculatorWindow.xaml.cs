@@ -2,6 +2,7 @@
 using ConstructionMaterial.Models;
 using ConstructionMaterial.Models.Enum;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace ConstructionMaterial.Views
 {
@@ -206,7 +207,7 @@ namespace ConstructionMaterial.Views
             Helper.SaveToJson(_data);
         }
 
-        private void TextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (!IsInitialized) return;
 
@@ -285,7 +286,7 @@ namespace ConstructionMaterial.Views
             ToggleButtons();
         }
 
-        private void BtmsToggle(bool state) 
+        private void BtmsToggle(bool state)
         {
             ConcreteCalculateButton.IsEnabled = state;
             SteelCalculateButton.IsEnabled = state;

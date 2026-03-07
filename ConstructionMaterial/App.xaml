@@ -21,6 +21,7 @@
         <SolidColorBrush x:Key="BtnSecondeBrush" Color="#10B981"/>
         <SolidColorBrush x:Key="GrayBackBrush" Color="Gray"/>
         <SolidColorBrush x:Key="BtnDangerBrush" Color="DarkRed"/>
+        <SolidColorBrush x:Key="MainWindowBrush" Color="LightSlateGray"/>
 
         <Style x:Key="ValueText" TargetType="TextBlock">
             <Setter Property="FontWeight" Value="Bold" />

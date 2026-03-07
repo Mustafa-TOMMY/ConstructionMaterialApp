@@ -6,10 +6,11 @@
         xmlns:local="clr-namespace:ConstructionMaterial"
         xmlns:controls="clr-namespace:ConstructionMaterial.UserControls"
         mc:Ignorable="d"
-        Title="MainWindow" 
+        Title="MainWindow"
+        ResizeMode="NoResize"
         Height="600" 
         Width="800"
-        Background="{StaticResource MainTextBrush}"
+        Background="{StaticResource MainWindowBrush}"
         Closing="Window_Closing">
     <Border Margin="20" Style="{StaticResource ModernBorder}">
         <Grid Margin="15">
