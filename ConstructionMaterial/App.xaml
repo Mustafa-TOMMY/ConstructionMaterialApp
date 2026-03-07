@@ -56,7 +56,7 @@
             <Setter Property="Margin" Value="0,5"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="Padding" Value="5,0"/>
-            <Setter Property="BorderBrush" Value="{StaticResource MainTextBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource GrayBackBrush}"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Style.Resources>
                 <Style TargetType="Border">
