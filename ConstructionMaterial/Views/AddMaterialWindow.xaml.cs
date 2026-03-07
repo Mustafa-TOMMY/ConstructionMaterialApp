@@ -51,8 +51,17 @@ namespace ConstructionMaterial.Views
 
                 if (textBox.Name == "UnitPriceTxt")
                 {
-                    isValid = double.TryParse(textBox.Text, out _);
+                    isValid = double.TryParse(textBox.Text, out double num) && num > 0;
                     errorMessage = "Please enter a valid number";
+                }
+                else if (textBox.Name == "MaterialNameTxt")
+                {
+                    bool isNumber = double.TryParse(textBox.Text, out _);
+                    if (string.IsNullOrWhiteSpace(textBox.Text) || isNumber)
+                    {
+                        isValid = false;
+                        errorMessage = "Please enter a valid material name";
+                    }
                 }
                 else
                 {
@@ -60,7 +69,7 @@ namespace ConstructionMaterial.Views
                     if (string.IsNullOrWhiteSpace(textBox.Text) || isNumber)
                     {
                         isValid = false;
-                        errorMessage = "This field cannot be empty";
+                        errorMessage = "Please enter a valid material unit";
                     }
                 }
 
@@ -89,7 +98,7 @@ namespace ConstructionMaterial.Views
             if (BtnSave != null)
                 BtnSave.IsEnabled = isNameValid && isUnitValid && isPriceValid;
         }
-        
+
     }
 }
 
