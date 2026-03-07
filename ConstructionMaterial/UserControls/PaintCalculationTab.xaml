@@ -38,8 +38,8 @@
                  Style="{StaticResource ModernBox}" TextChanged="TextBox_TextChanged"/>
 
         <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,15">
-            <Button Content="Calculate" Style="{StaticResource ModernButton}" Click="PaintTabCalculateButton_Click"/>
-            <Button Content="Create Order" Style="{StaticResource SecondaryButton}" Click="PaintTabSaveButton_Click"/>
+            <Button x:Name="CalculateBtn" Content="Calculate" Style="{StaticResource ModernButton}" Click="PaintTabCalculateButton_Click"/>
+            <Button x:Name="SaveBtn" Content="Create Order" Style="{StaticResource SecondaryButton}" Click="PaintTabSaveButton_Click"/>
         </StackPanel>
     </Grid>
 </UserControl>

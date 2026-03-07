@@ -3,6 +3,7 @@ using ConstructionMaterial.Models;
 using ConstructionMaterial.Models.Enum;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace ConstructionMaterial.UserControls
 {
@@ -14,6 +15,7 @@ namespace ConstructionMaterial.UserControls
         public ConcreteCalculationTab()
         {
             InitializeComponent();
+            TurnButtons(false);
         }
 
         public string OutputConcreteValue
@@ -43,6 +45,45 @@ namespace ConstructionMaterial.UserControls
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
+            if (!IsInitialized) return;
+
+            if (sender is TextBox textBox)
+            {
+                string input = textBox.Text.Trim();
+                bool isNumber = double.TryParse(input, out double value);
+
+                bool isValid = !string.IsNullOrWhiteSpace(input) && isNumber && value > 0;
+
+                if (!isValid)
+                {
+                    textBox.BorderBrush = Brushes.Red;
+                    textBox.BorderThickness = new Thickness(1.5);
+                    textBox.ToolTip = "Please enter a valid number greater than 0";
+                }
+                else
+                {
+                    textBox.ClearValue(BorderBrushProperty);
+                    textBox.ClearValue(BorderThicknessProperty);
+                    textBox.ToolTip = null;
+                }
+            }
+
+            ToggleButtons();
+        }
+
+        private void ToggleButtons()
+        {
+            bool isAllValid =
+                double.TryParse(LengthTxt.Text, out double l) && l > 0 &&
+                double.TryParse(WidthTxt.Text, out double w) && w > 0 &&
+                double.TryParse(DepthTxt.Text, out double d) && d > 0 &&
+                double.TryParse(QuantityTxt.Text, out double q) && q > 0;
+            TurnButtons(isAllValid);
+        }
+        private void TurnButtons(bool isEnabled)
+        {
+            CalculateBtn.IsEnabled = isEnabled;
+            SaveBtn.IsEnabled = isEnabled;
         }
     }
 }

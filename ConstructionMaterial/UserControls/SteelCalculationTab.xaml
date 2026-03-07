@@ -64,9 +64,11 @@
 
             <Button Content="Calculate"
                 Style="{StaticResource ModernButton}"
+                    x:Name="CalculateBtn"
                 Click="SteelTabCalculateButton_Click"/>
 
             <Button Content="Create Order"
+                    x:Name="SaveBtn"
                 Style="{StaticResource SecondaryButton}"
                 Click="SteelTabSaveButton_Click"/>
 

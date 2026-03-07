@@ -44,8 +44,8 @@
         <TextBox Grid.Row="5" Grid.Column="1" x:Name="QuantityTxt" Style="{StaticResource ModernBox}" TextChanged="TextBox_TextChanged"/>
 
         <StackPanel Grid.Row="6" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,15">
-            <Button Content="Calculate" Style="{StaticResource ModernButton}" Click="ConcreteTabCalculateButton_Click"/>
-            <Button Content="Create Order" Style="{StaticResource SecondaryButton}" Click="ConcreteTabSaveButton_Click"/>
+            <Button x:Name="CalculateBtn" Content="Calculate" Style="{StaticResource ModernButton}" Click="ConcreteTabCalculateButton_Click"/>
+            <Button x:Name="SaveBtn" Content="Create Order" Style="{StaticResource SecondaryButton}" Click="ConcreteTabSaveButton_Click"/>
         </StackPanel>
     </Grid>
 </UserControl>

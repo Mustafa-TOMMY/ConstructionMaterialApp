@@ -24,6 +24,7 @@ namespace ConstructionMaterial.UserControls
         public PaintCalculationTab()
         {
             InitializeComponent();
+            TurnButtons(false);
         }
         public string OutputPaintValue
         {
@@ -58,7 +59,47 @@ namespace ConstructionMaterial.UserControls
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
+            if (!IsInitialized) return;
 
+            if (sender is TextBox textBox)
+            {
+                string input = textBox.Text.Trim();
+                bool isNumber = double.TryParse(input, out double value);
+
+                // التحقق: الحقل ليس فارغاً، وهو رقم، وقيمته أكبر من صفر
+                bool isValid = !string.IsNullOrWhiteSpace(input) && isNumber && value > 0;
+
+                if (!isValid)
+                {
+                    textBox.BorderBrush = Brushes.Red;
+                    textBox.BorderThickness = new Thickness(1.5);
+                    textBox.ToolTip = "Please enter a valid number greater than 0";
+                }
+                else
+                {
+                    textBox.ClearValue(BorderBrushProperty);
+                    textBox.ClearValue(BorderThicknessProperty);
+                    textBox.ToolTip = null;
+                }
+            }
+
+            ToggleButtons();
+        }
+
+        private void ToggleButtons()
+        {
+            bool isAllValid =
+                double.TryParse(SurfaceAreaTxt.Text, out double sa) && sa > 0 &&
+                double.TryParse(NoOfCoatsTxt.Text, out double nc) && nc > 0 &&
+                double.TryParse(CoverageRateTxt.Text, out double cr) && cr > 0;
+
+            TurnButtons(isAllValid);
+        }
+
+        private void TurnButtons(bool isEnabled)
+        {
+            CalculateBtn.IsEnabled = isEnabled;
+            SaveBtn.IsEnabled = isEnabled;
         }
     }
 }
