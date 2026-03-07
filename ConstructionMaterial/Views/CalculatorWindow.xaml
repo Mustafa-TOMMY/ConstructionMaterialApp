@@ -22,7 +22,8 @@
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
-                        <controls:ConcreteCalculationTab Grid.Row="0" 
+                        <controls:ConcreteCalculationTab Grid.Row="0"
+                                                         OnOrderCreated="AddNewOrder"
                                          DataContext="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
                                          OutputConcreteValue="{Binding ConcreteOutputValue, Mode=TwoWay}"/>
 
@@ -49,6 +50,7 @@
 
                         <controls:SteelCalculationTab Grid.Row="0" 
                                                       Grid.ColumnSpan="2"
+                                                      OnOrderCreated="AddNewOrder"
                                                       DataContext="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
                                                       OutputSteelValue="{Binding SteelOutputValue,Mode=TwoWay}"/>
 
@@ -71,7 +73,8 @@
 
                         <controls:PaintCalculationTab Grid.Row="0" 
                                       DataContext="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
-                                      OutputPaintValue="{Binding PaintOutputValue, Mode=TwoWay}"/>
+                                      OutputPaintValue="{Binding PaintOutputValue, Mode=TwoWay}"
+                                                      OnOrderCreated="AddNewOrder"/>
 
                         <controls:CalculationOutput Grid.Row="1" 
                                     VerticalAlignment="Bottom"
@@ -89,7 +92,8 @@
 
                         <controls:TileCalculationTab Grid.Row="0" 
                                       DataContext="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
-                                      OutputTilesValue="{Binding TilesOutputValue, Mode=TwoWay}"/>
+                                      OutputTilesValue="{Binding TilesOutputValue, Mode=TwoWay}"
+                                      OnOrderCreated="AddNewOrder"/>
 
                         <controls:CalculationOutput Grid.Row="1" 
                                     VerticalAlignment="Bottom"

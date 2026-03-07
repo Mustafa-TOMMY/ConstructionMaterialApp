@@ -1,4 +1,6 @@
 ﻿using ConstructionMaterial.Helpers;
+using ConstructionMaterial.Models;
+using ConstructionMaterial.Models.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +23,8 @@ namespace ConstructionMaterial.UserControls
     /// </summary>
     public partial class SteelCalculationTab : UserControl
     {
+        public event Action<Order> OnOrderCreated;
+
         public SteelCalculationTab()
         {
             InitializeComponent();
@@ -56,7 +60,18 @@ namespace ConstructionMaterial.UserControls
 
         private void SteelTabSaveButton_Click(object sender, RoutedEventArgs e)
         {
-
+            var order = new Order
+            {
+                MaterialName = "Steel Bars",
+                Category = MaterialType.Steel,
+                Quantity = Helper.GetNumericalValue(NoOfBarsTxt),
+                Unit = "Bars",
+                UnitPrice = 0,
+                Status = "Pending",
+                Date = DateTime.Now
+            };
+            OnOrderCreated(order);
+            MessageBox.Show("Steel order saved successfully.");
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -67,7 +82,6 @@ namespace ConstructionMaterial.UserControls
             {
                 string input = textBox.Text.Trim();
                 bool isNumber = double.TryParse(input, out double value);
-
                 bool isValid = !string.IsNullOrWhiteSpace(input) && isNumber && value > 0;
 
                 if (!isValid)
@@ -101,6 +115,5 @@ namespace ConstructionMaterial.UserControls
             CalculateBtn.IsEnabled = isEnabled;
             SaveBtn.IsEnabled = isEnabled;
         }
-
     }
 }

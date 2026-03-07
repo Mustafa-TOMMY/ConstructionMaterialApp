@@ -1,5 +1,6 @@
 ﻿using ConstructionMaterial.Helpers;
 using ConstructionMaterial.Models;
+using ConstructionMaterial.Models.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,7 @@ namespace ConstructionMaterial.UserControls
     /// </summary>
     public partial class TileCalculationTab : UserControl
     {
+        public event Action<Order> OnOrderCreated;
         public TileCalculationTab()
         {
             InitializeComponent();
@@ -61,7 +63,18 @@ namespace ConstructionMaterial.UserControls
 
         private void TilesTabSaveButton_Click(object sender, RoutedEventArgs e)
         {
-
+            var order = new Order
+            {
+                MaterialName = "Tiles",
+                Category = MaterialType.Tiles,
+                Quantity = Helper.GetNumericalValue(RoomLengthTxt) * Helper.GetNumericalValue(RoomWidthTxt),
+                Unit = "m²",
+                UnitPrice = 0,
+                Status = "Pending",
+                Date = DateTime.Now
+            };
+            OnOrderCreated?.Invoke(order);
+            MessageBox.Show("Tiles order saved successfully.");
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)

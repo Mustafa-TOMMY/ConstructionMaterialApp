@@ -17,6 +17,7 @@ namespace ConstructionMaterial.UserControls
             InitializeComponent();
             TurnButtons(false);
         }
+        public event Action<Order> OnOrderCreated;
 
         public string OutputConcreteValue
         {
@@ -40,7 +41,29 @@ namespace ConstructionMaterial.UserControls
 
         private void ConcreteTabSaveButton_Click(object sender, RoutedEventArgs e)
         {
+            var selectedMaterial = MaterialComboBox.SelectedItem as MainMaterial;
+            if (selectedMaterial == null)
+            {
+                MessageBox.Show("Please select a material first.",
+                    "Selection Required", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
 
+            var order = new Order
+            {
+                MaterialName = selectedMaterial.Name,
+                Category = selectedMaterial.Category,
+                Quantity = Helper.GetNumericalValue(QuantityTxt),
+                Unit = selectedMaterial.Unit,
+                ElementType = (ElementType)ElementTypeComboBox.SelectedItem,
+                UnitPrice = selectedMaterial.UnitPrice,
+                Status = "Pending",
+                Date = DateTime.Now
+            };
+
+            OnOrderCreated(order);
+
+            MessageBox.Show("Concrete order saved successfully.");
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)

@@ -1,4 +1,6 @@
 ﻿using ConstructionMaterial.Helpers;
+using ConstructionMaterial.Models;
+using ConstructionMaterial.Models.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +23,7 @@ namespace ConstructionMaterial.UserControls
     /// </summary>
     public partial class PaintCalculationTab : UserControl
     {
+        public event Action<Order> OnOrderCreated;
         public PaintCalculationTab()
         {
             InitializeComponent();
@@ -54,7 +57,20 @@ namespace ConstructionMaterial.UserControls
 
         private void PaintTabSaveButton_Click(object sender, RoutedEventArgs e)
         {
+            var order = new Order
+            {
+                MaterialName = "Paint",
+                Category = MaterialType.Paint,
+                Quantity = Helper.GetNumericalValue(SurfaceAreaTxt),
+                Unit = "m²",
+                UnitPrice = 0,
+                Status = "Pending",
+                Date = DateTime.Now
+            };
 
+            OnOrderCreated(order);
+
+            MessageBox.Show("Paint order saved successfully.");
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -65,8 +81,6 @@ namespace ConstructionMaterial.UserControls
             {
                 string input = textBox.Text.Trim();
                 bool isNumber = double.TryParse(input, out double value);
-
-                // التحقق: الحقل ليس فارغاً، وهو رقم، وقيمته أكبر من صفر
                 bool isValid = !string.IsNullOrWhiteSpace(input) && isNumber && value > 0;
 
                 if (!isValid)
