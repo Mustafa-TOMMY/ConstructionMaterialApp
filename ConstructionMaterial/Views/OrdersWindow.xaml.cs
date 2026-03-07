@@ -29,7 +29,7 @@ namespace ConstructionMaterial.Views
             OrdersCollection = CollectionViewSource.GetDefaultView(Orders);
             SearchOptions = Enum.GetValues<MaterialType>().ToList();
             DataContext = this;
-            UpdateMaterialList();
+            MaterialForSearch = OrdersCollection.Cast<Order>().Select(o => o.MaterialName).Distinct().ToList();
             UpdateSummary();
         }
 
@@ -40,10 +40,11 @@ namespace ConstructionMaterial.Views
             OrdersCollection.Filter = (item) =>
             {
                 if (item is not Order order) return false;
-
+                //var order = item as Order;
                 bool categoryMatch = true;
-                if (CategorySearchComboBox.SelectedItem is MaterialType selectedType)
-                    categoryMatch = order.Category == selectedType;
+                //if (CategorySearchComboBox.SelectedItem is MaterialType selectedType)
+                var selectedType = CategorySearchComboBox.SelectedItem as MaterialType?;
+                categoryMatch = order.Category == selectedType;
 
                 bool materialMatch = true;
                 if (MaterialSearchComboBox.SelectedItem != null)
@@ -68,21 +69,17 @@ namespace ConstructionMaterial.Views
 
         private void UpdateMaterialList()
         {
-            var currentMaterial = MaterialSearchComboBox.SelectedItem?.ToString();
+            var currentCategory = CategorySearchComboBox.SelectedItem as MaterialType?;
 
             MaterialForSearch = OrdersCollection
                 .Cast<Order>()
+                .Where(o => o.Category == currentCategory)
                 .Select(o => o.MaterialName)
                 .Distinct()
                 .OrderBy(name => name)
                 .ToList();
 
             MaterialSearchComboBox.ItemsSource = MaterialForSearch;
-
-            if (currentMaterial != null && MaterialForSearch.Contains(currentMaterial))
-                MaterialSearchComboBox.SelectedItem = currentMaterial;
-            else
-                MaterialSearchComboBox.SelectedItem = null;
         }
 
         private void UpdateSummary()
@@ -99,9 +96,7 @@ namespace ConstructionMaterial.Views
         private void Filter(object sender, EventArgs e)
         {
             ApplyFilter();
-
-            if (sender == CategorySearchComboBox)
-                UpdateMaterialList();
+            UpdateMaterialList();
         }
 
         private void ResetBtn_Click(object sender, RoutedEventArgs e)
@@ -162,7 +157,7 @@ namespace ConstructionMaterial.Views
             if (dialog.ShowDialog() == true)
             {
                 var filePath = dialog.FileName;
-                while (Path.GetExtension(filePath) != ".csv") 
+                while (Path.GetExtension(filePath) != ".csv")
                 {
                     MessageBox.Show("Please select a CSV file format only.", "Invalid File Type",
                                     MessageBoxButton.OK,
