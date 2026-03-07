@@ -1,8 +1,13 @@
 ﻿using ConstructionMaterial.Helpers;
 using ConstructionMaterial.Models;
 using ConstructionMaterial.Models.Enum;
+using CsvHelper;
+using CsvHelper.Configuration;
+using Microsoft.Win32;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -148,7 +153,35 @@ namespace ConstructionMaterial.Views
 
         private void ExportBtn_Click(object sender, RoutedEventArgs e)
         {
+            SaveFileDialog dialog = new SaveFileDialog
+            {
+                Filter = "CSV file (*.csv)|*.csv",
+                FileName = "Orders.csv"
+            };
 
+            if (dialog.ShowDialog() == true)
+            {
+                var filePath = dialog.FileName;
+                while (Path.GetExtension(filePath) != ".csv") 
+                {
+                    MessageBox.Show("Please select a CSV file format only.", "Invalid File Type",
+                                    MessageBoxButton.OK,
+                                    MessageBoxImage.Warning);
+                    return;
+                }
+                var records = OrdersCollection.Cast<Order>().ToList();
+                var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+                {
+                    Delimiter = ";"
+                };
+                using (var writer = new StreamWriter(filePath))
+                using (var csv = new CsvWriter(writer, config))
+                {
+                    csv.WriteRecords(records);
+                }
+                MessageBox.Show("Export completed successfully!",
+                    "Export", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
     }
 }
