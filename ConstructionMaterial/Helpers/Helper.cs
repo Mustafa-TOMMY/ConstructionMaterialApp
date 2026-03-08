@@ -18,13 +18,21 @@ namespace ConstructionMaterial.Helpers
         {
             if (!File.Exists(filePath))
                 return new AppData();
-            string jsonData = File.ReadAllText(filePath);
-            return JsonConvert.DeserializeObject<AppData>(jsonData) ?? new AppData();
+
+            try
+            {
+                string jsonData = File.ReadAllText(filePath);
+                return JsonConvert.DeserializeObject<AppData>(jsonData) ?? new AppData();
+            }
+            catch (JsonException)
+            {
+                return new AppData();
+            }
         }
 
-        public static double GetNumericalValue(TextBox textBox)
+        public static double GetNumericalValue(string textBox)
         {
-            double.TryParse(textBox.Text, out double value);
+            double.TryParse(textBox, out double value);
             return value;
         }
     }
