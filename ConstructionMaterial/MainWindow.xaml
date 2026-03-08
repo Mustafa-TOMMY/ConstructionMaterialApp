@@ -95,7 +95,7 @@
                             FontSize="20"
                             FontWeight="Bold"
                             Text="{Binding Orders.Count}" />
-                        <TextBlock HorizontalAlignment="Center" Text="Pending: 3" />
+                        <TextBlock HorizontalAlignment="Center" Text="{Binding OrderPending}" />
                     </StackPanel>
                 </Border>
 

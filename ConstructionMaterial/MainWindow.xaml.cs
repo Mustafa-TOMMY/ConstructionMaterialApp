@@ -33,6 +33,16 @@ namespace ConstructionMaterial
                 OnPropertyChanged(nameof(TotalCost));
             }
         }
+        private int _orderPending;
+        public int OrderPending
+        {
+            get => _orderPending;
+            set
+            {
+                _orderPending = value;
+                OnPropertyChanged(nameof(OrderPending));
+            }
+        }
 
         public MainWindow()
         {
@@ -41,7 +51,13 @@ namespace ConstructionMaterial
             StatusBarControl.UpdateLastSaved();
             MaterialCatalog = _data.Materials;
             Orders = _data.Orders;
-            TotalCost = $"EGP {Orders.Sum(p => p.Total)}";
+            TotalCost = $"EGP {Orders.Sum(p => p.Total)}" ?? "0";
+            OrderPending = Orders.Count(p => p.Status == "Pending");
+            Orders.CollectionChanged += (s, e) =>
+            {
+                TotalCost = $"EGP {Orders.Sum(p => p.Total)}";
+                OrderPending = Orders.Count(p => p.Status == "Pending");
+            };
             DataContext = this;
         }
 

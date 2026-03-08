@@ -140,7 +140,12 @@ namespace ConstructionMaterial.Views
                 return;
             }
 
+            int index = Orders.IndexOf(selectedOrder);
             selectedOrder.Status = "Delivered";
+            //Orders.RemoveAt(index);
+            //Orders.Insert(index, selectedOrder);
+            Orders[index] = selectedOrder;
+
             OrdersCollection.Refresh();
             Helper.SaveToJson(_data);
             UpdateSummary();

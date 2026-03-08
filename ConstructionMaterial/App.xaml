@@ -19,7 +19,8 @@
         <SolidColorBrush x:Key="MainTextBrush" Color="#FFFFFF" />
         <SolidColorBrush x:Key="SecTextBrush" Color="#212121" />
         <SolidColorBrush x:Key="IconsBrush" Color="#172030" />
-        <SolidColorBrush x:Key="BtnSecondeBrush" Color="#10B981" />
+        <SolidColorBrush x:Key="BtnSecondeBrush" Color="#19622A" />
+        <SolidColorBrush x:Key="BtnSecondeHoverBrush" Color="#50C878" />
         <SolidColorBrush x:Key="GrayBackBrush" Color="Gray" />
         <SolidColorBrush x:Key="BtnDangerBrush" Color="DarkRed" />
         <SolidColorBrush x:Key="MainWindowBrush" Color="LightGray" />
@@ -148,7 +149,7 @@
 
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="{StaticResource MainBrushHover}" />
+                                <Setter TargetName="border" Property="Background" Value="{StaticResource BtnSecondeHoverBrush}" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
