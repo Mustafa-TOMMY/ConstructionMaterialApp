@@ -1,20 +1,8 @@
 ﻿using ConstructionMaterial.Helpers;
 using ConstructionMaterial.Models;
-using ConstructionMaterial.Models.Enum;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace ConstructionMaterial.UserControls
 {
@@ -30,8 +18,6 @@ namespace ConstructionMaterial.UserControls
             InitializeComponent();
             TurnButtons(false);
         }
-
-
 
         public string OutputSteelValue
         {
@@ -60,18 +46,26 @@ namespace ConstructionMaterial.UserControls
 
         private void SteelTabSaveButton_Click(object sender, RoutedEventArgs e)
         {
+            var selectedMaterial = MaterialComboBox.SelectedItem as MainMaterial;
+
+            if (selectedMaterial == null)
+            {
+                MessageBox.Show("Please select a steel material first.");
+                return;
+            }
             var order = new Order
             {
-                MaterialName = "Steel Bars",
-                Category = MaterialType.Steel,
+                MaterialName = selectedMaterial.Name, 
+                Category = selectedMaterial.Category, 
                 Quantity = Helper.GetNumericalValue(NoOfBarsTxt),
-                Unit = "Bars",
-                UnitPrice = 0,
+                Unit = selectedMaterial.Unit,   
+                UnitPrice = selectedMaterial.UnitPrice, 
                 Status = "Pending",
                 Date = DateTime.Now
             };
-            OnOrderCreated(order);
-            MessageBox.Show("Steel order saved successfully.");
+
+            OnOrderCreated?.Invoke(order);
+            MessageBox.Show($"{selectedMaterial.Name} order saved successfully.");
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)

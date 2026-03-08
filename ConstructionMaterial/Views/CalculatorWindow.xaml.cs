@@ -1,10 +1,8 @@
-﻿using ConstructionMaterial.Helpers;
-using ConstructionMaterial.Models;
+﻿using ConstructionMaterial.Models;
 using ConstructionMaterial.Models.Enum;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace ConstructionMaterial.Views
 {
@@ -16,6 +14,9 @@ namespace ConstructionMaterial.Views
         public List<ElementType> ElementTypes { get; set; }
         public List<BarDiameter> BarDiameters { get; set; }
         public List<MainMaterial> MaterialNames { get; set; }
+        public List<MainMaterial> SteelMaterials { get; set; }
+        public List<MainMaterial> TileMaterials { get; set; }
+        public List<MainMaterial> PaintMaterials { get; set; }
         public List<SurfaceType> SurfaceTypes { get; set; }
         public List<Tile> TileSizes { get; set; }
         public ObservableCollection<Order> Orders { get; set; }
@@ -68,7 +69,7 @@ namespace ConstructionMaterial.Views
                 _tilesOutputValue = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TilesOutputValue)));
             }
-        } 
+        }
 
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -86,6 +87,9 @@ namespace ConstructionMaterial.Views
             BarDiameters = Enum.GetValues(typeof(BarDiameter)).Cast<BarDiameter>().ToList();
             SurfaceTypes = Enum.GetValues(typeof(SurfaceType)).Cast<SurfaceType>().ToList();
             MaterialNames = Main.MaterialCatalog.Where(m => m.Category == MaterialType.Concrete).ToList();
+            SteelMaterials = Main.MaterialCatalog.Where(m => m.Category == MaterialType.Steel).ToList();
+            TileMaterials = Main.MaterialCatalog.Where(m => m.Category == MaterialType.Tiles).ToList();
+            PaintMaterials = Main.MaterialCatalog.Where(m => m.Category == MaterialType.Paint).ToList();
             TileSizes = new List<Tile>
             {
                 new Tile { Name = "30x30", Size = 0.09 },

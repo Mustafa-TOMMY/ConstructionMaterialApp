@@ -1,20 +1,8 @@
 ﻿using ConstructionMaterial.Helpers;
 using ConstructionMaterial.Models;
-using ConstructionMaterial.Models.Enum;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace ConstructionMaterial.UserControls
 {
@@ -57,20 +45,31 @@ namespace ConstructionMaterial.UserControls
 
         private void PaintTabSaveButton_Click(object sender, RoutedEventArgs e)
         {
+            var selectedMaterial = MaterialComboBox.SelectedItem as MainMaterial;
+            if (selectedMaterial == null)
+            {
+                MessageBox.Show("Please select a paint material first.");
+                return;
+            }
+
+            double area = Helper.GetNumericalValue(SurfaceAreaTxt);
+            double coats = Helper.GetNumericalValue(NoOfCoatsTxt);
+            double coverage = Helper.GetNumericalValue(CoverageRateTxt);
+            double totalLiters = (area * coats) / coverage;
+
             var order = new Order
             {
-                MaterialName = "Paint",
-                Category = MaterialType.Paint,
-                Quantity = Helper.GetNumericalValue(SurfaceAreaTxt),
-                Unit = "m²",
-                UnitPrice = 0,
+                MaterialName = selectedMaterial.Name,
+                Category = selectedMaterial.Category,
+                Quantity = Math.Round(totalLiters, 2),
+                Unit = selectedMaterial.Unit,
+                UnitPrice = selectedMaterial.UnitPrice,
                 Status = "Pending",
                 Date = DateTime.Now
             };
 
-            OnOrderCreated(order);
-
-            MessageBox.Show("Paint order saved successfully.");
+            OnOrderCreated?.Invoke(order);
+            MessageBox.Show($"{selectedMaterial.Name} order saved successfully.");
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)

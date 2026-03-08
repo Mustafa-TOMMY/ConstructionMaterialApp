@@ -1,20 +1,8 @@
 ﻿using ConstructionMaterial.Helpers;
 using ConstructionMaterial.Models;
-using ConstructionMaterial.Models.Enum;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace ConstructionMaterial.UserControls
 {
@@ -63,18 +51,32 @@ namespace ConstructionMaterial.UserControls
 
         private void TilesTabSaveButton_Click(object sender, RoutedEventArgs e)
         {
+            var selectedMaterial = MaterialComboBox.SelectedItem as MainMaterial;
+
+            if (selectedMaterial == null)
+            {
+                MessageBox.Show("Please select a tile material from the catalog first.");
+                return;
+            }
+
+            double length = Helper.GetNumericalValue(RoomLengthTxt);
+            double width = Helper.GetNumericalValue(RoomWidthTxt);
+            double waste = Helper.GetNumericalValue(WasteTxt);
+            double totalAreaWithWaste = (length * width) * (1 + waste / 100);
+
             var order = new Order
             {
-                MaterialName = "Tiles",
-                Category = MaterialType.Tiles,
-                Quantity = Helper.GetNumericalValue(RoomLengthTxt) * Helper.GetNumericalValue(RoomWidthTxt),
-                Unit = "m²",
-                UnitPrice = 0,
+                MaterialName = selectedMaterial.Name, 
+                Category = selectedMaterial.Category,
+                Quantity = Math.Round(totalAreaWithWaste, 2), 
+                Unit = selectedMaterial.Unit, 
+                UnitPrice = selectedMaterial.UnitPrice,
                 Status = "Pending",
                 Date = DateTime.Now
             };
+
             OnOrderCreated?.Invoke(order);
-            MessageBox.Show("Tiles order saved successfully.");
+            MessageBox.Show($"{selectedMaterial.Name} order saved successfully.");
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)

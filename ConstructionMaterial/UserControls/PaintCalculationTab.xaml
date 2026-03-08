@@ -1,45 +1,105 @@
-﻿<UserControl x:Class="ConstructionMaterial.UserControls.PaintCalculationTab"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:ConstructionMaterial.UserControls"
-             mc:Ignorable="d" 
-             d:DesignHeight="350" d:DesignWidth="400">
+﻿<UserControl
+    x:Class="ConstructionMaterial.UserControls.PaintCalculationTab"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:ConstructionMaterial.UserControls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="350"
+    d:DesignWidth="400"
+    mc:Ignorable="d">
 
     <Grid Margin="0,10,0,0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="130"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="130" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <TextBlock Text="Surface Type:" Grid.Row="0" Style="{StaticResource FieldLabel}"/>
-        <ComboBox Grid.Row="0" Grid.Column="1" x:Name="SurfaceTypeComboBox" 
-                  ItemsSource="{Binding SurfaceTypes}" Height="32" Margin="0,5" SelectedIndex="0"/>
+        <TextBlock
+            Grid.Row="0"
+            Style="{StaticResource FieldLabel}"
+            Text="Material Name:" />
+        <ComboBox
+            x:Name="MaterialComboBox"
+            Grid.Row="0"
+            Grid.Column="1"
+            Height="32"
+            Margin="0,5"
+            DisplayMemberPath="Name"
+            ItemsSource="{Binding PaintMaterials}"
+            SelectedIndex="0" />
 
-        <TextBlock Text="Surface Area (m²):" Grid.Row="1" Style="{StaticResource FieldLabel}"/>
-        <TextBox Grid.Row="1" Grid.Column="1" x:Name="SurfaceAreaTxt" 
-                 Style="{StaticResource ModernBox}" TextChanged="TextBox_TextChanged"/>
+        <TextBlock
+            Grid.Row="1"
+            Style="{StaticResource FieldLabel}"
+            Text="Surface Type:" />
+        <ComboBox
+            x:Name="SurfaceTypeComboBox"
+            Grid.Row="1"
+            Grid.Column="1"
+            Height="32"
+            Margin="0,5"
+            ItemsSource="{Binding SurfaceTypes}"
+            SelectedIndex="0" />
 
-        <TextBlock Text="Number Of Coats:" Grid.Row="2" Style="{StaticResource FieldLabel}"/>
-        <TextBox Grid.Row="2" Grid.Column="1" x:Name="NoOfCoatsTxt" 
-                 Style="{StaticResource ModernBox}" TextChanged="TextBox_TextChanged"/>
+        <TextBlock
+            Grid.Row="2"
+            Style="{StaticResource FieldLabel}"
+            Text="Surface Area (m²):" />
+        <TextBox
+            x:Name="SurfaceAreaTxt"
+            Grid.Row="2"
+            Grid.Column="1"
+            Style="{StaticResource ModernBox}"
+            TextChanged="TextBox_TextChanged" />
 
-        <TextBlock Text="Coverage Rate (m²/L):" Grid.Row="3" Style="{StaticResource FieldLabel}"/>
-        <TextBox Grid.Row="3" Grid.Column="1" x:Name="CoverageRateTxt" 
-                 Style="{StaticResource ModernBox}" TextChanged="TextBox_TextChanged"/>
+        <TextBlock
+            Grid.Row="3"
+            Style="{StaticResource FieldLabel}"
+            Text="Number Of Coats:" />
+        <TextBox
+            x:Name="NoOfCoatsTxt"
+            Grid.Row="3"
+            Grid.Column="1"
+            Style="{StaticResource ModernBox}"
+            TextChanged="TextBox_TextChanged" />
 
-        <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,15">
-            <Button x:Name="CalculateBtn" Content="Calculate" Style="{StaticResource ModernButton}" Click="PaintTabCalculateButton_Click"/>
-            <Button x:Name="SaveBtn" Content="Create Order" Style="{StaticResource SecondaryButton}" Click="PaintTabSaveButton_Click"/>
+        <TextBlock
+            Grid.Row="4"
+            Style="{StaticResource FieldLabel}"
+            Text="Coverage Rate (m²/L):" />
+        <TextBox
+            x:Name="CoverageRateTxt"
+            Grid.Row="4"
+            Grid.Column="1"
+            Style="{StaticResource ModernBox}"
+            TextChanged="TextBox_TextChanged" />
+
+        <StackPanel
+            Grid.Row="5"
+            Grid.Column="1"
+            Margin="0,15"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal">
+            <Button
+                x:Name="CalculateBtn"
+                Click="PaintTabCalculateButton_Click"
+                Content="Calculate"
+                Style="{StaticResource ModernButton}" />
+            <Button
+                x:Name="SaveBtn"
+                Click="PaintTabSaveButton_Click"
+                Content="Create Order"
+                Style="{StaticResource SecondaryButton}" />
         </StackPanel>
     </Grid>
 </UserControl>
