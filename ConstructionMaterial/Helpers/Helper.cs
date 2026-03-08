@@ -30,9 +30,9 @@ namespace ConstructionMaterial.Helpers
             }
         }
 
-        public static double GetNumericalValue(string textBox)
+        public static double GetNumericalValue(TextBox textBox)
         {
-            double.TryParse(textBox, out double value);
+            double.TryParse(textBox.Text, out double value);
             return value;
         }
     }
