@@ -56,10 +56,11 @@
                        Grid.Row="2"
                        VerticalAlignment="Center"/>
 
-            <TextBox x:Name="UnitTxt"
+            <ComboBox x:Name="UnitComboBox"
                      Grid.Row="2"
                      Grid.Column="1"
-                     Margin="5"/>
+                     Margin="5"
+                     ItemsSource="{Binding MaterialUnits}"/>
 
             <TextBlock Text="Unit Price:"
                        Style="{StaticResource ModernText}"
