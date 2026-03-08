@@ -93,5 +93,11 @@ namespace ConstructionMaterial.Views
             };
             DataContext = this;
         }
+        private void AddNewOrder(Order obj)
+        {
+            obj.OrderNumber = _data.Orders.Count + 1;
+            _data.Orders.Add(obj);
+            Helper.SaveToJson(_data);
+        }
     }
 }
