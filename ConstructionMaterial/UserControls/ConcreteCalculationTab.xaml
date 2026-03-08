@@ -1,0 +1,51 @@
+﻿<UserControl x:Class="ConstructionMaterial.UserControls.ConcreteCalculationTab"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ConstructionMaterial.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="420" d:DesignWidth="400">
+
+    <Grid Margin="0,10,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="110"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Text="Element Type:" Grid.Row="0" Style="{StaticResource FieldLabel}"/>
+        <ComboBox Grid.Row="0" Grid.Column="1" x:Name="ElementTypeComboBox" Height="32" Margin="0,5"
+                  ItemsSource="{Binding ElementTypes}" SelectedIndex="0"/>
+
+        <TextBlock Text="Material Name:" Grid.Row="1" Style="{StaticResource FieldLabel}"/>
+        <ComboBox Grid.Row="1" Grid.Column="1" x:Name="MaterialComboBox" Height="32" Margin="0,5"
+                  ItemsSource="{Binding MaterialNames}" DisplayMemberPath="Name" SelectedIndex="0"/>
+
+        <TextBlock Text="Length (m):" Grid.Row="2" Style="{StaticResource FieldLabel}"/>
+        <TextBox Grid.Row="2" Grid.Column="1" x:Name="LengthTxt" Style="{StaticResource ModernBox}" TextChanged="TextBox_TextChanged"/>
+
+        <TextBlock Text="Width (m):" Grid.Row="3" Style="{StaticResource FieldLabel}"/>
+        <TextBox Grid.Row="3" Grid.Column="1" x:Name="WidthTxt" Style="{StaticResource ModernBox}" TextChanged="TextBox_TextChanged"/>
+
+        <TextBlock Text="Depth (m):" Grid.Row="4" Style="{StaticResource FieldLabel}"/>
+        <TextBox Grid.Row="4" Grid.Column="1" x:Name="DepthTxt" Style="{StaticResource ModernBox}" TextChanged="TextBox_TextChanged"/>
+
+        <TextBlock Text="Quantity:" Grid.Row="5" Style="{StaticResource FieldLabel}"/>
+        <TextBox Grid.Row="5" Grid.Column="1" x:Name="QuantityTxt" Style="{StaticResource ModernBox}" TextChanged="TextBox_TextChanged"/>
+
+        <StackPanel Grid.Row="6" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,15">
+            <Button x:Name="CalculateBtn" Content="Calculate" Style="{StaticResource ModernButton}" Click="ConcreteTabCalculateButton_Click"/>
+            <Button x:Name="SaveBtn" Content="Create Order" Style="{StaticResource SecondaryButton}" Click="ConcreteTabSaveButton_Click"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
