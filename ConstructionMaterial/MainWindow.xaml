@@ -126,6 +126,13 @@
                     Add Material
                 </Button>
                 <Button
+                    x:Name="UpdateMaterial"
+                    Click="UpdateMaterial_Click"
+                    DockPanel.Dock="Right"
+                    Style="{StaticResource SecondaryButton}">
+                    Update Material
+                </Button>
+                <Button
                     x:Name="DeleteMaterial"
                     Click="DeleteMaterial_Click"
                     DockPanel.Dock="Right"

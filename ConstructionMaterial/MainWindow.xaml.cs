@@ -101,5 +101,21 @@ namespace ConstructionMaterial
             StatusBarControl.UpdateLastSaved();
             TotalCost = $"EGP {Orders.Sum(p => p.Total)}";
         }
+
+        private void UpdateMaterial_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedMaterial = MyDataGrid.SelectedItem as MainMaterial;
+            if (selectedMaterial == null)
+            {
+                MessageBox.Show("Please select a material to update.", "Selection Required", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            UpdateMaterialWindow updateWindow = new UpdateMaterialWindow(_data, selectedMaterial);
+
+            if (updateWindow.ShowDialog() == true)
+            {
+                MyDataGrid.Items.Refresh();
+            }
+        }
     }
 }
