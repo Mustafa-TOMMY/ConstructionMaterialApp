@@ -70,11 +70,26 @@
                 Orientation="Horizontal">
 
                 <Border Style="{StaticResource DashboardCard}">
-                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <TextBlock
+                    <StackPanel
+                        Margin="0,-6,0,-6"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                        <StackPanel
+                            Margin="0,0,0,5"
                             HorizontalAlignment="Center"
-                            FontWeight="Bold"
-                            Text="CATALOG" />
+                            Orientation="Horizontal">
+                            <TextBlock
+                                Margin="0,2,8,0"
+                                VerticalAlignment="Center"
+                                FontFamily="{StaticResource FontAwesome}"
+                                FontSize="16"
+                                Foreground="{StaticResource IconsBrush}"
+                                Text="&#xf0ca;" />
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                FontWeight="Bold"
+                                Text="CATALOG" />
+                        </StackPanel>
                         <TextBlock
                             HorizontalAlignment="Center"
                             FontSize="20"
@@ -86,10 +101,22 @@
 
                 <Border Style="{StaticResource DashboardCard}">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <TextBlock
+                        <StackPanel
+                            Margin="0,0,0,5"
                             HorizontalAlignment="Center"
-                            FontWeight="Bold"
-                            Text="ORDERS" />
+                            Orientation="Horizontal">
+                            <TextBlock
+                                Margin="0,0,8,0"
+                                VerticalAlignment="Center"
+                                FontFamily="{StaticResource FontAwesome}"
+                                FontSize="16"
+                                Foreground="{StaticResource IconsBrush}"
+                                Text="&#xf0d1;" />
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                FontWeight="Bold"
+                                Text="ORDERS" />
+                        </StackPanel>
                         <TextBlock
                             HorizontalAlignment="Center"
                             FontSize="20"
@@ -101,10 +128,22 @@
 
                 <Border Style="{StaticResource DashboardCard}">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <TextBlock
+                        <StackPanel
+                            Margin="0,0,0,5"
                             HorizontalAlignment="Center"
-                            FontWeight="Bold"
-                            Text="TOTAL SPENT" />
+                            Orientation="Horizontal">
+                            <TextBlock
+                                Margin="0,0,8,0"
+                                VerticalAlignment="Center"
+                                FontFamily="{StaticResource FontAwesome}"
+                                FontSize="16"
+                                Foreground="{StaticResource IconsBrush}"
+                                Text="&#xf155;" />
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                FontWeight="Bold"
+                                Text="TOTAL SPENT" />
+                        </StackPanel>
                         <TextBlock
                             HorizontalAlignment="Center"
                             FontSize="16"
@@ -120,24 +159,53 @@
                 <TextBlock DockPanel.Dock="Left" Style="{StaticResource ModernText}">Material Catalog:</TextBlock>
                 <Button
                     x:Name="AddMaterial"
+                    Margin="5,0"
                     Click="AddMaterial_Click"
                     DockPanel.Dock="Right"
                     Style="{StaticResource ModernButton}">
-                    Add Material
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            Margin="0,0,8,0"
+                            VerticalAlignment="Center"
+                            FontFamily="{StaticResource FontAwesome}"
+                            Foreground="{StaticResource IconsBrush}"
+                            Text="&#xf067;" />
+                        <TextBlock VerticalAlignment="Center" Text="Add Material" />
+                    </StackPanel>
                 </Button>
+
                 <Button
                     x:Name="UpdateMaterial"
+                    Margin="5,0"
                     Click="UpdateMaterial_Click"
                     DockPanel.Dock="Right"
                     Style="{StaticResource SecondaryButton}">
-                    Update Material
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            Margin="0,0,8,0"
+                            VerticalAlignment="Center"
+                            FontFamily="{StaticResource FontAwesome}"
+                            Foreground="{StaticResource IconsBrush}"
+                            Text="&#xf044;" />
+                        <TextBlock VerticalAlignment="Center" Text="Update Material" />
+                    </StackPanel>
                 </Button>
+
                 <Button
                     x:Name="DeleteMaterial"
+                    Margin="5,0"
                     Click="DeleteMaterial_Click"
                     DockPanel.Dock="Right"
                     Style="{StaticResource DangerButton}">
-                    Delete Material
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            Margin="0,0,8,0"
+                            VerticalAlignment="Center"
+                            FontFamily="{StaticResource FontAwesome}"
+                            Foreground="{StaticResource IconsBrush}"
+                            Text="&#xf1f8;" />
+                        <TextBlock VerticalAlignment="Center" Text="Delete Material" />
+                    </StackPanel>
                 </Button>
             </DockPanel>
 

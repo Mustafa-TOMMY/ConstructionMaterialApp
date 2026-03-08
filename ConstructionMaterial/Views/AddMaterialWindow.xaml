@@ -63,11 +63,12 @@
                 Style="{StaticResource ModernText}"
                 Text="Unit:" />
 
-            <ComboBox x:Name="UnitComboBox"
-                     Grid.Row="2"
-                     Grid.Column="1"
-                     Margin="5"
-                     ItemsSource="{Binding MaterialUnits}"/>
+            <ComboBox
+                x:Name="UnitComboBox"
+                Grid.Row="2"
+                Grid.Column="1"
+                Margin="5"
+                ItemsSource="{Binding MaterialUnits}" />
 
             <TextBlock
                 Grid.Row="3"
@@ -89,19 +90,37 @@
                 Orientation="Horizontal">
 
                 <Button
-                    Width="100"
+                    Width="110"
                     Margin="10,0"
                     Click="Cancel_Click"
-                    Content="Cancel"
-                    Style="{StaticResource ModernButton}" />
+                    Style="{StaticResource ModernButton}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            Margin="0,0,8,0"
+                            VerticalAlignment="Center"
+                            FontFamily="{StaticResource FontAwesome}"
+                            Text="&#xf00d;" 
+                            Foreground="{StaticResource IconsBrush}"/>
+                        <TextBlock VerticalAlignment="Center" Text="Cancel" />
+                    </StackPanel>
+                </Button>
 
                 <Button
                     x:Name="BtnSave"
-                    Width="100"
+                    Width="110"
                     Margin="10,0"
                     Click="Save_Click"
-                    Content="Save"
-                    Style="{StaticResource SecondaryButton}" />
+                    Style="{StaticResource SecondaryButton}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            Margin="0,0,8,0"
+                            VerticalAlignment="Center"
+                            FontFamily="{StaticResource FontAwesome}"
+                            Text="&#xf00c;" 
+                            Foreground="{StaticResource IconsBrush}"/>
+                        <TextBlock VerticalAlignment="Center" Text="Save" />
+                    </StackPanel>
+                </Button>
             </StackPanel>
 
         </Grid>

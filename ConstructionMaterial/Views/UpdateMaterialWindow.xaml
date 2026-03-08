@@ -30,23 +30,90 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Row="0" VerticalAlignment="Center" Style="{StaticResource ModernText}" Text="Category:" />
-            <ComboBox x:Name="CategoryBox" Grid.Row="0" Grid.Column="1" Margin="5"
-                      ItemsSource="{Binding MaterialTypes}" />
+            <TextBlock
+                Grid.Row="0"
+                VerticalAlignment="Center"
+                Style="{StaticResource ModernText}"
+                Text="Category:" />
+            <ComboBox
+                x:Name="CategoryBox"
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="5"
+                ItemsSource="{Binding MaterialTypes}" />
 
-            <TextBlock Grid.Row="1" VerticalAlignment="Center" Style="{StaticResource ModernText}" Text="Material Name:" />
-            <TextBox x:Name="MaterialNameTxt" Grid.Row="1" Grid.Column="1" Margin="5" />
+            <TextBlock
+                Grid.Row="1"
+                VerticalAlignment="Center"
+                Style="{StaticResource ModernText}"
+                Text="Material Name:" />
+            <TextBox
+                x:Name="MaterialNameTxt"
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="5" />
 
-            <TextBlock Grid.Row="2" VerticalAlignment="Center" Style="{StaticResource ModernText}" Text="Unit:" />
-            <ComboBox x:Name="UnitComboBox" Grid.Row="2" Grid.Column="1" Margin="5"
-                      ItemsSource="{Binding MaterialUnits}"/>
+            <TextBlock
+                Grid.Row="2"
+                VerticalAlignment="Center"
+                Style="{StaticResource ModernText}"
+                Text="Unit:" />
+            <ComboBox
+                x:Name="UnitComboBox"
+                Grid.Row="2"
+                Grid.Column="1"
+                Margin="5"
+                ItemsSource="{Binding MaterialUnits}" />
 
-            <TextBlock Grid.Row="3" VerticalAlignment="Center" Style="{StaticResource ModernText}" Text="Unit Price:" />
-            <TextBox x:Name="UnitPriceTxt" Grid.Row="3" Grid.Column="1" Margin="5" />
+            <TextBlock
+                Grid.Row="3"
+                VerticalAlignment="Center"
+                Style="{StaticResource ModernText}"
+                Text="Unit Price:" />
+            <TextBox
+                x:Name="UnitPriceTxt"
+                Grid.Row="3"
+                Grid.Column="1"
+                Margin="5" />
 
-            <StackPanel Grid.Row="4" Grid.ColumnSpan="2" Margin="0,10,0,0" HorizontalAlignment="Center" Orientation="Horizontal">
-                <Button Width="100" Margin="10,0" Click="Cancel_Click" Content="Cancel" Style="{StaticResource ModernButton}" />
-                <Button x:Name="BtnUpdate" Width="100" Margin="10,0" Click="Update_Click" Content="Update" Style="{StaticResource SecondaryButton}" />
+            <StackPanel
+                Grid.Row="4"
+                Grid.ColumnSpan="2"
+                Margin="0,10,0,0"
+                HorizontalAlignment="Center"
+                Orientation="Horizontal">
+                <Button
+                    Width="110"
+                    Margin="10,0"
+                    Click="Cancel_Click"
+                    Style="{StaticResource ModernButton}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            Margin="0,0,8,0"
+                            VerticalAlignment="Center"
+                            FontFamily="{StaticResource FontAwesome}"
+                            Text="&#xf00d;" 
+                            Foreground="{StaticResource IconsBrush}"/>
+                        <TextBlock VerticalAlignment="Center" Text="Cancel" />
+                    </StackPanel>
+                </Button>
+
+                <Button
+                    x:Name="BtnUpdate"
+                    Width="110"
+                    Margin="10,0"
+                    Click="Update_Click"
+                    Style="{StaticResource SecondaryButton}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            Margin="0,0,8,0"
+                            VerticalAlignment="Center"
+                            FontFamily="{StaticResource FontAwesome}"
+                            Text="&#xf021;" 
+                            Foreground="{StaticResource IconsBrush}"/>
+                        <TextBlock VerticalAlignment="Center" Text="Update" />
+                    </StackPanel>
+                </Button>
             </StackPanel>
         </Grid>
     </Border>

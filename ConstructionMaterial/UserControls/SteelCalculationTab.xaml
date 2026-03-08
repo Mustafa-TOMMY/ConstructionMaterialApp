@@ -85,15 +85,36 @@
 
             <Button
                 x:Name="CalculateBtn"
+                Margin="5,0"
                 Click="SteelTabCalculateButton_Click"
-                Content="Calculate"
-                Style="{StaticResource ModernButton}" />
+                Style="{StaticResource ModernButton}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock
+                        Margin="0,0,8,0"
+                        VerticalAlignment="Center"
+                        FontFamily="{StaticResource FontAwesome}"
+                        FontSize="14"
+                        Foreground="{StaticResource IconsBrush}"
+                        Text="&#xf1ec;" />
+                    <TextBlock VerticalAlignment="Center" Text="Calculate" />
+                </StackPanel>
+            </Button>
 
             <Button
                 x:Name="SaveBtn"
                 Click="SteelTabSaveButton_Click"
-                Content="Create Order"
-                Style="{StaticResource SecondaryButton}" />
+                Style="{StaticResource SecondaryButton}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock
+                        Margin="0,0,8,0"
+                        VerticalAlignment="Center"
+                        FontFamily="{StaticResource FontAwesome}"
+                        FontSize="14"
+                        Foreground="{StaticResource IconsBrush}"
+                        Text="&#xf0fe;" />
+                    <TextBlock VerticalAlignment="Center" Text="Create Order" />
+                </StackPanel>
+            </Button>
 
         </StackPanel>
 
