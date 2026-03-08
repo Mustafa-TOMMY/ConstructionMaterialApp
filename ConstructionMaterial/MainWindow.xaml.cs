@@ -1,20 +1,38 @@
-﻿using ConstructionMaterial.Views;
+﻿using ConstructionMaterial.Helpers;
 using ConstructionMaterial.Models;
+using ConstructionMaterial.Views;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows;
-using ConstructionMaterial.Helpers;
 
 namespace ConstructionMaterial
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
         public ObservableCollection<MainMaterial> MaterialCatalog { get; set; }
         public ObservableCollection<Order> Orders { get; set; }
         private AppData _data;
-        public string TotalCost { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string name)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
+        private string _totalCost;
+        public string TotalCost
+        {
+            get => _totalCost;
+            set
+            {
+                _totalCost = value;
+                OnPropertyChanged(nameof(TotalCost));
+            }
+        }
 
         public MainWindow()
         {
@@ -29,7 +47,7 @@ namespace ConstructionMaterial
 
         private void Calculator_Click(object sender, RoutedEventArgs e)
         {
-            CalculatorWindow orderWindow = new CalculatorWindow(_data);
+            CalculatorWindow orderWindow = new CalculatorWindow(this);
             orderWindow.Show();
         }
         private void OrderWindow_Click(object sender, RoutedEventArgs e)
@@ -71,13 +89,17 @@ namespace ConstructionMaterial
         }
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            Helper.SaveToJson(_data);
             StatusBarControl.UpdateLastSaved();
         }
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
         }
-
+        public void SaveData()
+        {
+            Helper.SaveToJson(_data);
+            StatusBarControl.UpdateLastSaved();
+            TotalCost = $"EGP {Orders.Sum(p => p.Total)}";
+        }
     }
 }

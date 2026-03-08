@@ -1,6 +1,7 @@
 ﻿using ConstructionMaterial.Helpers;
 using ConstructionMaterial.Models;
 using ConstructionMaterial.Models.Enum;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -17,6 +18,7 @@ namespace ConstructionMaterial.Views
         public List<MainMaterial> MaterialNames { get; set; }
         public List<SurfaceType> SurfaceTypes { get; set; }
         public List<Tile> TileSizes { get; set; }
+        public ObservableCollection<Order> Orders { get; set; }
 
 
         #region INotify properity
@@ -74,16 +76,16 @@ namespace ConstructionMaterial.Views
 
 
 
-        public AppData _data { get; set; }
+        public MainWindow Main { get; set; }
 
-        public CalculatorWindow(AppData data)
+        public CalculatorWindow(MainWindow main)
         {
             InitializeComponent();
-            _data = data;
+            Main = main;
             ElementTypes = Enum.GetValues(typeof(ElementType)).Cast<ElementType>().ToList();
             BarDiameters = Enum.GetValues(typeof(BarDiameter)).Cast<BarDiameter>().ToList();
             SurfaceTypes = Enum.GetValues(typeof(SurfaceType)).Cast<SurfaceType>().ToList();
-            MaterialNames = data.Materials.Where(m => m.Category == MaterialType.Concrete).ToList();
+            MaterialNames = Main.MaterialCatalog.Where(m => m.Category == MaterialType.Concrete).ToList();
             TileSizes = new List<Tile>
             {
                 new Tile { Name = "30x30", Size = 0.09 },
@@ -95,9 +97,9 @@ namespace ConstructionMaterial.Views
         }
         private void AddNewOrder(Order obj)
         {
-            obj.OrderNumber = _data.Orders.Count + 1;
-            _data.Orders.Add(obj);
-            Helper.SaveToJson(_data);
+            obj.OrderNumber = Main.Orders.Count + 1;
+            Main.Orders.Add(obj);
+            Main.SaveData();
         }
     }
 }
