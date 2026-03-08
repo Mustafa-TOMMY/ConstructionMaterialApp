@@ -101,7 +101,19 @@ namespace ConstructionMaterial
         }
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            Application.Current.Shutdown();
+            MessageBoxResult result = MessageBox.Show("Do you want to save changes before exiting?",
+                                                    "Confirm Exit",
+                                                    MessageBoxButton.YesNoCancel,
+                                                    MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                SaveData();
+            }
+            else if (result == MessageBoxResult.Cancel)
+            {
+                e.Cancel = true;
+            }
         }
         private void Save_Click(object sender, RoutedEventArgs e)
         {
@@ -132,6 +144,16 @@ namespace ConstructionMaterial
             {
                 MyDataGrid.Items.Refresh();
             }
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            string developerName = "Mustafa Abdelhamid Mustafa Abdelhamid";
+
+            MessageBox.Show($"Developed and Designed by: {developerName}",
+                            "About Developer",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Information);
         }
     }
 }

@@ -47,11 +47,6 @@
                             </MenuItem.Icon>
                         </MenuItem>
 
-                        <MenuItem Header="About">
-                            <MenuItem.Icon>
-                                <TextBlock FontFamily="{StaticResource FontAwesome}" Text="&#xf05a;" />
-                            </MenuItem.Icon>
-                        </MenuItem>
                         <Separator />
                         <MenuItem Click="Exit_Click" Header="Exit" />
                     </MenuItem>
@@ -60,6 +55,12 @@
                         <MenuItem.Icon>
                             <TextBlock FontFamily="{StaticResource FontAwesome}" Text="&#xf059;" />
                         </MenuItem.Icon>
+
+                        <MenuItem Click="MenuItem_Click" Header="About">
+                            <MenuItem.Icon>
+                                <TextBlock FontFamily="{StaticResource FontAwesome}" Text="&#xf05a;" />
+                            </MenuItem.Icon>
+                        </MenuItem>
                     </MenuItem>
                 </Menu>
             </StackPanel>
