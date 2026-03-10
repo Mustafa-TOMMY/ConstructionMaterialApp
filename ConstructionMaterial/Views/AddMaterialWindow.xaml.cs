@@ -100,6 +100,21 @@ namespace ConstructionMaterial.Views
             if (BtnSave != null)
                 BtnSave.IsEnabled = isNameValid && isPriceValid;
         }
+        private void CategoryBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // If an item is selected, hide the placeholder. Otherwise, show it.
+            if (CategoryBox.SelectedIndex != -1)
+            {
+                CategoryPlaceholder.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                CategoryPlaceholder.Visibility = Visibility.Visible;
+            }
+
+            // Call your validation logic if needed
+            TurnOnOffBtn();
+        }
 
     }
 }

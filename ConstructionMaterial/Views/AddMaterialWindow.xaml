@@ -37,13 +37,26 @@
                 Style="{StaticResource ModernText}"
                 Text="Category:" />
 
-            <ComboBox
-                x:Name="CategoryBox"
+            <Grid
                 Grid.Row="0"
                 Grid.Column="1"
-                Margin="5"
-                ItemsSource="{Binding MaterialTypes}"
-                SelectedIndex="0" />
+                Margin="5">
+                <ComboBox
+                    x:Name="CategoryBox"
+                    VerticalContentAlignment="Center"
+                    ItemsSource="{Binding MaterialTypes}"
+                    SelectionChanged="CategoryBox_SelectionChanged" />
+
+                <TextBlock
+                    x:Name="CategoryPlaceholder"
+                    Margin="10,0,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Foreground="Gray"
+                    IsHitTestVisible="False"
+                    Text="Select Category..."
+                    Visibility="Visible" />
+            </Grid>
 
             <TextBlock
                 Grid.Row="1"
@@ -99,8 +112,8 @@
                             Margin="0,0,8,0"
                             VerticalAlignment="Center"
                             FontFamily="{StaticResource FontAwesome}"
-                            Text="&#xf00d;" 
-                            Foreground="{StaticResource IconsBrush}"/>
+                            Foreground="{StaticResource IconsBrush}"
+                            Text="&#xf00d;" />
                         <TextBlock VerticalAlignment="Center" Text="Cancel" />
                     </StackPanel>
                 </Button>
@@ -116,8 +129,8 @@
                             Margin="0,0,8,0"
                             VerticalAlignment="Center"
                             FontFamily="{StaticResource FontAwesome}"
-                            Text="&#xf00c;" 
-                            Foreground="{StaticResource IconsBrush}"/>
+                            Foreground="{StaticResource IconsBrush}"
+                            Text="&#xf00c;" />
                         <TextBlock VerticalAlignment="Center" Text="Save" />
                     </StackPanel>
                 </Button>
