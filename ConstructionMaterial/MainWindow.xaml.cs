@@ -121,7 +121,7 @@ namespace ConstructionMaterial
         }
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.Shutdown();
+            Window_Closing(sender, new CancelEventArgs());
         }
         public void SaveData()
         {
