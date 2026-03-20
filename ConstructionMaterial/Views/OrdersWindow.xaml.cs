@@ -71,7 +71,7 @@ namespace ConstructionMaterial.Views
         {
             var currentCategory = CategorySearchComboBox.SelectedItem as MaterialType?;
 
-            MaterialForSearch = OrdersCollection
+            MaterialForSearch = Orders
                 .Cast<Order>()
                 .Where(o => o.Category == currentCategory)
                 .Select(o => o.MaterialName)
