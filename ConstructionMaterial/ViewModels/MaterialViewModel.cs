@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using System.Xml.Linq;
 
@@ -62,8 +63,8 @@ namespace ConstructionMaterial.ViewModels
         } 
         #endregion
 
-        public ICommand GetMaterialsCommand;
-        public ICommand AddMaterialCommand;
+        public ICommand GetMaterialsCommand { get; }
+        public ICommand AddMaterialCommand { get; }
 
         public List<MaterialType> MaterialTypes { get; }
         public List<string> MaterialUnits { get; }
@@ -93,6 +94,8 @@ namespace ConstructionMaterial.ViewModels
         }
         public void AddMaterial()
         {
+            MessageBox.Show("Save command reached");
+
             var material = new MaterialDto
             {
                 Name = Name,
@@ -103,6 +106,8 @@ namespace ConstructionMaterial.ViewModels
 
             _materialService.AddMaterial(material);
             GetMaterials();
+
+            MessageBox.Show("Material saved successfully");
         }
     }
 }
