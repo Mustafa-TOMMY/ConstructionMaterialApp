@@ -36,7 +36,7 @@ namespace ConstructionMaterial.Views
             SurfaceTypes = Enum.GetValues(typeof(SurfaceType)).Cast<SurfaceType>().ToList();
             
             MaterialNames = _materialService.GetAllMaterial()
-                .Where(m => m.Category == MaterialType.Concrete.ToString())
+                .Where(m => m.Category == MaterialType.Concrete)
                 .ToList();
 
             TileSizes = new List<Tile>
@@ -151,7 +151,7 @@ namespace ConstructionMaterial.Views
             {
                 OrderNumber = nextOrderNumber,
                 MaterialName = selectedMaterial.Name,
-                Category = selectedMaterial.Category,
+                //Category = selectedMaterial.Category,
                 Quantity = Helper.GetNumericalValue(QuantityTxt),
                 Unit = selectedMaterial.Unit,
                 ElementType = ((ElementType)ElementTypeComboBox.SelectedItem).ToString(),

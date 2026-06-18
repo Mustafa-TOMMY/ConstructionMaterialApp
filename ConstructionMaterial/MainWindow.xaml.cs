@@ -94,23 +94,16 @@ namespace ConstructionMaterial
         private void RefreshData()
         {
             MaterialCatalog.Clear();
+
             foreach (var m in _materialService.GetAllMaterial())
-            {
                 MaterialCatalog.Add(m);
-            }
 
             Orders.Clear();
+
             foreach (var o in _orderService.GetAllOrders())
-            {
                 Orders.Add(o);
-            }
 
             TotalCost = $"EGP {Orders.Sum(p => p.Total):N2}";
-            
-            DataContext = null;
-            DataContext = this;
-            
-            StatusBarControl.UpdateLastSaved();
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)

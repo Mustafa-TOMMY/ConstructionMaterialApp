@@ -28,7 +28,7 @@ namespace ConstructionMaterial.BLL
             var materialMapper = new MainMaterial()
             {
                 Name = material.Name,
-                Category = (MaterialType)Enum.Parse(typeof(MaterialType), material.Category),
+                Category = material.Category,
                 Unit = material.Unit,
                 UnitPrice = material.UnitPrice
             };
@@ -44,7 +44,7 @@ namespace ConstructionMaterial.BLL
             {
                 Id = m.Id,
                 Name = m.Name,
-                Category = m.Category.ToString(),
+                Category = m.Category,
                 Unit = m.Unit,
                 UnitPrice = m.UnitPrice
             }).ToList();
@@ -60,7 +60,7 @@ namespace ConstructionMaterial.BLL
                 {
                     Id = material.Id,
                     Name = material.Name,
-                    Category = material.Category.ToString(),
+                    Category = material.Category,
                     Unit = material.Unit,
                     UnitPrice = material.UnitPrice
                 };
@@ -94,7 +94,7 @@ namespace ConstructionMaterial.BLL
             }
 
             existingMaterial.Name = material.Name;
-            existingMaterial.Category = (MaterialType)Enum.Parse(typeof(MaterialType), material.Category);
+            existingMaterial.Category =  material.Category;
             existingMaterial.Unit = material.Unit;
             existingMaterial.UnitPrice = material.UnitPrice;
             _myAppRepo.SaveToJson(data);

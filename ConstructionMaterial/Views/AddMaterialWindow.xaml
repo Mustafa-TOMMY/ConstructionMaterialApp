@@ -1,97 +1,92 @@
-﻿<Window x:Class="ConstructionMaterial.Views.AddMaterialWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Add Material"
-        Height="330" Width="400"
-        WindowStartupLocation="CenterScreen"
-        ResizeMode="NoResize"
-        Background="{StaticResource MainWindowBrush}">
-
-    <Window.Resources>
-        <Style TargetType="TextBox">
-            <EventSetter Event="TextChanged" Handler="TextBox_TextChanged"/>
-        </Style>
-    </Window.Resources>
-
+﻿<Window
+    x:Class="ConstructionMaterial.Views.AddMaterialWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Add Material"
+    Width="400"
+    Height="330"
+    Background="{StaticResource MainWindowBrush}"
+    ResizeMode="NoResize"
+    WindowStartupLocation="CenterScreen">
     <Border Margin="20" Style="{StaticResource ModernBorder}">
         <Grid Margin="15">
-
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="50"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="50" />
             </Grid.RowDefinitions>
-
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="130"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="130" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-
-            <TextBlock Text="Category:"
-                       Style="{StaticResource ModernText}"
-                       Grid.Row="0"
-                       VerticalAlignment="Center"/>
-
-            <ComboBox x:Name="CategoryBox"
-                      Grid.Row="0"
-                      Grid.Column="1"
-                      Margin="5"
-                      ItemsSource="{Binding MaterialTypes}"
-                      SelectedIndex="0"/>
-
-            <TextBlock Text="Material Name:"
-                       Style="{StaticResource ModernText}"
-                       Grid.Row="1"
-                       VerticalAlignment="Center"/>
-
-            <TextBox x:Name="MaterialNameTxt"
-                     Grid.Row="1"
-                     Grid.Column="1"
-                     Margin="5"/>
-
-            <TextBlock Text="Unit:"
-                       Style="{StaticResource ModernText}"
-                       Grid.Row="2"
-                       VerticalAlignment="Center"/>
-
-            <ComboBox x:Name="UnitComboBox"
-                     Grid.Row="2"
-                     Grid.Column="1"
-                     Margin="5"
-                     ItemsSource="{Binding MaterialUnits}"/>
-
-            <TextBlock Text="Unit Price:"
-                       Style="{StaticResource ModernText}"
-                       Grid.Row="3"
-                       VerticalAlignment="Center"/>
-
-            <TextBox x:Name="UnitPriceTxt"
-                     Grid.Row="3"
-                     Grid.Column="1"
-                     Margin="5"/>
-
-            <StackPanel Grid.Row="4"
-                        Grid.ColumnSpan="2"
-                        Orientation="Horizontal"
-                        HorizontalAlignment="Center"
-                        Margin="0,10,0,0">
-
-                <Button Content="Cancel"
-                        Width="100"
-                        Margin="10,0"
-                        Style="{StaticResource ModernButton}"
-                        Click="Cancel_Click"/>
-
-                <Button Content="Save"
-                        x:Name="BtnSave"
-                        Width="100"
-                        Margin="10,0"
-                        Style="{StaticResource SecondaryButton}"
-                        Click="Save_Click"/>
+            <TextBlock
+                Grid.Row="0"
+                VerticalAlignment="Center"
+                Style="{StaticResource ModernText}"
+                Text="Category:" />
+            <ComboBox
+                x:Name="CategoryBox"
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="5"
+                ItemsSource="{Binding MaterialTypes}"
+                SelectedItem="{Binding Category, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock
+                Grid.Row="1"
+                VerticalAlignment="Center"
+                Style="{StaticResource ModernText}"
+                Text="Material Name:" />
+            <TextBox
+                x:Name="MaterialNameTxt"
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="5"
+                Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock
+                Grid.Row="2"
+                VerticalAlignment="Center"
+                Style="{StaticResource ModernText}"
+                Text="Unit:" />
+            <ComboBox
+                x:Name="UnitComboBox"
+                Grid.Row="2"
+                Grid.Column="1"
+                Margin="5"
+                ItemsSource="{Binding MaterialUnits}"
+                SelectedItem="{Binding Unit, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock
+                Grid.Row="3"
+                VerticalAlignment="Center"
+                Style="{StaticResource ModernText}"
+                Text="Unit Price:" />
+            <TextBox
+                x:Name="UnitPriceTxt"
+                Grid.Row="3"
+                Grid.Column="1"
+                Margin="5"
+                Text="{Binding UnitPrice, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}" />
+            <StackPanel
+                Grid.Row="4"
+                Grid.ColumnSpan="2"
+                Margin="0,10,0,0"
+                HorizontalAlignment="Center"
+                Orientation="Horizontal">
+                <Button
+                    Width="100"
+                    Margin="10,0"
+                    Click="Cancel_Click"
+                    Content="Cancel"
+                    Style="{StaticResource ModernButton}" />
+                <Button
+                    x:Name="BtnSave"
+                    Width="100"
+                    Margin="10,0"
+                    Command="{Binding AddMaterialCommand}"
+                    Content="Save"
+                    Style="{StaticResource SecondaryButton}" />
             </StackPanel>
-
         </Grid>
     </Border>
 </Window>
