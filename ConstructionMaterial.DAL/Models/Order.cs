@@ -1,11 +1,12 @@
-﻿using ConstructionMaterial.Models.Enum;
+﻿using ConstructionMaterial.DAL.Models.Enum;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace ConstructionMaterial.Models
+namespace ConstructionMaterial.DAL.Models
 {
     public class Order
     {
+        public int Id { get; set; }
         public int OrderNumber { get; set; }
         public string MaterialName { get; set; }
 
