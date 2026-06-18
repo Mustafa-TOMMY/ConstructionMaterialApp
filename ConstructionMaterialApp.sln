@@ -1,9 +1,13 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36623.8 d17.14
+VisualStudioVersion = 17.14.36623.8
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConstructionMaterial", "ConstructionMaterial\ConstructionMaterial.csproj", "{0561FB07-B854-444D-BBA6-CBC3DE7ACCB6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConstructionMaterial.DAL", "ConstructionMaterial.DAL\ConstructionMaterial.DAL.csproj", "{DC8C79B5-9588-433E-93C7-BF79B9431B59}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConstructionMaterial.BLL", "ConstructionMaterial.BLL\ConstructionMaterial.BLL.csproj", "{8848435D-AE0B-4C3D-86ED-2147C5D4A426}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{0561FB07-B854-444D-BBA6-CBC3DE7ACCB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0561FB07-B854-444D-BBA6-CBC3DE7ACCB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0561FB07-B854-444D-BBA6-CBC3DE7ACCB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC8C79B5-9588-433E-93C7-BF79B9431B59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC8C79B5-9588-433E-93C7-BF79B9431B59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC8C79B5-9588-433E-93C7-BF79B9431B59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC8C79B5-9588-433E-93C7-BF79B9431B59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8848435D-AE0B-4C3D-86ED-2147C5D4A426}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8848435D-AE0B-4C3D-86ED-2147C5D4A426}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8848435D-AE0B-4C3D-86ED-2147C5D4A426}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8848435D-AE0B-4C3D-86ED-2147C5D4A426}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

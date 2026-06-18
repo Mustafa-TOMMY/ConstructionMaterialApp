@@ -1,8 +1,13 @@
-﻿using ConstructionMaterial.Helpers;
-using ConstructionMaterial.Models;
-using ConstructionMaterial.Models.Enum;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using ConstructionMaterial.Helpers;
+using ConstructionMaterial.DAL.Models;
+using ConstructionMaterial.DAL.Models.Enum;
+using ConstructionMaterial.BLL.DTOs;
+using ConstructionMaterial.BLL.interfaces;
 
 namespace ConstructionMaterial.Views
 {
@@ -13,19 +18,27 @@ namespace ConstructionMaterial.Views
     {
         public List<ElementType> ElementTypes { get; set; }
         public List<BarDiameter> BarDiameters { get; set; }
-        public List<MainMaterial> MaterialNames { get; set; }
+        public List<MaterialDto> MaterialNames { get; set; }
         public List<SurfaceType> SurfaceTypes { get; set; }
         public List<Tile> TileSizes { get; set; }
-        public AppData _data { get; set; }
 
-        public CalculatorWindow(AppData data)
+        private readonly IMaterialService _materialService;
+        private readonly IOrderService _orderService;
+
+        public CalculatorWindow(IMaterialService materialService, IOrderService orderService)
         {
             InitializeComponent();
-            _data = data;
+            _materialService = materialService;
+            _orderService = orderService;
+
             ElementTypes = Enum.GetValues(typeof(ElementType)).Cast<ElementType>().ToList();
             BarDiameters = Enum.GetValues(typeof(BarDiameter)).Cast<BarDiameter>().ToList();
             SurfaceTypes = Enum.GetValues(typeof(SurfaceType)).Cast<SurfaceType>().ToList();
-            MaterialNames = data.Materials.Where(m => m.Category == MaterialType.Concrete).ToList();
+            
+            MaterialNames = _materialService.GetAllMaterial()
+                .Where(m => m.Category == MaterialType.Concrete.ToString())
+                .ToList();
+
             TileSizes = new List<Tile>
             {
                 new Tile { Name = "30x30", Size = 0.09 },
@@ -51,6 +64,7 @@ namespace ConstructionMaterial.Views
             else if (sender == TilesCalculateButton)
                 CalculateTiles();
         }
+
         private void CalculateConcrete()
         {
             double length = Helper.GetNumericalValue(LengthTxt);
@@ -62,44 +76,45 @@ namespace ConstructionMaterial.Views
 
             OutputControl.OutputValue = volume.ToString("0.00") + " m³";
         }
+
         private void CalculateSteel()
         {
+            if (BarDiameterComboBox.SelectedItem == null) return;
             double diameter = Convert.ToDouble(BarDiameterComboBox.SelectedItem);
             double length = Helper.GetNumericalValue(BarLengthTxt);
             double bars = Helper.GetNumericalValue(NoOfBarsTxt);
 
             double weightPerBar = (diameter * diameter / 162) * length;
-
             double totalWeight = weightPerBar * bars;
-
             double tons = totalWeight / 1000;
 
             OutputSteelControl.OutputValue = totalWeight.ToString("0.00") + " kg | " + tons.ToString("0.000") + " ton";
         }
+
         private void CalculatePaint()
         {
             double area = Helper.GetNumericalValue(SurfaceAreaTxt);
             double coats = Helper.GetNumericalValue(NoOfCoatsTxt);
             double coverage = Helper.GetNumericalValue(CoverageRateTxt);
 
+            if (coverage <= 0) return;
             double liters = (area * coats) / coverage;
 
             OutputPaintControl.OutputValue = liters.ToString("0.00") + " Liters";
         }
+
         private void CalculateTiles()
         {
+            if (TileSizeComboBox.SelectedItem is not Tile selectedTile) return;
             double length = Helper.GetNumericalValue(RoomLengthTxt);
             double width = Helper.GetNumericalValue(RoomWidthTxt);
             double waste = Helper.GetNumericalValue(WasteTxt);
 
             double roomArea = length * width;
+            double tileArea = selectedTile.Size;
 
-            double tileSize = (TileSizeComboBox.SelectedItem as Tile).Size;
-
-            double tileArea = tileSize;
-
+            if (tileArea <= 0) return;
             double tiles = (roomArea / tileArea) * (1 + waste / 100);
-
             tiles = Math.Ceiling(tiles);
 
             OutputTilesControl.OutputValue = tiles.ToString() + " Tiles";
@@ -119,9 +134,10 @@ namespace ConstructionMaterial.Views
             else if (sender == SaveButton4)
                 SaveTiles();
         }
+
         private void SaveConcrete()
         {
-            var selectedMaterial = MaterialComboBox.SelectedItem as MainMaterial;
+            var selectedMaterial = MaterialComboBox.SelectedItem as MaterialDto;
 
             if (selectedMaterial == null)
             {
@@ -130,88 +146,89 @@ namespace ConstructionMaterial.Views
                 return;
             }
 
-            var order = new Order
+            var nextOrderNumber = _orderService.GetAllOrders().Count + 1;
+            var order = new OrderDto
             {
-                OrderNumber = _data.Orders.Count + 1,
+                OrderNumber = nextOrderNumber,
                 MaterialName = selectedMaterial.Name,
                 Category = selectedMaterial.Category,
                 Quantity = Helper.GetNumericalValue(QuantityTxt),
                 Unit = selectedMaterial.Unit,
-                ElementType = (ElementType)ElementTypeComboBox.SelectedItem,
+                ElementType = ((ElementType)ElementTypeComboBox.SelectedItem).ToString(),
                 UnitPrice = selectedMaterial.UnitPrice,
                 Status = "Pending",
                 Date = DateTime.Now
             };
 
-            SaveOrder(order);
-
+            _orderService.AddOrder(order);
             MessageBox.Show("Concrete order saved successfully.");
         }
+
         private void SaveSteel()
         {
-            var order = new Order
+            var nextOrderNumber = _orderService.GetAllOrders().Count + 1;
+            var order = new OrderDto
             {
-                OrderNumber = _data.Orders.Count + 1,
+                OrderNumber = nextOrderNumber,
                 MaterialName = "Steel Bars",
-                Category = MaterialType.Steel,
+                Category = MaterialType.Steel.ToString(),
                 Quantity = Helper.GetNumericalValue(NoOfBarsTxt),
                 Unit = "Bars",
                 UnitPrice = 0,
+                ElementType = ElementType.Column.ToString(),
                 Status = "Pending",
                 Date = DateTime.Now
             };
 
-            SaveOrder(order);
-
+            _orderService.AddOrder(order);
             MessageBox.Show("Steel order saved successfully.");
         }
+
         private void SavePaint()
         {
-            var order = new Order
+            var nextOrderNumber = _orderService.GetAllOrders().Count + 1;
+            var order = new OrderDto
             {
-                OrderNumber = _data.Orders.Count + 1,
+                OrderNumber = nextOrderNumber,
                 MaterialName = "Paint",
-                Category = MaterialType.Paint,
+                Category = MaterialType.Paint.ToString(),
                 Quantity = Helper.GetNumericalValue(SurfaceAreaTxt),
                 Unit = "m²",
                 UnitPrice = 0,
+                ElementType = ElementType.Wall.ToString(),
                 Status = "Pending",
                 Date = DateTime.Now
             };
 
-            SaveOrder(order);
-
+            _orderService.AddOrder(order);
             MessageBox.Show("Paint order saved successfully.");
         }
+
         private void SaveTiles()
         {
-            var order = new Order
+            var nextOrderNumber = _orderService.GetAllOrders().Count + 1;
+            var order = new OrderDto
             {
-                OrderNumber = _data.Orders.Count + 1,
+                OrderNumber = nextOrderNumber,
                 MaterialName = "Tiles",
-                Category = MaterialType.Tiles,
+                Category = MaterialType.Tiles.ToString(),
                 Quantity = Helper.GetNumericalValue(RoomLengthTxt) * Helper.GetNumericalValue(RoomWidthTxt),
                 Unit = "m²",
                 UnitPrice = 0,
+                ElementType = ElementType.Floor.ToString(),
                 Status = "Pending",
                 Date = DateTime.Now
             };
 
-            SaveOrder(order);
-
+            _orderService.AddOrder(order);
             MessageBox.Show("Tiles order saved successfully.");
-        }
-        private void SaveOrder(Order order)
-        {
-            _data.Orders.Add(order);
-            Helper.SaveToJson(_data);
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (!IsInitialized) return;
 
-            if (sender is not System.Windows.Controls.TextBox textBox)
+            if (sender is not TextBox textBox)
                 return;
 
             string input = textBox.Text.Trim();
@@ -298,6 +315,7 @@ namespace ConstructionMaterial.Views
             SaveButton3.IsEnabled = state;
             SaveButton4.IsEnabled = state;
         }
+
         private void ToggleButtons()
         {
             bool concreteValid =

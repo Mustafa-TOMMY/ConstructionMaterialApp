@@ -1,35 +1,42 @@
-﻿using ConstructionMaterial.Helpers;
-using ConstructionMaterial.Models;
-using ConstructionMaterial.Models.Enum;
-using CsvHelper;
-using CsvHelper.Configuration;
-using Microsoft.Win32;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using Microsoft.Win32;
+using CsvHelper;
+using CsvHelper.Configuration;
+using ConstructionMaterial.DAL.Models.Enum;
+using ConstructionMaterial.BLL.DTOs;
+using ConstructionMaterial.BLL.interfaces;
 
 namespace ConstructionMaterial.Views
 {
     public partial class OrdersWindow : Window
     {
-        public ObservableCollection<Order> Orders { get; set; }
+        public ObservableCollection<OrderDto> Orders { get; set; }
         public ICollectionView OrdersCollection { get; set; }
         public List<MaterialType> SearchOptions { get; set; }
         public List<string> MaterialForSearch { get; set; }
-        private AppData _data { get; set; }
-        public OrdersWindow(AppData data)
+        private readonly IOrderService _orderService;
+
+        public OrdersWindow(IOrderService orderService)
         {
             InitializeComponent();
-            _data = data;
-            Orders = _data.Orders;
+            _orderService = orderService;
+            
+            var ordersList = _orderService.GetAllOrders();
+            Orders = new ObservableCollection<OrderDto>(ordersList);
+            
             OrdersCollection = CollectionViewSource.GetDefaultView(Orders);
             SearchOptions = Enum.GetValues<MaterialType>().ToList();
             DataContext = this;
-            MaterialForSearch = OrdersCollection.Cast<Order>().Select(o => o.MaterialName).Distinct().ToList();
+            MaterialForSearch = OrdersCollection.Cast<OrderDto>().Select(o => o.MaterialName).Distinct().ToList();
             UpdateSummary();
         }
 
@@ -39,12 +46,14 @@ namespace ConstructionMaterial.Views
 
             OrdersCollection.Filter = (item) =>
             {
-                if (item is not Order order) return false;
-                //var order = item as Order;
+                if (item is not OrderDto order) return false;
+                
                 bool categoryMatch = true;
-                //if (CategorySearchComboBox.SelectedItem is MaterialType selectedType)
                 var selectedType = CategorySearchComboBox.SelectedItem as MaterialType?;
-                categoryMatch = order.Category == selectedType;
+                if (selectedType.HasValue)
+                {
+                    categoryMatch = order.Category == selectedType.Value.ToString();
+                }
 
                 bool materialMatch = true;
                 if (MaterialSearchComboBox.SelectedItem != null)
@@ -71,13 +80,25 @@ namespace ConstructionMaterial.Views
         {
             var currentCategory = CategorySearchComboBox.SelectedItem as MaterialType?;
 
-            MaterialForSearch = OrdersCollection
-                .Cast<Order>()
-                .Where(o => o.Category == currentCategory)
-                .Select(o => o.MaterialName)
-                .Distinct()
-                .OrderBy(name => name)
-                .ToList();
+            if (currentCategory.HasValue)
+            {
+                MaterialForSearch = OrdersCollection
+                    .Cast<OrderDto>()
+                    .Where(o => o.Category == currentCategory.Value.ToString())
+                    .Select(o => o.MaterialName)
+                    .Distinct()
+                    .OrderBy(name => name)
+                    .ToList();
+            }
+            else
+            {
+                MaterialForSearch = OrdersCollection
+                    .Cast<OrderDto>()
+                    .Select(o => o.MaterialName)
+                    .Distinct()
+                    .OrderBy(name => name)
+                    .ToList();
+            }
 
             MaterialSearchComboBox.ItemsSource = MaterialForSearch;
         }
@@ -86,7 +107,7 @@ namespace ConstructionMaterial.Views
         {
             if (ItemsCountText == null || TotalCostText == null || PendingText == null) return;
 
-            var filteredOrders = OrdersCollection.Cast<Order>().ToList();
+            var filteredOrders = OrdersCollection.Cast<OrderDto>().ToList();
 
             ItemsCountText.Text = filteredOrders.Count.ToString();
             TotalCostText.Text = $"{filteredOrders.Sum(o => o.Total):N2} EGP";
@@ -114,7 +135,7 @@ namespace ConstructionMaterial.Views
 
         private void DeleteBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (OrdersDataGrid.SelectedItem is not Order selectedOrder) return;
+            if (OrdersDataGrid.SelectedItem is not OrderDto selectedOrder) return;
 
             var result = MessageBox.Show(
                 $"Are you sure you want to delete Order #{selectedOrder.OrderNumber}?",
@@ -124,15 +145,22 @@ namespace ConstructionMaterial.Views
 
             if (result == MessageBoxResult.Yes)
             {
-                Orders.Remove(selectedOrder);
-                Helper.SaveToJson(_data);
-                UpdateSummary();
+                try
+                {
+                    _orderService.RemoveOrder(selectedOrder.Id);
+                    Orders.Remove(selectedOrder);
+                    UpdateSummary();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error deleting order: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
 
         private void DeliveryMarkBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (OrdersDataGrid.SelectedItem is not Order selectedOrder) return;
+            if (OrdersDataGrid.SelectedItem is not OrderDto selectedOrder) return;
 
             if (selectedOrder.Status == "Delivered")
             {
@@ -140,17 +168,24 @@ namespace ConstructionMaterial.Views
                 return;
             }
 
-            selectedOrder.Status = "Delivered";
-            OrdersCollection.Refresh();
-            Helper.SaveToJson(_data);
-            UpdateSummary();
+            try
+            {
+                selectedOrder.Status = "Delivered";
+                _orderService.UpdateOrder(selectedOrder);
+                OrdersCollection.Refresh();
+                UpdateSummary();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error updating order: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void ExportBtn_Click(object sender, RoutedEventArgs e)
         {
-            SaveFileDialog dialog = new SaveFileDialog
+            var dialog = new SaveFileDialog
             {
-                Filter = "CSV file (*.csv)|*.csv",
+                Filter = "CSV files (*.csv)|*.csv",
                 FileName = "Orders.csv"
             };
 
@@ -164,7 +199,7 @@ namespace ConstructionMaterial.Views
                                     MessageBoxImage.Warning);
                     return;
                 }
-                var records = OrdersCollection.Cast<Order>().ToList();
+                var records = OrdersCollection.Cast<OrderDto>().ToList();
                 var config = new CsvConfiguration(CultureInfo.InvariantCulture)
                 {
                     Delimiter = ";"

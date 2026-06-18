@@ -1,9 +1,12 @@
-﻿using ConstructionMaterial.Helpers;
-using ConstructionMaterial.Models;
-using ConstructionMaterial.Models.Enum;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using ConstructionMaterial.DAL.Models.Enum;
+using ConstructionMaterial.BLL.DTOs;
+using ConstructionMaterial.BLL.interfaces;
 
 namespace ConstructionMaterial.Views
 {
@@ -14,11 +17,12 @@ namespace ConstructionMaterial.Views
     {
         public List<MaterialType> MaterialTypes { get; }
         public List<string> MaterialUnits { get; }
-        private AppData _data { get; set; }
-        public AddMaterialWindow(AppData data)
+        private readonly IMaterialService _materialService;
+
+        public AddMaterialWindow(IMaterialService materialService)
         {
             InitializeComponent();
-            _data = data;
+            _materialService = materialService;
             BtnSave.IsEnabled = false;
             MaterialUnits = new List<string> { "m³", "m²", "kg", "ton", "Liter" };
             MaterialTypes = Enum.GetValues<MaterialType>().ToList();
@@ -32,25 +36,34 @@ namespace ConstructionMaterial.Views
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            MainMaterial material = new MainMaterial()
+            var material = new MaterialDto()
             {
                 Name = MaterialNameTxt.Text,
                 Unit = UnitComboBox.Text,
                 UnitPrice = double.Parse(UnitPriceTxt.Text),
-                Category = (MaterialType)CategoryBox.SelectedItem
+                Category = ((MaterialType)CategoryBox.SelectedItem).ToString()
             };
-            if (!_data.Materials.Any(m => m.Name == MaterialNameTxt.Text))
+
+            try
             {
-                _data.Materials.Add(material);
-                Helper.SaveToJson(_data);
-                MessageBox.Show("Material added successfully!", "Success", MessageBoxButton.OK);
+                var exists = _materialService.GetAllMaterial().Any(m => m.Name.Equals(MaterialNameTxt.Text, StringComparison.OrdinalIgnoreCase));
+                if (!exists)
+                {
+                    _materialService.AddMaterial(material);
+                    MessageBox.Show("Material added successfully!", "Success", MessageBoxButton.OK);
+                    Close();
+                }
+                else
+                {
+                    MessageBox.Show("Material with the same name already exists!",
+                        "Error",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Material with the same name already exists!",
-                    "Error",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
+                MessageBox.Show($"Error adding material: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -76,7 +89,6 @@ namespace ConstructionMaterial.Views
                     }
                 }
 
-
                 if (!isValid && !string.IsNullOrEmpty(textBox.Text))
                 {
                     textBox.BorderBrush = Brushes.Red;
@@ -100,7 +112,5 @@ namespace ConstructionMaterial.Views
             if (BtnSave != null)
                 BtnSave.IsEnabled = isNameValid && isPriceValid;
         }
-
     }
 }
-

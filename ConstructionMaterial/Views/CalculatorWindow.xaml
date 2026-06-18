@@ -5,7 +5,6 @@
         Height="550" 
         Width="500"
         ResizeMode="NoResize"
-        xmlns:local="clr-namespace:ConstructionMaterial.Models.Enum"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:controls="clr-namespace:ConstructionMaterial.UserControls"
         WindowStartupLocation="CenterScreen" 
