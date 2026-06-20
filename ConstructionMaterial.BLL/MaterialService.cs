@@ -25,14 +25,20 @@ namespace ConstructionMaterial.BLL
         public void AddMaterial(MaterialDto material)
         {
             var data = _myAppRepo.LoadFromJson();
-            var materialMapper = new MainMaterial()
+
+            var newMaterial = new MainMaterial
             {
+                Id = data.Materials.Any()
+                    ? data.Materials.Max(m => m.Id) + 1
+                    : 1,
+
                 Name = material.Name,
                 Category = material.Category,
                 Unit = material.Unit,
                 UnitPrice = material.UnitPrice
             };
-            data.Materials.Add(materialMapper);
+
+            data.Materials.Add(newMaterial);
             _myAppRepo.SaveToJson(data);
         }
 

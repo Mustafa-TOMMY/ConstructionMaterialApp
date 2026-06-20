@@ -16,10 +16,13 @@ namespace ConstructionMaterial.Views
     /// </summary>
     public partial class AddMaterialWindow : Window
     {
+        private readonly MaterialViewModel _materialViewModel;
+
         public AddMaterialWindow(MaterialViewModel materialViewModel)
         {
             InitializeComponent();
             DataContext = materialViewModel;
+            _materialViewModel = materialViewModel;
         }
 
         private void Cancel_Click(object sender, RoutedEventArgs e)

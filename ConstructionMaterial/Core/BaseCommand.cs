@@ -12,8 +12,13 @@ namespace ConstructionMaterial.Core
         }
         public BaseCommand(Action<object?> execute, Predicate<object?>? canExecute = null)
         {
+            //ArgumentNullException.ThrowIfNull(execute);
             _execute = execute ?? throw new ArgumentNullException(nameof(execute));
             _canExecute = canExecute;
+        }
+        public void RaiseCanExecuteChanged()
+        {
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
 
         #region ICommand part
@@ -21,6 +26,7 @@ namespace ConstructionMaterial.Core
 
         public bool CanExecute(object? parameter)
         {
+            //return _canExecute == null ? true : _canExecute(parameter);
             return _canExecute == null || _canExecute(parameter);
         }
 

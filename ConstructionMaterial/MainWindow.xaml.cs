@@ -1,12 +1,13 @@
+using ConstructionMaterial.BLL.DTOs;
+using ConstructionMaterial.BLL.interfaces;
+using ConstructionMaterial.ViewModels;
+using ConstructionMaterial.Views;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using Microsoft.Extensions.DependencyInjection;
-using ConstructionMaterial.Views;
-using ConstructionMaterial.BLL.DTOs;
-using ConstructionMaterial.BLL.interfaces;
-using ConstructionMaterial.ViewModels;
+using System.Windows.Input;
 
 namespace ConstructionMaterial
 {
@@ -15,97 +16,48 @@ namespace ConstructionMaterial
     /// </summary>
     public partial class MainWindow : Window
     {
-        public ObservableCollection<MaterialDto> MaterialCatalog { get; set; }
-        public ObservableCollection<OrderDto> Orders { get; set; }
-        public string TotalCost { get; set; }
-
-        private readonly IMaterialService _materialService;
-        private readonly IOrderService _orderService;
         private readonly IServiceProvider _serviceProvider;
+        private readonly MainViewModel? _mianViewModel;
 
-        public MainWindow(IServiceProvider serviceProvider, IMaterialService materialService, IOrderService orderService,
-                            MaterialViewModel materialViewModel)
+        public MainWindow(IServiceProvider serviceProvider, MainViewModel mainViewModel)
         {
             InitializeComponent();
-            _serviceProvider = serviceProvider;
-            _materialService = materialService;
-            _orderService = orderService;
-            
 
-            MaterialCatalog = new ObservableCollection<MaterialDto>(_materialService.GetAllMaterial());
-            Orders = new ObservableCollection<OrderDto>(_orderService.GetAllOrders());
-            TotalCost = $"EGP {Orders.Sum(p => p.Total):N2}";
-            
-            DataContext = materialViewModel;
-            StatusBarControl.UpdateLastSaved();
+            _serviceProvider = serviceProvider;
+
+            DataContext = mainViewModel;
+
+            mainViewModel.Materials.OpenMaterialWindowRequested += OpenMaterialWindow;
         }
 
+        private void OpenMaterialWindow()
+        {
+            var window = _serviceProvider.GetRequiredService<AddMaterialWindow>();
+            window.ShowDialog();
+        }
+
+        #region Main button to open the windows
         private void Calculator_Click(object sender, RoutedEventArgs e)
         {
             var calculatorWindow = _serviceProvider.GetRequiredService<CalculatorWindow>();
-            calculatorWindow.Closed += (s, args) => RefreshData();
             calculatorWindow.Show();
         }
 
         private void OrderWindow_Click(object sender, RoutedEventArgs e)
         {
             var ordersWindow = _serviceProvider.GetRequiredService<OrdersWindow>();
-            ordersWindow.Closed += (s, args) => RefreshData();
             ordersWindow.Show();
         }
 
         private void AddMaterial_Click(object sender, RoutedEventArgs e)
         {
-            var addMaterialWindow = _serviceProvider.GetRequiredService<AddMaterialWindow>();
-            addMaterialWindow.Closed += (s, args) => RefreshData();
-            addMaterialWindow.ShowDialog();
+            if(_mianViewModel != null)
+            _mianViewModel.Materials.ClearForm();
+            OpenMaterialWindow();
         }
+        #endregion
 
-        private void DeleteMaterial_Click(object sender, RoutedEventArgs e)
-        {
-            var selectedMaterial = MyDataGrid.SelectedItem as MaterialDto;
-
-            if (selectedMaterial == null)
-            {
-                MessageBox.Show("Please select a material to delete.",
-                                "No Selection",
-                                MessageBoxButton.OK,
-                                MessageBoxImage.Information);
-                return;
-            }
-            MessageBoxResult result = MessageBox.Show($"Are you sure you want to delete {selectedMaterial.Name}?",
-                                                        "Confirm Deletion",
-                                                        MessageBoxButton.YesNo,
-                                                        MessageBoxImage.Warning);
-            if (result == MessageBoxResult.Yes)
-            {
-                try
-                {
-                    _materialService.RemoveMaterial(selectedMaterial.Id);
-                    RefreshData();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Error deleting material: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            }
-        }
-
-        private void RefreshData()
-        {
-            MaterialCatalog.Clear();
-
-            foreach (var m in _materialService.GetAllMaterial())
-                MaterialCatalog.Add(m);
-
-            Orders.Clear();
-
-            foreach (var o in _orderService.GetAllOrders())
-                Orders.Add(o);
-
-            TotalCost = $"EGP {Orders.Sum(p => p.Total):N2}";
-        }
-
+        #region basic option in main window
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             Application.Current.Shutdown();
@@ -120,6 +72,12 @@ namespace ConstructionMaterial
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
+        }
+        #endregion
+
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            MyDataGrid.SelectedItem = null;
         }
     }
 }

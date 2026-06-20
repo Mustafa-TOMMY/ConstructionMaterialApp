@@ -27,7 +27,9 @@ namespace ConstructionMaterial.BLL
             var data = _myAppRepo.LoadFromJson();
             var orderMapper = new Order()
             {
-                Id = order.Id,
+                Id = data.Orders.Any()
+                    ? data.Orders.Max(m => m.Id) + 1
+                    : 1,
                 OrderNumber = order.OrderNumber,
                 MaterialName = order.MaterialName,
                 Category = (MaterialType)Enum.Parse(typeof(MaterialType), order.Category),

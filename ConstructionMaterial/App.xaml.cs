@@ -41,7 +41,9 @@ namespace ConstructionMaterial
             services.AddTransient<IOrderService, OrderService>();
 
             // ViewModels
-            services.AddTransient<MaterialViewModel>();
+            services.AddSingleton<MaterialViewModel>();
+            services.AddSingleton<OrderViewModel>();
+            services.AddSingleton<MainViewModel>();
 
             // Windows
             services.AddTransient<MainWindow>();
