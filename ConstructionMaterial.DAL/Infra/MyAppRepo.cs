@@ -1,8 +1,8 @@
-﻿using ConstructionMaterial.DAL.Infra;
+using ConstructionMaterial.DAL.Infra;
 using ConstructionMaterial.DAL.Models;
 using Newtonsoft.Json;
 
-namespace ConstructionMaterial.DAL.Infr 
+namespace ConstructionMaterial.DAL.Infra 
 {
     public  class MyAppRepo : IMyAppRepo
     {

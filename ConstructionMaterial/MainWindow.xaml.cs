@@ -24,6 +24,7 @@ namespace ConstructionMaterial
             InitializeComponent();
 
             _serviceProvider = serviceProvider;
+            _mianViewModel = mainViewModel;
 
             DataContext = mainViewModel;
 

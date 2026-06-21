@@ -1,6 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
 using ConstructionMaterial.DAL.Infra;
-using ConstructionMaterial.DAL.Infr;
 using ConstructionMaterial.BLL;
 using ConstructionMaterial.BLL.interfaces;
 using ConstructionMaterial.Views;
@@ -39,11 +38,20 @@ namespace ConstructionMaterial
             // Services
             services.AddTransient<IMaterialService, MaterialService>();
             services.AddTransient<IOrderService, OrderService>();
+            services.AddTransient<IConcreteCalculationService, ConcreteCalculationService>();
+            services.AddTransient<ISteelCalculationService, SteelCalculationService>();
+            services.AddTransient<IPaintCalculationService, PaintCalculationService>();
+            services.AddTransient<ITilesCalculationService, TilesCalculationService>();
 
             // ViewModels
             services.AddSingleton<MaterialViewModel>();
             services.AddSingleton<OrderViewModel>();
             services.AddSingleton<MainViewModel>();
+            services.AddSingleton<MainCalculatorViewModel>();
+            services.AddSingleton<ConcreteCalculationViewModel>();
+            services.AddSingleton<SteelCalculationViewModel>();
+            services.AddSingleton<PaintCalculationViewModel>();
+            services.AddSingleton<TilesCalculationViewModel>();
 
             // Windows
             services.AddTransient<MainWindow>();
