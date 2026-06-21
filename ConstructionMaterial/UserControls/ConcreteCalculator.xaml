@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:ConstructionMaterial.UserControls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     d:DesignHeight="450"
     d:DesignWidth="350"
     mc:Ignorable="d">
@@ -27,26 +28,28 @@
 
         <TextBlock
             Grid.Row="0"
+            VerticalAlignment="Center"
             Style="{StaticResource FieldLabel}"
             Text="Element Type:" />
         <ComboBox
             x:Name="ElementTypeComboBox"
             Grid.Row="0"
             Grid.Column="1"
-            Height="32"
+            Height="36"
             Margin="0,5"
             ItemsSource="{Binding ElementTypes}"
             SelectedItem="{Binding SelectedElementType, Mode=TwoWay}" />
 
         <TextBlock
             Grid.Row="1"
+            VerticalAlignment="Center"
             Style="{StaticResource FieldLabel}"
             Text="Material Name:" />
         <ComboBox
             x:Name="MaterialComboBox"
             Grid.Row="1"
             Grid.Column="1"
-            Height="32"
+            Height="36"
             Margin="0,5"
             DisplayMemberPath="Name"
             ItemsSource="{Binding MaterialNames}"
@@ -54,46 +57,54 @@
 
         <TextBlock
             Grid.Row="2"
+            VerticalAlignment="Center"
             Style="{StaticResource FieldLabel}"
             Text="Length (m):" />
-        <TextBox
+        <ui:TextBox
             x:Name="LengthTxt"
             Grid.Row="2"
             Grid.Column="1"
-            Style="{StaticResource ModernBox}"
+            Height="36"
+            Margin="0,5"
             Text="{Binding Length, UpdateSourceTrigger=PropertyChanged}" />
 
         <TextBlock
             Grid.Row="3"
+            VerticalAlignment="Center"
             Style="{StaticResource FieldLabel}"
             Text="Width (m):" />
-        <TextBox
+        <ui:TextBox
             x:Name="WidthTxt"
             Grid.Row="3"
             Grid.Column="1"
-            Style="{StaticResource ModernBox}"
+            Height="36"
+            Margin="0,5"
             Text="{Binding Width, UpdateSourceTrigger=PropertyChanged}" />
 
         <TextBlock
             Grid.Row="4"
+            VerticalAlignment="Center"
             Style="{StaticResource FieldLabel}"
             Text="Depth (m):" />
-        <TextBox
+        <ui:TextBox
             x:Name="DepthTxt"
             Grid.Row="4"
             Grid.Column="1"
-            Style="{StaticResource ModernBox}"
+            Height="36"
+            Margin="0,5"
             Text="{Binding Depth, UpdateSourceTrigger=PropertyChanged}" />
 
         <TextBlock
             Grid.Row="5"
+            VerticalAlignment="Center"
             Style="{StaticResource FieldLabel}"
             Text="Quantity:" />
-        <TextBox
+        <ui:TextBox
             x:Name="QuantityTxt"
             Grid.Row="5"
             Grid.Column="1"
-            Style="{StaticResource ModernBox}"
+            Height="36"
+            Margin="0,5"
             Text="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}" />
 
         <StackPanel
@@ -102,16 +113,21 @@
             Margin="0,15"
             HorizontalAlignment="Right"
             Orientation="Horizontal">
-            <Button
+            <ui:Button
                 Name="ConcreteCalculateButton"
                 Command="{Binding CalculateConcreteCommand}"
-                Content="Calculate"
-                Style="{StaticResource ModernButton}" />
-            <Button
+                Appearance="Primary"
+                Height="36"
+                Icon="{ui:SymbolIcon Symbol='Play24'}"
+                Content="Calculate" />
+            <ui:Button
                 Name="SaveButton"
                 Command="{Binding SaveConcreteCommand}"
-                Content="Create Order"
-                Style="{StaticResource SecondaryButton}" />
+                Appearance="Secondary"
+                Height="36"
+                Margin="10,0,0,0"
+                Icon="{ui:SymbolIcon Symbol='Save24'}"
+                Content="Create Order" />
         </StackPanel>
 
         <local:CalculationOutput

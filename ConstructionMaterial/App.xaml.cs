@@ -27,6 +27,7 @@ namespace ConstructionMaterial
 
             // Resolve and show MainWindow
             var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
+            Wpf.Ui.Appearance.SystemThemeWatcher.Watch(mainWindow);
             mainWindow.Show();
         }
 

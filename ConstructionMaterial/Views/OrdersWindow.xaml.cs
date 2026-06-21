@@ -17,7 +17,7 @@ using ConstructionMaterial.BLL.interfaces;
 
 namespace ConstructionMaterial.Views
 {
-    public partial class OrdersWindow : Window
+    public partial class OrdersWindow : Wpf.Ui.Controls.FluentWindow
     {
         public ObservableCollection<OrderDto> Orders { get; set; }
         public ICollectionView OrdersCollection { get; set; }
@@ -78,6 +78,8 @@ namespace ConstructionMaterial.Views
 
         private void UpdateMaterialList()
         {
+            if (OrdersCollection == null) return;
+
             var currentCategory = CategorySearchComboBox.SelectedItem as MaterialType?;
 
             if (currentCategory.HasValue)

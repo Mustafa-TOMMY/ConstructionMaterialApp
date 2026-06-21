@@ -14,7 +14,7 @@ namespace ConstructionMaterial.Views
     /// <summary>
     /// Interaction logic for AddMaterialWindow.xaml
     /// </summary>
-    public partial class AddMaterialWindow : Window
+    public partial class AddMaterialWindow : Wpf.Ui.Controls.FluentWindow
     {
         private readonly MaterialViewModel _materialViewModel;
 

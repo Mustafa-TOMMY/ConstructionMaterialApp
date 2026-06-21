@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="ConstructionMaterial.UserControls.CalculationOutput"
+<UserControl x:Class="ConstructionMaterial.UserControls.CalculationOutput"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -8,8 +8,8 @@
              d:DesignHeight="450" 
              d:DesignWidth="400">
     
-    <StackPanel Background="{StaticResource MainTextBrush}"
-                Margin="20">
+    <StackPanel Background="Transparent"
+                Margin="10">
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="{Binding OutputLabel,RelativeSource={RelativeSource AncestorType=UserControl}}"
                        x:Name="Output"

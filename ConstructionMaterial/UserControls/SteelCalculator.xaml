@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ConstructionMaterial.UserControls"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="350">
     <Grid Margin="0,20,0,0">
@@ -17,63 +18,69 @@
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="110"/>
+            <ColumnDefinition Width="239*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <TextBlock Text="Bar Diameter:"
-                   Grid.Row="0"
-                   Style="{StaticResource FieldLabel}"/>
+                   Style="{StaticResource FieldLabel}" Margin="0,0,10,0"/>
 
-        <ComboBox Grid.Row="0"
+        <ComboBox
                   Grid.Column="1"
                   x:Name="BarDiameterComboBox"
-                  Height="32"
-                  Margin="0,5"
+                  Height="36"
                   ItemsSource="{Binding BarDiameters}"
-                  SelectedItem="{Binding SelectedDiameter, Mode=TwoWay}"/>
+                  SelectedItem="{Binding SelectedDiameter, Mode=TwoWay}" Grid.ColumnSpan="2"/>
 
         <TextBlock Text="Bar Length (m):"
                    Grid.Row="1"
-                   Style="{StaticResource FieldLabel}"/>
+                   Style="{StaticResource FieldLabel}" Margin="0,0,10,0"/>
 
-        <TextBox Grid.Row="1"
+        <ui:TextBox Grid.Row="1"
                  Grid.Column="1"
                  x:Name="BarLengthTxt"
-                 Style="{StaticResource ModernBox}"
-                 Text="{Binding Length, UpdateSourceTrigger=PropertyChanged}"/>
+                 Height="36"
+                 Margin="0,5,0,5"
+                 Text="{Binding Length, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2"/>
 
         <TextBlock Text="Number Of Bars:"
                    Grid.Row="2"
-                   Style="{StaticResource FieldLabel}"/>
+                   Style="{StaticResource FieldLabel}" Margin="0,0,10,0"/>
 
-        <TextBox Grid.Row="2"
+        <ui:TextBox Grid.Row="2"
                  Grid.Column="1"
                  x:Name="NoOfBarsTxt"
-                 Style="{StaticResource ModernBox}"
-                 Text="{Binding BarsCount, UpdateSourceTrigger=PropertyChanged}"/>
+                 Height="36"
+                 Margin="0,5,0,5"
+                 Text="{Binding BarsCount, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2"/>
 
         <StackPanel Grid.Row="3"
                     Grid.Column="1"
                     Orientation="Horizontal"
-                    HorizontalAlignment="Right"
-                    Margin="0,15">
+                    HorizontalAlignment="Left"
+                    Margin="2,15,0,15" Grid.ColumnSpan="2">
 
-            <Button Content="Calculate"
+            <ui:Button Content="Calculate"
                     Name="SteelCalculateButton"
                     Command="{Binding CalculateSteelCommand}"
-                    Style="{StaticResource ModernButton}"/>
+                    Appearance="Primary"
+                    Height="36"
+                    Icon="{ui:SymbolIcon Symbol='Play24'}"/>
 
-            <Button Content="Create Order"
+            <ui:Button Content="Create Order"
                     Name="SaveButton2"
                     Command="{Binding SaveSteelCommand}"
-                    Style="{StaticResource SecondaryButton}"/>
+                    Appearance="Secondary"
+                    Height="36"
+                    Margin="10,0,0,0"
+                    Icon="{ui:SymbolIcon Symbol='Save24'}"/>
         </StackPanel>
 
         <local:CalculationOutput Grid.Row="4" 
-                                 Grid.ColumnSpan="2" 
+                                 Grid.ColumnSpan="3" 
                                  x:Name="OutputSteelControl"
-                                 VerticalAlignment="Bottom"
+                                 VerticalAlignment="Top"
                                  OutputValue="{Binding ResultText}"
-                                 OutputLabel="Total Order Value:"/>
+                                 OutputLabel="Total Order Value:" Margin="0,166,0,0"/>
     </Grid>
 </UserControl>

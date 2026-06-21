@@ -6,7 +6,7 @@ namespace ConstructionMaterial.Views
     /// <summary>
     /// Interaction logic for CalculatorWindow.xaml
     /// </summary>
-    public partial class CalculatorWindow : Window
+    public partial class CalculatorWindow : Wpf.Ui.Controls.FluentWindow
     {
         public CalculatorWindow(MainCalculatorViewModel mainCalculatorViewModel)
         {

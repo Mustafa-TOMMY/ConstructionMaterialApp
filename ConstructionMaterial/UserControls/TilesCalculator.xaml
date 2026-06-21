@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ConstructionMaterial.UserControls"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="350">
     <Grid Margin="0,20,0,0">
@@ -24,34 +25,39 @@
         <!-- Room Length -->
         <TextBlock Text="Room Length (m):"
                    Grid.Row="0"
+                   VerticalAlignment="Center"
                    Style="{StaticResource FieldLabel}"/>
 
-        <TextBox Grid.Row="0"
+        <ui:TextBox Grid.Row="0"
                  Grid.Column="1"
                  x:Name="RoomLengthTxt"
-                 Style="{StaticResource ModernBox}"
+                 Height="36"
+                 Margin="0,5"
                  Text="{Binding RoomLength, UpdateSourceTrigger=PropertyChanged}"/>
 
         <!-- Room Width -->
         <TextBlock Text="Room Width (m):"
                    Grid.Row="1"
+                   VerticalAlignment="Center"
                    Style="{StaticResource FieldLabel}"/>
 
-        <TextBox Grid.Row="1"
+        <ui:TextBox Grid.Row="1"
                  Grid.Column="1"
                  x:Name="RoomWidthTxt"
-                 Style="{StaticResource ModernBox}"
+                 Height="36"
+                 Margin="0,5"
                  Text="{Binding RoomWidth, UpdateSourceTrigger=PropertyChanged}"/>
 
         <!-- Tile Size -->
         <TextBlock Text="Tile Size:"
                    Grid.Row="2"
+                   VerticalAlignment="Center"
                    Style="{StaticResource FieldLabel}"/>
 
         <ComboBox Grid.Row="2"
                   x:Name="TileSizeComboBox"
                   Grid.Column="1"
-                  Height="32"
+                  Height="36"
                   Margin="0,5"
                   ItemsSource="{Binding TileSizes}"
                   DisplayMemberPath="Name"
@@ -60,12 +66,14 @@
         <!-- Waste -->
         <TextBlock Text="Waste Percentage (%):"
                    Grid.Row="3"
+                   VerticalAlignment="Center"
                    Style="{StaticResource FieldLabel}"/>
 
-        <TextBox Grid.Row="3"
+        <ui:TextBox Grid.Row="3"
                  Grid.Column="1"
                  x:Name="WasteTxt"
-                 Style="{StaticResource ModernBox}"
+                 Height="36"
+                 Margin="0,5"
                  Text="{Binding WastePercentage, UpdateSourceTrigger=PropertyChanged}"/>
 
         <!-- Buttons -->
@@ -75,15 +83,20 @@
                     HorizontalAlignment="Right"
                     Margin="0,15">
 
-            <Button Content="Calculate"
+            <ui:Button Content="Calculate"
                     Name="TilesCalculateButton"
                     Command="{Binding CalculateTilesCommand}"
-                    Style="{StaticResource ModernButton}"/>
+                    Appearance="Primary"
+                    Height="36"
+                    Icon="{ui:SymbolIcon Symbol='Play24'}"/>
 
-            <Button Content="Create Order"
+            <ui:Button Content="Create Order"
                     Name="SaveButton4"
                     Command="{Binding SaveTilesCommand}"
-                    Style="{StaticResource SecondaryButton}"/>
+                    Appearance="Secondary"
+                    Height="36"
+                    Margin="10,0,0,0"
+                    Icon="{ui:SymbolIcon Symbol='Save24'}"/>
         </StackPanel>
 
         <local:CalculationOutput Grid.Row="5" 

@@ -6,6 +6,11 @@
 
 
     <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Wpf.Ui;component/Resources/Theme/Dark.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Wpf.Ui;component/Resources/Wpf.Ui.xaml" />
+            </ResourceDictionary.MergedDictionaries>
 
         <FontFamily x:Key="FontAwesome">
             /ConstructionMaterial;component/icons/#Font Awesome 7 Free Solid
@@ -68,21 +73,18 @@
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Margin" Value="0,0,10,0"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Foreground" Value="{StaticResource SecTextBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}"/>
         </Style>
 
         <Style x:Key="ModernBorder" TargetType="Border">
-            <Setter Property="Background" Value="{StaticResource SecBrush}"/>
+            <Setter Property="Background" Value="{DynamicResource CardBackgroundFillColorDefaultBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource CardStrokeColorDefaultBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="CornerRadius" Value="12"/>
-            <Setter Property="Effect">
-                <Setter.Value>
-                    <DropShadowEffect BlurRadius="15" ShadowDepth="2" Opacity="0.1"/>
-                </Setter.Value>
-            </Setter>
         </Style>
 
         <Style x:Key="ModernText" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="{StaticResource SecTextBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Padding" Value="10"/>
             <Setter Property="FontSize" Value="16"/>
@@ -170,6 +172,7 @@
             </Setter>
         </Style>
 
+        </ResourceDictionary>
     </Application.Resources>
 
 
