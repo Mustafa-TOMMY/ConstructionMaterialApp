@@ -1,11 +1,6 @@
-using ConstructionMaterial.BLL.DTOs;
-using ConstructionMaterial.BLL.interfaces;
 using ConstructionMaterial.ViewModels;
 using ConstructionMaterial.Views;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 

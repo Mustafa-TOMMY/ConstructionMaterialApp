@@ -2,19 +2,12 @@ using ConstructionMaterial.BLL.DTOs;
 using ConstructionMaterial.BLL.interfaces;
 using ConstructionMaterial.Core;
 using ConstructionMaterial.DAL.Models.Enum;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
-using System.Xml.Linq;
 
 namespace ConstructionMaterial.ViewModels
 {
-    public class MaterialViewModel : BaseViewModel
+    public class MaterialViewModel : ValidationBaseViewModel
     {
         public IMaterialService _materialService { get; }
 
@@ -28,6 +21,18 @@ namespace ConstructionMaterial.ViewModels
                 _name = value;
                 OnPropertyChanged();
                 AddMaterialCommand.RaiseCanExecuteChanged();
+                if(string.IsNullOrWhiteSpace(Name))
+                {
+                    AddError("Name is required.");
+                }
+                else if (!IsMaterialNameDublicated())
+                {
+                    AddError("Material name already exist. , it is must be unique.");
+                }
+                else
+                {
+                    ClearError();
+                }
             }
         }
 

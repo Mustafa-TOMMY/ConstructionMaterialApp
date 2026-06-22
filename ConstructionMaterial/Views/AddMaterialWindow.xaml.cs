@@ -1,12 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
-using ConstructionMaterial.DAL.Models.Enum;
-using ConstructionMaterial.BLL.DTOs;
-using ConstructionMaterial.BLL.interfaces;
 using ConstructionMaterial.ViewModels;
 
 namespace ConstructionMaterial.Views
