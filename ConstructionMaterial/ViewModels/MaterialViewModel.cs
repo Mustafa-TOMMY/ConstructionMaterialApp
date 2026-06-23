@@ -27,7 +27,7 @@ namespace ConstructionMaterial.ViewModels
                 }
                 else if (!IsMaterialNameDublicated())
                 {
-                    AddError("Material name already exist. , it is must be unique.");
+                    AddError("Material name already exist.");
                 }
                 else
                 {

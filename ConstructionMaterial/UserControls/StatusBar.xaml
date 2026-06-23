@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="ConstructionMaterial.UserControls.StatusBar"
+<UserControl x:Class="ConstructionMaterial.UserControls.StatusBar"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -18,7 +18,7 @@
                        HorizontalAlignment="Left"
                        VerticalAlignment="Center"
                        Padding="10 0 0 0"
-                       Text="Last Saved: --" />
+                       Text="{Binding LastSaved, RelativeSource={RelativeSource AncestorType=UserControl}}" />
 
         <TextBlock x:Name="MaterialsCountText"
                        Grid.Column="1"

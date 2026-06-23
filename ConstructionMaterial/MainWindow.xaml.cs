@@ -24,6 +24,7 @@ namespace ConstructionMaterial
             DataContext = mainViewModel;
 
             mainViewModel.Materials.OpenMaterialWindowRequested += OpenMaterialWindow;
+            Activated += Window_Activated;
         }
 
         private void OpenMaterialWindow()
@@ -61,13 +62,20 @@ namespace ConstructionMaterial
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            StatusBarControl.UpdateLastSaved();
+            if (_mianViewModel != null)
+            {
+                _mianViewModel.LastSaved = $"Last Saved: {DateTime.Now:dd/MM/yyyy HH:mm}";
+            }
             MessageBox.Show("All changes are automatically saved to file.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
+        }
+        private void Window_Activated(object? sender, EventArgs e)
+        {
+            _mianViewModel?.Orders.LoadOrders();
         }
         #endregion
 
