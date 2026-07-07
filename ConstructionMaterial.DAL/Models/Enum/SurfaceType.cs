@@ -1,4 +1,4 @@
-﻿namespace ConstructionMaterial.Models.Enum
+﻿namespace ConstructionMaterial.DAL.Models.Enum
 {
     public enum SurfaceType
     {

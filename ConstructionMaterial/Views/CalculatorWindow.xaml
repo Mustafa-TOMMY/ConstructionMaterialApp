@@ -1,114 +1,37 @@
-﻿<Window
-    x:Class="ConstructionMaterial.Views.CalculatorWindow"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="clr-namespace:ConstructionMaterial.UserControls"
-    xmlns:local="clr-namespace:ConstructionMaterial.Models.Enum"
-    xmlns:sys="clr-namespace:System;assembly=mscorlib"
-    Title="Material Calculator"
-    Width="500"
-    Height="580"
-    Background="{StaticResource MainWindowBrush}"
-    ResizeMode="NoResize"
-    WindowStartupLocation="CenterScreen">
-
+<Window x:Class="ConstructionMaterial.Views.CalculatorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewmodels="clr-namespace:ConstructionMaterial.ViewModels"
+        Title="Material Calculator" 
+        Height="550" 
+        Width="500"
+        ResizeMode="NoResize"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:controls="clr-namespace:ConstructionMaterial.UserControls"
+        WindowStartupLocation="CenterScreen" 
+        Background="{StaticResource MainWindowBrush}"
+        d:DataContext="{d:DesignInstance Type=viewmodels:MainCalculatorViewModel, IsDesignTimeCreatable=False}"
+        mc:Ignorable="d">
+    
     <Border Margin="20" Style="{StaticResource ModernBorder}">
         <Grid Margin="15">
             <TabControl Background="Transparent" BorderThickness="0">
-
-                <TabItem Width="100" Header="Concrete">
-                    <Grid Margin="0,20,0,0">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-
-                        <controls:ConcreteCalculationTab
-                            Grid.Row="0"
-                            DataContext="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
-                            OnOrderCreated="AddNewOrder"
-                            OutputConcreteValue="{Binding ConcreteOutputValue, Mode=TwoWay}" />
-
-                        <controls:CalculationOutput
-                            x:Name="OutputControl"
-                            Grid.Row="1"
-                            VerticalAlignment="Bottom"
-                            OutputLabel="Total Order Volume:"
-                            OutputValue="{Binding ConcreteOutputValue}" />
-                    </Grid>
+                <TabItem Header="Concrete" Width="100">
+                    <controls:ConcreteCalculator x:Name="ConcreteCalculatorControl"/>
                 </TabItem>
 
-                <TabItem Width="100" Header="Steel">
-                    <Grid Margin="0,20,0,0">
-
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="110" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-
-                        <controls:SteelCalculationTab
-                            Grid.Row="0"
-                            Grid.ColumnSpan="2"
-                            DataContext="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
-                            OnOrderCreated="AddNewOrder"
-                            OutputSteelValue="{Binding SteelOutputValue, Mode=TwoWay}" />
-
-
-                        <controls:CalculationOutput
-                            x:Name="OutputSteelControl"
-                            Grid.Row="1"
-                            Grid.ColumnSpan="2"
-                            VerticalAlignment="Bottom"
-                            OutputLabel="Total Order Value:"
-                            OutputValue="{Binding SteelOutputValue}" />
-                    </Grid>
+                <TabItem Header="Steel" Width="100">
+                    <controls:SteelCalculator x:Name="SteelCalculatorControl"/>
                 </TabItem>
 
-                <TabItem Width="100" Header="Paint">
-                    <Grid Margin="0,20,0,0">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-
-                        <controls:PaintCalculationTab
-                            Grid.Row="0"
-                            DataContext="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
-                            OnOrderCreated="AddNewOrder"
-                            OutputPaintValue="{Binding PaintOutputValue, Mode=TwoWay}" />
-
-                        <controls:CalculationOutput
-                            Grid.Row="1"
-                            VerticalAlignment="Bottom"
-                            OutputLabel="Required Paint:"
-                            OutputValue="{Binding PaintOutputValue}" />
-                    </Grid>
+                <TabItem Header="Paint" Width="100">
+                    <controls:PaintCalculator x:Name="PaintCalculatorControl"/>
                 </TabItem>
 
-                <TabItem Width="100" Header="Tiles">
-                    <Grid Margin="0,20,0,0">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-
-                        <controls:TileCalculationTab
-                            Grid.Row="0"
-                            DataContext="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
-                            OnOrderCreated="AddNewOrder"
-                            OutputTilesValue="{Binding TilesOutputValue, Mode=TwoWay}" />
-
-                        <controls:CalculationOutput
-                            Grid.Row="1"
-                            VerticalAlignment="Bottom"
-                            OutputLabel="Total Tiles Required:"
-                            OutputValue="{Binding TilesOutputValue}" />
-                    </Grid>
+                <TabItem Header="Tiles" Width="100">
+                    <controls:TilesCalculator x:Name="TilesCalculatorControl"/>
                 </TabItem>
             </TabControl>
         </Grid>

@@ -1,24 +1,22 @@
-﻿using ConstructionMaterial.Models;
+using ConstructionMaterial.DAL.Infra;
+using ConstructionMaterial.DAL.Models;
 using Newtonsoft.Json;
-using System.IO;
-using System.Windows.Controls;
 
-namespace ConstructionMaterial.Helpers
+namespace ConstructionMaterial.DAL.Infra 
 {
-    public static class Helper
+    public  class MyAppRepo : IMyAppRepo
     {
-        private static string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ConstructionMaterialDataBase.json");
-        public static void SaveToJson(AppData data)
+        private string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ConstructionMaterialDataBase.json");
+        public void SaveToJson(AppData data)
         {
             string jsonDataFile = JsonConvert.SerializeObject(data, Formatting.Indented);
             File.WriteAllText(filePath, jsonDataFile);
         }
 
-        public static AppData LoadFromJson()
+        public AppData LoadFromJson()
         {
             if (!File.Exists(filePath))
                 return new AppData();
-
             try
             {
                 string jsonData = File.ReadAllText(filePath);
@@ -28,12 +26,6 @@ namespace ConstructionMaterial.Helpers
             {
                 return new AppData();
             }
-        }
-
-        public static double GetNumericalValue(TextBox textBox)
-        {
-            double.TryParse(textBox.Text, out double value);
-            return value;
         }
     }
 }

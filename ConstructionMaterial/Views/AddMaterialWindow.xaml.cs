@@ -1,9 +1,5 @@
-﻿using ConstructionMaterial.Helpers;
-using ConstructionMaterial.Models;
-using ConstructionMaterial.Models.Enum;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
+using ConstructionMaterial.ViewModels;
 
 namespace ConstructionMaterial.Views
 {
@@ -12,110 +8,18 @@ namespace ConstructionMaterial.Views
     /// </summary>
     public partial class AddMaterialWindow : Window
     {
-        public List<MaterialType> MaterialTypes { get; }
-        public List<string> MaterialUnits { get; }
-        private AppData _data { get; set; }
-        public AddMaterialWindow(AppData data)
+        private readonly MaterialViewModel _materialViewModel;
+
+        public AddMaterialWindow(MaterialViewModel materialViewModel)
         {
             InitializeComponent();
-            _data = data;
-            BtnSave.IsEnabled = false;
-            MaterialUnits = new List<string> { "m³", "m²", "kg", "ton", "Liter" };
-            MaterialTypes = Enum.GetValues<MaterialType>().ToList();
-            DataContext = this;
+            DataContext = materialViewModel;
+            _materialViewModel = materialViewModel;
         }
 
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
-
-        private void Save_Click(object sender, RoutedEventArgs e)
-        {
-            MainMaterial material = new MainMaterial()
-            {
-                Name = MaterialNameTxt.Text,
-                Unit = UnitComboBox.Text,
-                UnitPrice = double.Parse(UnitPriceTxt.Text),
-                Category = (MaterialType)CategoryBox.SelectedItem
-            };
-            if (!_data.Materials.Any(m => m.Name == MaterialNameTxt.Text))
-            {
-                _data.Materials.Add(material);
-                Helper.SaveToJson(_data);
-                MessageBox.Show("Material added successfully!", "Success", MessageBoxButton.OK);
-            }
-            else
-            {
-                MessageBox.Show("Material with the same name already exists!",
-                    "Error",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
-            }
-        }
-
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (sender is TextBox textBox)
-            {
-                bool isValid = true;
-                string errorMessage = "";
-
-                if (textBox.Name == "UnitPriceTxt")
-                {
-                    isValid = double.TryParse(textBox.Text, out double num) && num > 0;
-                    errorMessage = "Please enter a valid number";
-                }
-                else
-                {
-                    bool isNumber = double.TryParse(textBox.Text, out _);
-                    if (string.IsNullOrWhiteSpace(textBox.Text) || isNumber)
-                    {
-                        isValid = false;
-                        errorMessage = "Please enter a valid material name";
-                    }
-                }
-
-
-                if (!isValid && !string.IsNullOrEmpty(textBox.Text))
-                {
-                    textBox.BorderBrush = Brushes.Red;
-                    textBox.BorderThickness = new Thickness(1.5);
-                    textBox.ToolTip = errorMessage;
-                }
-                else
-                {
-                    textBox.ClearValue(BorderBrushProperty);
-                    textBox.ToolTip = null;
-                }
-            }
-            TurnOnOffBtn();
-        }
-
-        private void TurnOnOffBtn()
-        {
-            bool isNameValid = !string.IsNullOrWhiteSpace(MaterialNameTxt.Text) && !double.TryParse(MaterialNameTxt.Text, out _);
-            bool isPriceValid = double.TryParse(UnitPriceTxt.Text, out double price) && price > 0;
-
-            if (BtnSave != null)
-                BtnSave.IsEnabled = isNameValid && isPriceValid;
-        }
-        private void CategoryBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            // If an item is selected, hide the placeholder. Otherwise, show it.
-            if (CategoryBox.SelectedIndex != -1)
-            {
-                CategoryPlaceholder.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                CategoryPlaceholder.Visibility = Visibility.Visible;
-            }
-
-            // Call your validation logic if needed
-            TurnOnOffBtn();
-        }
-
     }
 }
-

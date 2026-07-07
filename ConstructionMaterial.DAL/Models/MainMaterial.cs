@@ -1,11 +1,12 @@
-﻿using ConstructionMaterial.Models.Enum;
+﻿using ConstructionMaterial.DAL.Models.Enum;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace ConstructionMaterial.Models
+namespace ConstructionMaterial.DAL.Models
 {
     public class MainMaterial
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         [JsonConverter(typeof(StringEnumConverter))]
         public MaterialType Category { get; set; }

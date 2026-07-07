@@ -1,0 +1,126 @@
+<UserControl
+    x:Class="ConstructionMaterial.UserControls.ConcreteCalculator"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:ConstructionMaterial.UserControls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="clr-namespace:ConstructionMaterial.ViewModels"
+    d:DesignHeight="450"
+    d:DesignWidth="350"
+    d:DataContext="{d:DesignInstance Type=viewmodels:ConcreteCalculationViewModel, IsDesignTimeCreatable=False}"
+    mc:Ignorable="d">
+    <Grid Margin="0,20,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="110" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock
+            Grid.Row="0"
+            Style="{StaticResource FieldLabel}"
+            Text="Element Type:" />
+        <ComboBox
+            x:Name="ElementTypeComboBox"
+            Grid.Row="0"
+            Grid.Column="1"
+            Height="32"
+            Margin="0,5"
+            ItemsSource="{Binding ElementTypes}"
+            SelectedItem="{Binding SelectedElementType, Mode=TwoWay}" />
+
+        <TextBlock
+            Grid.Row="1"
+            Style="{StaticResource FieldLabel}"
+            Text="Material Name:" />
+        <ComboBox
+            x:Name="MaterialComboBox"
+            Grid.Row="1"
+            Grid.Column="1"
+            Height="32"
+            Margin="0,5"
+            DisplayMemberPath="Name"
+            ItemsSource="{Binding MaterialNames}"
+            SelectedItem="{Binding SelectedMaterial, Mode=TwoWay}" />
+
+        <TextBlock
+            Grid.Row="2"
+            Style="{StaticResource FieldLabel}"
+            Text="Length (m):" />
+        <TextBox
+            x:Name="LengthTxt"
+            Grid.Row="2"
+            Grid.Column="1"
+            Style="{StaticResource ModernBox}"
+            Text="{Binding Length, UpdateSourceTrigger=PropertyChanged}" />
+
+        <TextBlock
+            Grid.Row="3"
+            Style="{StaticResource FieldLabel}"
+            Text="Width (m):" />
+        <TextBox
+            x:Name="WidthTxt"
+            Grid.Row="3"
+            Grid.Column="1"
+            Style="{StaticResource ModernBox}"
+            Text="{Binding Width, UpdateSourceTrigger=PropertyChanged}" />
+
+        <TextBlock
+            Grid.Row="4"
+            Style="{StaticResource FieldLabel}"
+            Text="Depth (m):" />
+        <TextBox
+            x:Name="DepthTxt"
+            Grid.Row="4"
+            Grid.Column="1"
+            Style="{StaticResource ModernBox}"
+            Text="{Binding Depth, UpdateSourceTrigger=PropertyChanged}" />
+
+        <TextBlock
+            Grid.Row="5"
+            Style="{StaticResource FieldLabel}"
+            Text="Quantity:" />
+        <TextBox
+            x:Name="QuantityTxt"
+            Grid.Row="5"
+            Grid.Column="1"
+            Style="{StaticResource ModernBox}"
+            Text="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}" />
+
+        <StackPanel
+            Grid.Row="6"
+            Grid.Column="1"
+            Margin="0,15"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal">
+            <Button
+                Name="ConcreteCalculateButton"
+                Command="{Binding CalculateConcreteCommand}"
+                Content="Calculate"
+                Style="{StaticResource ModernButton}" />
+            <Button
+                Name="SaveButton"
+                Command="{Binding SaveConcreteCommand}"
+                Content="Create Order"
+                Style="{StaticResource SecondaryButton}" />
+        </StackPanel>
+
+        <local:CalculationOutput
+            x:Name="OutputControl"
+            Grid.Row="7"
+            Grid.ColumnSpan="2"
+            OutputLabel="Total Order Value:"
+            OutputValue="{Binding ResultText}" />
+    </Grid>
+</UserControl>

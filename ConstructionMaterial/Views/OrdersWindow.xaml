@@ -1,16 +1,17 @@
-﻿<Window
-    x:Class="ConstructionMaterial.Views.OrdersWindow"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="Order Management System"
-    Width="940"
-    Height="600"
-    Background="{StaticResource MainWindowBrush}"
-    ResizeMode="NoResize"
-    WindowStartupLocation="CenterScreen"
-    mc:Ignorable="d">
+<Window x:Class="ConstructionMaterial.Views.OrdersWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewmodels="clr-namespace:ConstructionMaterial.ViewModels"
+        d:DataContext="{d:DesignInstance Type=viewmodels:OrderViewModel, IsDesignTimeCreatable=False}"
+        mc:Ignorable="d"
+        Title="Order Management System" 
+        Height="600" 
+        Width="940"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource MainWindowBrush}">
     <Grid>
         <Border Margin="20" Style="{StaticResource ModernBorder}">
             <Grid Margin="15">
@@ -45,85 +46,53 @@
                     CornerRadius="8">
                     <StackPanel Orientation="Horizontal">
                         <StackPanel Margin="0,0,20,0">
-                            <TextBlock
-                                Margin="0,0,0,2"
-                                FontSize="12"
-                                Style="{StaticResource FieldLabel}"
-                                Text="Category" />
-                            <ComboBox
-                                x:Name="CategorySearchComboBox"
-                                Width="150"
-                                Height="32"
-                                ItemsSource="{Binding SearchOptions}"
-                                SelectionChanged="Filter" />
+                            <TextBlock Text="Category" Style="{StaticResource FieldLabel}" FontSize="12" Margin="0,0,0,2"/>
+                            <ComboBox Width="150"
+                                      Height="32"
+                                      ItemsSource="{Binding SearchOptions}"
+                                      SelectedItem="{Binding SelectedCategory, UpdateSourceTrigger=PropertyChanged}"/>
                         </StackPanel>
 
                         <StackPanel Margin="0,0,20,0">
-                            <TextBlock
-                                Margin="0,0,0,2"
-                                FontSize="12"
-                                Style="{StaticResource FieldLabel}"
-                                Text="Material" />
-                            <ComboBox
-                                x:Name="MaterialSearchComboBox"
-                                Width="120"
-                                Height="32"
-                                ItemsSource="{Binding MaterialForSearch}"
-                                SelectionChanged="Filter" />
+                            <TextBlock Text="Material" Style="{StaticResource FieldLabel}" FontSize="12" Margin="0,0,0,2"/>
+                            <ComboBox Width="120" 
+                                      ItemsSource="{Binding MaterialForSearch}"
+                                      SelectedItem="{Binding SelectedMaterial, UpdateSourceTrigger=PropertyChanged}"
+                                      Height="32"/>
 
                         </StackPanel>
 
                         <StackPanel Margin="0,0,20,0">
-                            <TextBlock
-                                Margin="0,0,0,2"
-                                FontSize="12"
-                                Style="{StaticResource FieldLabel}"
-                                Text="Status" />
-                            <ComboBox
-                                x:Name="StatusSearchComboBox"
-                                Width="120"
-                                Height="32"
-                                SelectionChanged="Filter">
-                                <ComboBoxItem Content="All" />
-                                <ComboBoxItem Content="Pending" />
-                                <ComboBoxItem Content="Delivered" />
-                            </ComboBox>
+                            <TextBlock Text="Status" Style="{StaticResource FieldLabel}" 
+                                       FontSize="12" Margin="0,0,0,2"/>
+                            <ComboBox Width="120"
+                                      Height="32"
+                                      ItemsSource="{Binding StatusOptions}"
+                                      SelectedItem="{Binding SelectedStatus, UpdateSourceTrigger=PropertyChanged}"/>
 
                         </StackPanel>
 
                         <StackPanel Margin="0,0,10,0">
-                            <TextBlock
-                                Margin="0,0,0,2"
-                                FontSize="12"
-                                Style="{StaticResource FieldLabel}"
-                                Text="From:" />
-                            <DatePicker
-                                x:Name="FromDatePicker"
-                                Width="120"
-                                Height="32"
-                                SelectedDateChanged="Filter" />
+                            <TextBlock Text="From:" Style="{StaticResource FieldLabel}" 
+                                       FontSize="12" Margin="0,0,0,2"/>
+                            <DatePicker Width="120" 
+                                        Height="32" 
+                                        SelectedDate="{Binding FromDate, UpdateSourceTrigger=PropertyChanged}" />
                         </StackPanel>
 
                         <StackPanel Margin="0,0,15,0">
-                            <TextBlock
-                                Margin="0,0,0,2"
-                                FontSize="12"
-                                Style="{StaticResource FieldLabel}"
-                                Text="To:" />
-                            <DatePicker
-                                x:Name="ToDatePicker"
-                                Width="120"
-                                Height="32"
-                                SelectedDateChanged="Filter" />
+                            <TextBlock Text="To:" Style="{StaticResource FieldLabel}" 
+                                       FontSize="12" Margin="0,0,0,2"/>
+                            <DatePicker Width="120" 
+                                        Height="32"
+                                        SelectedDate="{Binding ToDate, UpdateSourceTrigger=PropertyChanged}"/>
                         </StackPanel>
 
-                        <Button
-                            x:Name="ResetBtn"
-                            Width="100"
-                            Height="32"
-                            VerticalAlignment="Center"
-                            Click="ResetBtn_Click"
-                            Style="{StaticResource ModernButton}">
+                        <Button Command="{Binding ResetCommand}" 
+                                Style="{StaticResource ModernButton}" 
+                                Width="100" 
+                                Height="32"
+                                VerticalAlignment="Center">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock
                                     VerticalAlignment="Center"
@@ -143,14 +112,13 @@
                     </StackPanel>
                 </Border>
 
-                <DataGrid
-                    x:Name="OrdersDataGrid"
-                    Grid.Row="2"
-                    AutoGenerateColumns="False"
-                    Background="Transparent"
-                    IsReadOnly="True"
-                    ItemsSource="{Binding OrdersCollection}"
-                    RowHeight="35">
+                <DataGrid Grid.Row="2"
+                          AutoGenerateColumns="False" 
+                          IsReadOnly="True"
+                          ItemsSource="{Binding Orders}"
+                          SelectedItem="{Binding SelectedOrder, UpdateSourceTrigger=PropertyChanged}"
+                          Background="Transparent"
+                          RowHeight="35">
 
                     <DataGrid.Columns>
                         <DataGridTextColumn
@@ -206,50 +174,23 @@
                             DockPanel.Dock="Left"
                             Orientation="Horizontal">
 
-                            <TextBlock
-                                FontSize="11"
-                                Foreground="Gray"
-                                Style="{StaticResource FieldLabel}"
-                                Text="Items:" />
-                            <TextBlock
-                                x:Name="ItemsCountText"
-                                Margin="0,0,15,0"
-                                FontWeight="Bold"
-                                Text="0" />
+                            <TextBlock Text="Items:" Style="{StaticResource FieldLabel}" Foreground="Gray" FontSize="11"/>
+                            <TextBlock Text="{Binding ItemsCount}" FontWeight="Bold" Margin="0,0,15,0"/>
 
-                            <TextBlock
-                                FontSize="11"
-                                Foreground="Gray"
-                                Style="{StaticResource FieldLabel}"
-                                Text="Total Cost:" />
-                            <TextBlock
-                                x:Name="TotalCostText"
-                                Margin="0,0,15,0"
-                                FontWeight="Bold"
-                                Foreground="{StaticResource BtnSecondeBrush}"
-                                Text="0.00 EGP" />
+                            <TextBlock Text="Total Cost:" Style="{StaticResource FieldLabel}" Foreground="Gray" FontSize="11"/>
+                            <TextBlock Text="{Binding TotalCost, StringFormat=\{0:N2\} EGP}" FontWeight="Bold" Foreground="{StaticResource BtnSecondeBrush}" Margin="0,0,15,0"/>
 
-                            <TextBlock
-                                FontSize="11"
-                                Foreground="Gray"
-                                Style="{StaticResource FieldLabel}"
-                                Text="Pending:" />
-                            <TextBlock
-                                x:Name="PendingText"
-                                FontWeight="Bold"
-                                Foreground="OrangeRed"
-                                Text="0" />
+                            <TextBlock Text="Pending:" Style="{StaticResource FieldLabel}" Foreground="Gray" FontSize="11"/>
+                            <TextBlock Text="{Binding PendingCount}" FontWeight="Bold" Foreground="OrangeRed"/>
 
                         </StackPanel>
 
                         <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
-                            <Button
-                                x:Name="DeliveryMarkBtn"
-                                Width="160"
-                                Height="38"
-                                Margin="5,0"
-                                Click="DeliveryMarkBtn_Click"
-                                Style="{StaticResource SecondaryButton}">
+                            <Button Command="{Binding MarkDeliveredCommand}" 
+                                    Style="{StaticResource SecondaryButton}" 
+                                    Width="160" 
+                                    Height="38"
+                                    Margin="5,0">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock
                                         VerticalAlignment="Center"
@@ -267,13 +208,11 @@
                                 </StackPanel>
                             </Button>
 
-                            <Button
-                                x:Name="ExportBtn"
-                                Width="120"
-                                Height="38"
-                                Margin="5,0"
-                                Click="ExportBtn_Click"
-                                Style="{StaticResource ModernButton}">
+                            <Button Command="{Binding ExportCommand}" 
+                                    Style="{StaticResource ModernButton}" 
+                                    Width="120" 
+                                    Height="38"
+                                    Margin="5,0">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock
                                         VerticalAlignment="Center"
@@ -291,13 +230,11 @@
                                 </StackPanel>
                             </Button>
 
-                            <Button
-                                x:Name="DeleteBtn"
-                                Width="110"
-                                Height="38"
-                                Margin="5,0"
-                                Click="DeleteBtn_Click"
-                                Style="{StaticResource DangerButton}">
+                            <Button Command="{Binding DeleteCommand}" 
+                                    Style="{StaticResource DangerButton}" 
+                                    Width="110" 
+                                    Height="38"
+                                    Margin="5,0">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock
                                         VerticalAlignment="Center"

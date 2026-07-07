@@ -1,4 +1,4 @@
-﻿<Window
+<Window
     x:Class="ConstructionMaterial.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -6,13 +6,33 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:ConstructionMaterial"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="clr-namespace:ConstructionMaterial.ViewModels"
+    xmlns:dtos="clr-namespace:ConstructionMaterial.BLL.DTOs;assembly=ConstructionMaterial.BLL"
     Title="MainWindow"
     Width="800"
     Height="600"
     Background="{StaticResource MainWindowBrush}"
     Closing="Window_Closing"
+    MouseDown="Window_MouseDown"
     ResizeMode="NoResize"
+    d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel, IsDesignTimeCreatable=False}"
     mc:Ignorable="d">
+    <Window.Resources>
+        <DataTemplate x:Key="ActionDataTemplate" DataType="{x:Type dtos:MaterialDto}">
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                <Button
+                    Style="{StaticResource RowDeleteButton}"
+                    Command="{Binding Path=DataContext.Materials.RemoveMaterialCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                    CommandParameter="{Binding}"
+                    Content="Delete" />
+                <Button
+                    Style="{StaticResource RowEditButton}"
+                    Command="{Binding Path=DataContext.Materials.UpdateMaterialCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                    CommandParameter="{Binding}"
+                    Content="Edit" />
+            </StackPanel>
+        </DataTemplate>
+    </Window.Resources>
     <Border Margin="20" Style="{StaticResource ModernBorder}">
         <Grid Margin="15">
             <Grid.RowDefinitions>
@@ -47,6 +67,11 @@
                             </MenuItem.Icon>
                         </MenuItem>
 
+                        <MenuItem Header="About">
+                            <MenuItem.Icon>
+                                <TextBlock FontFamily="{StaticResource FontAwesome}" Text="&#xf05a;" />
+                            </MenuItem.Icon>
+                        </MenuItem>
                         <Separator />
                         <MenuItem Click="Exit_Click" Header="Exit" />
                     </MenuItem>
@@ -71,85 +96,46 @@
                 Orientation="Horizontal">
 
                 <Border Style="{StaticResource DashboardCard}">
-                    <StackPanel
-                        Margin="0,-6,0,-6"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center">
-                        <StackPanel
-                            Margin="0,0,0,5"
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock
                             HorizontalAlignment="Center"
-                            Orientation="Horizontal">
-                            <TextBlock
-                                Margin="0,2,8,0"
-                                VerticalAlignment="Center"
-                                FontFamily="{StaticResource FontAwesome}"
-                                FontSize="16"
-                                Foreground="{StaticResource IconsBrush}"
-                                Text="&#xf0ca;" />
-                            <TextBlock
-                                VerticalAlignment="Center"
-                                FontWeight="Bold"
-                                Text="CATALOG" />
-                        </StackPanel>
+                            FontWeight="Bold"
+                            Text="CATALOG" />
                         <TextBlock
                             HorizontalAlignment="Center"
                             FontSize="20"
                             FontWeight="Bold"
-                            Text="{Binding MaterialCatalog.Count}" />
+                            Text="{Binding Path=Materials.MaterialCatalog.Count}" />
                         <TextBlock HorizontalAlignment="Center" Text="Materials" />
                     </StackPanel>
                 </Border>
 
                 <Border Style="{StaticResource DashboardCard}">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <StackPanel
-                            Margin="0,0,0,5"
+                        <TextBlock
                             HorizontalAlignment="Center"
-                            Orientation="Horizontal">
-                            <TextBlock
-                                Margin="0,0,8,0"
-                                VerticalAlignment="Center"
-                                FontFamily="{StaticResource FontAwesome}"
-                                FontSize="16"
-                                Foreground="{StaticResource IconsBrush}"
-                                Text="&#xf0d1;" />
-                            <TextBlock
-                                VerticalAlignment="Center"
-                                FontWeight="Bold"
-                                Text="ORDERS" />
-                        </StackPanel>
+                            FontWeight="Bold"
+                            Text="ORDERS" />
                         <TextBlock
                             HorizontalAlignment="Center"
                             FontSize="20"
                             FontWeight="Bold"
-                            Text="{Binding Orders.Count}" />
-                        <TextBlock HorizontalAlignment="Center" Text="{Binding OrderPending}" />
+                            Text="{Binding Path=Orders.Count}" />
+                        <TextBlock HorizontalAlignment="Center" Text="{Binding Path=Orders.TotalPendingCount, StringFormat='Pending: {0}'}" />
                     </StackPanel>
                 </Border>
 
                 <Border Style="{StaticResource DashboardCard}">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <StackPanel
-                            Margin="0,0,0,5"
+                        <TextBlock
                             HorizontalAlignment="Center"
-                            Orientation="Horizontal">
-                            <TextBlock
-                                Margin="0,0,8,0"
-                                VerticalAlignment="Center"
-                                FontFamily="{StaticResource FontAwesome}"
-                                FontSize="16"
-                                Foreground="{StaticResource IconsBrush}"
-                                Text="&#xf155;" />
-                            <TextBlock
-                                VerticalAlignment="Center"
-                                FontWeight="Bold"
-                                Text="TOTAL SPENT" />
-                        </StackPanel>
+                            FontWeight="Bold"
+                            Text="TOTAL SPENT" />
                         <TextBlock
                             HorizontalAlignment="Center"
                             FontSize="16"
                             FontWeight="Bold"
-                            Text="{Binding TotalCost}" />
+                            Text="{Binding Path=TotalCost}" />
                         <TextBlock HorizontalAlignment="Center" Text="This Month" />
                     </StackPanel>
                 </Border>
@@ -160,53 +146,10 @@
                 <TextBlock DockPanel.Dock="Left" Style="{StaticResource ModernText}">Material Catalog:</TextBlock>
                 <Button
                     x:Name="AddMaterial"
-                    Margin="5,0"
                     Click="AddMaterial_Click"
                     DockPanel.Dock="Right"
                     Style="{StaticResource ModernButton}">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock
-                            Margin="0,0,8,0"
-                            VerticalAlignment="Center"
-                            FontFamily="{StaticResource FontAwesome}"
-                            Foreground="{StaticResource IconsBrush}"
-                            Text="&#xf067;" />
-                        <TextBlock VerticalAlignment="Center" Text="Add Material" />
-                    </StackPanel>
-                </Button>
-
-                <Button
-                    x:Name="UpdateMaterial"
-                    Margin="5,0"
-                    Click="UpdateMaterial_Click"
-                    DockPanel.Dock="Right"
-                    Style="{StaticResource SecondaryButton}">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock
-                            Margin="0,0,8,0"
-                            VerticalAlignment="Center"
-                            FontFamily="{StaticResource FontAwesome}"
-                            Foreground="{StaticResource IconsBrush}"
-                            Text="&#xf044;" />
-                        <TextBlock VerticalAlignment="Center" Text="Update Material" />
-                    </StackPanel>
-                </Button>
-
-                <Button
-                    x:Name="DeleteMaterial"
-                    Margin="5,0"
-                    Click="DeleteMaterial_Click"
-                    DockPanel.Dock="Right"
-                    Style="{StaticResource DangerButton}">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock
-                            Margin="0,0,8,0"
-                            VerticalAlignment="Center"
-                            FontFamily="{StaticResource FontAwesome}"
-                            Foreground="{StaticResource IconsBrush}"
-                            Text="&#xf1f8;" />
-                        <TextBlock VerticalAlignment="Center" Text="Delete Material" />
-                    </StackPanel>
+                    Add Material
                 </Button>
             </DockPanel>
 
@@ -216,24 +159,29 @@
                 AutoGenerateColumns="False"
                 CanUserAddRows="False"
                 IsReadOnly="True"
-                ItemsSource="{Binding MaterialCatalog}">
+                ItemsSource="{Binding Path=Materials.MaterialCatalog}"
+                SelectedItem="{Binding Path=Materials.SelectedMaterial, Mode=TwoWay}">
                 <DataGrid.Columns>
                     <DataGridTextColumn
                         Width="*"
-                        Binding="{Binding Category}"
+                        Binding="{Binding Path=Category}"
                         Header="Category" />
                     <DataGridTextColumn
                         Width="*"
-                        Binding="{Binding Name}"
+                        Binding="{Binding Path=Name}"
                         Header="Name" />
                     <DataGridTextColumn
                         Width="120"
-                        Binding="{Binding Unit}"
+                        Binding="{Binding Path=Unit}"
                         Header="Unit" />
                     <DataGridTextColumn
                         Width="120"
-                        Binding="{Binding UnitPrice}"
+                        Binding="{Binding Path=UnitPrice}"
                         Header="Price" />
+                    <DataGridTemplateColumn
+                        Width="120"
+                        CellTemplate="{StaticResource ActionDataTemplate}"
+                        Header="Actions" />
                 </DataGrid.Columns>
             </DataGrid>
 
@@ -283,7 +231,8 @@
                 x:Name="StatusBarControl"
                 Grid.Row="5"
                 Margin="0,10"
-                MaterialsCount="{Binding MaterialCatalog.Count}" />
+                MaterialsCount="{Binding Path=Materials.MaterialCatalog.Count}"
+                LastSaved="{Binding Path=LastSaved}" />
         </Grid>
     </Border>
 </Window>
