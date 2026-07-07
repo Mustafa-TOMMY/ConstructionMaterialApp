@@ -25,7 +25,8 @@ namespace ConstructionMaterial.UserControls
         }
 
         public static readonly DependencyProperty LastSavedProperty =
-            DependencyProperty.Register("LastSaved", typeof(string), typeof(StatusBar), new PropertyMetadata("Last Saved: --"));
+            DependencyProperty.Register("LastSaved", typeof(string), 
+                typeof(StatusBar), new PropertyMetadata("Last Saved: --"));
 
         public string MaterialsCount
         {

@@ -6,6 +6,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:ConstructionMaterial"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="clr-namespace:ConstructionMaterial.ViewModels"
+    xmlns:dtos="clr-namespace:ConstructionMaterial.BLL.DTOs;assembly=ConstructionMaterial.BLL"
     Title="MainWindow"
     Width="800"
     Height="600"
@@ -13,9 +15,10 @@
     Closing="Window_Closing"
     MouseDown="Window_MouseDown"
     ResizeMode="NoResize"
+    d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel, IsDesignTimeCreatable=False}"
     mc:Ignorable="d">
     <Window.Resources>
-        <DataTemplate x:Key="ActionDataTemplate">
+        <DataTemplate x:Key="ActionDataTemplate" DataType="{x:Type dtos:MaterialDto}">
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                 <Button
                     Style="{StaticResource RowDeleteButton}"

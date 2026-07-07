@@ -3,6 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewmodels="clr-namespace:ConstructionMaterial.ViewModels"
+        d:DataContext="{d:DesignInstance Type=viewmodels:OrderViewModel, IsDesignTimeCreatable=False}"
         mc:Ignorable="d"
         Title="Order Management System" 
         Height="600" 
@@ -99,7 +101,7 @@
                 <DataGrid Grid.Row="2"
                           AutoGenerateColumns="False" 
                           IsReadOnly="True"
-                          ItemsSource="{Binding OrdersCollection}"
+                          ItemsSource="{Binding Orders}"
                           SelectedItem="{Binding SelectedOrder, UpdateSourceTrigger=PropertyChanged}"
                           Background="Transparent"
                           RowHeight="35">

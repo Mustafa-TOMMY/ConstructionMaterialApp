@@ -4,8 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ConstructionMaterial.UserControls"
+             xmlns:viewmodels="clr-namespace:ConstructionMaterial.ViewModels"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="350">
+             d:DesignHeight="450" d:DesignWidth="350"
+             d:DataContext="{d:DesignInstance Type=viewmodels:TilesCalculationViewModel, IsDesignTimeCreatable=False}">
     <Grid Margin="0,20,0,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

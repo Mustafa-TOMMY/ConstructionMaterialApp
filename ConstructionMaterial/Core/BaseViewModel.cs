@@ -11,5 +11,6 @@ namespace ConstructionMaterial.Core
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+         
     }
 }
