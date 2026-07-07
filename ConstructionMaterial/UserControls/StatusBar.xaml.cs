@@ -28,14 +28,14 @@ namespace ConstructionMaterial.UserControls
             DependencyProperty.Register("LastSaved", typeof(string), 
                 typeof(StatusBar), new PropertyMetadata("Last Saved: --"));
 
-        public string MaterialsCount
+        public int MaterialsCount
         {
-            get { return (string)GetValue(MaterialsCountProperty); }
+            get { return (int)GetValue(MaterialsCountProperty); }
             set { SetValue(MaterialsCountProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for MaterialsCount.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty MaterialsCountProperty =
-            DependencyProperty.Register("MaterialsCount", typeof(string), typeof(StatusBar), new PropertyMetadata("Materials: 0"));
+            DependencyProperty.Register("MaterialsCount", typeof(int), typeof(StatusBar), new PropertyMetadata(0));
     }
 }

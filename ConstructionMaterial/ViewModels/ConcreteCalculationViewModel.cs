@@ -84,7 +84,7 @@ namespace ConstructionMaterial.ViewModels
             }
         }
 
-        private string _resultText = "0.00 m³";
+        private string _resultText = "0.00 m3";
         public string ResultText
         {
             get => _resultText;
@@ -128,11 +128,11 @@ namespace ConstructionMaterial.ViewModels
         {
             if (!IsFormValid())
             {
-                ResultText = "0.00 m³";
+                ResultText = "0.00 m3";
                 return;
             }
             double volume = _concreteCalculationService.CalculateVolume(Length, Width, Depth, Quantity);
-            ResultText = $"{volume:0.00} m³";
+            ResultText = $"{volume:0.00} m3";
         }
 
         private void SaveConcrete()
@@ -152,7 +152,7 @@ namespace ConstructionMaterial.ViewModels
                 MaterialName = SelectedMaterial.Name,
                 Category = MaterialType.Concrete.ToString(),
                 Quantity = volume,
-                Unit = "m³",
+                Unit = "m3",
                 UnitPrice = SelectedMaterial.UnitPrice,
                 Total = volume * SelectedMaterial.UnitPrice,
                 ElementType = SelectedElementType.ToString(),

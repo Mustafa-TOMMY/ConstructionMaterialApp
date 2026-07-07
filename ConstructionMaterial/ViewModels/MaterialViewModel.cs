@@ -12,7 +12,7 @@ namespace ConstructionMaterial.ViewModels
         public IMaterialService _materialService { get; }
 
         #region Apply INotifyChanged on fields
-        private string _name;
+        private string _name = string.Empty;
         public string Name
         {
             get => _name;
@@ -47,7 +47,7 @@ namespace ConstructionMaterial.ViewModels
             }
         }
 
-        private string _unit;
+        private string _unit = string.Empty;
         public string Unit
         {
             get => _unit;
@@ -67,6 +67,14 @@ namespace ConstructionMaterial.ViewModels
                 _unitPrice = value;
                 OnPropertyChanged();
                 AddMaterialCommand.RaiseCanExecuteChanged();
+                if (UnitPrice <= 0)
+                {
+                    AddError("Price must be a positive number.");
+                }
+                else
+                {
+                    ClearError();
+                }
             }
         }
 
@@ -81,7 +89,7 @@ namespace ConstructionMaterial.ViewModels
             }
         }
 
-        private ObservableCollection<MaterialDto> _materialCatalog;
+        private ObservableCollection<MaterialDto> _materialCatalog = new();
         public ObservableCollection<MaterialDto> MaterialCatalog
         {
             get => _materialCatalog;
@@ -115,7 +123,7 @@ namespace ConstructionMaterial.ViewModels
 
         public MaterialViewModel(IMaterialService materialService)
         {
-            MaterialUnits = new List<string> { "m³", "m²", "kg", "ton", "Liter" };
+            MaterialUnits = new List<string> { "mÂ³", "mÂ²", "kg", "ton", "Liter" };
             MaterialTypes = Enum.GetValues<MaterialType>().ToList();
             Category = MaterialTypes.First();
             Unit = MaterialUnits.First();
@@ -153,7 +161,7 @@ namespace ConstructionMaterial.ViewModels
 
             CloseRequested?.Invoke();
         }
-        public void StartEditMaterial(MaterialDto material)
+        public void StartEditMaterial(MaterialDto? material)
         {
             if (material == null)
                 return;
@@ -167,8 +175,9 @@ namespace ConstructionMaterial.ViewModels
 
             OpenMaterialWindowRequested?.Invoke();
         }
-        public void DeleteMaterial(MaterialDto material)
+        public void DeleteMaterial(MaterialDto? material)
         {
+            if (material == null) return;
             var result = MessageBox.Show(
                 $"Are you sure you want to delete {material.Name}?",
                 "Confirm Delete",
@@ -187,7 +196,7 @@ namespace ConstructionMaterial.ViewModels
         }
         public bool IsMaterialNameDublicated()
         {
-            return !_materialService.GetAllMaterial().Any(m => m.Name.Equals(Name, StringComparison.OrdinalIgnoreCase));
+            return !_materialService.GetAllMaterial().Any(m => m.Name.Equals(Name, StringComparison.OrdinalIgnoreCase) && m.Id != _editingMaterialId);
         }
         public void ClearForm()
         {

@@ -115,7 +115,7 @@
                 <DataGrid Grid.Row="2"
                           AutoGenerateColumns="False" 
                           IsReadOnly="True"
-                          ItemsSource="{Binding Orders}"
+                          ItemsSource="{Binding OrdersCollection}"
                           SelectedItem="{Binding SelectedOrder, UpdateSourceTrigger=PropertyChanged}"
                           Background="Transparent"
                           RowHeight="35">

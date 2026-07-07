@@ -6,7 +6,7 @@ namespace ConstructionMaterial.Views
     /// <summary>
     /// Interaction logic for CalculatorWindow.xaml
     /// </summary>
-    public partial class CalculatorWindow : Window, INotifyPropertyChanged
+    public partial class CalculatorWindow : Window
     {
         public CalculatorWindow(MainCalculatorViewModel mainCalculatorViewModel)
         {

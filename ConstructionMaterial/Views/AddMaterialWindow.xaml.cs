@@ -15,6 +15,10 @@ namespace ConstructionMaterial.Views
             InitializeComponent();
             DataContext = materialViewModel;
             _materialViewModel = materialViewModel;
+
+            System.Action closeAction = () => Close();
+            _materialViewModel.CloseRequested += closeAction;
+            this.Closed += (s, e) => _materialViewModel.CloseRequested -= closeAction;
         }
 
         private void Cancel_Click(object sender, RoutedEventArgs e)

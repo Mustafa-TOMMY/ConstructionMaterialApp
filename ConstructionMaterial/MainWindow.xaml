@@ -53,15 +53,16 @@
                         </MenuItem.Icon>
 
                         <MenuItem
-                            x:Name="Save"
-                            Click="Save_Click"
-                            Header="Save">
+                            Header="Save"
+                            Command="{Binding SaveCommand}">
                             <MenuItem.Icon>
                                 <TextBlock FontFamily="{StaticResource FontAwesome}" Text="&#xf0c7;" />
                             </MenuItem.Icon>
                         </MenuItem>
 
-                        <MenuItem Header="Load">
+                        <MenuItem
+                            Header="Load"
+                            Command="{Binding LoadCommand}">
                             <MenuItem.Icon>
                                 <TextBlock FontFamily="{StaticResource FontAwesome}" Text="&#xf0ab;" />
                             </MenuItem.Icon>

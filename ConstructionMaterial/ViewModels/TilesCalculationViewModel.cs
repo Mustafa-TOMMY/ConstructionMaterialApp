@@ -12,6 +12,7 @@ namespace ConstructionMaterial.ViewModels
 {
     public class TilesCalculationViewModel : BaseViewModel
     {
+        private readonly IMaterialService _materialService;
         private readonly IOrderService _orderService;
         private readonly ITilesCalculationService _tilesCalculationService;
 
@@ -51,6 +52,18 @@ namespace ConstructionMaterial.ViewModels
             }
         }
 
+        private MaterialDto? _selectedMaterial;
+        public MaterialDto? SelectedMaterial
+        {
+            get => _selectedMaterial;
+            set
+            {
+                _selectedMaterial = value;
+                OnPropertyChanged();
+                RaiseCanExecuteChanged();
+            }
+        }
+
         private double _wastePercentage = 10.0;
         public double WastePercentage
         {
@@ -75,11 +88,13 @@ namespace ConstructionMaterial.ViewModels
         }
 
         public List<Tile> TileSizes { get; }
+        public List<MaterialDto> MaterialNames { get; }
         public BaseCommand CalculateTilesCommand { get; }
         public BaseCommand SaveTilesCommand { get; }
 
-        public TilesCalculationViewModel(IOrderService orderService, ITilesCalculationService tilesCalculationService)
+        public TilesCalculationViewModel(IMaterialService materialService, IOrderService orderService, ITilesCalculationService tilesCalculationService)
         {
+            _materialService = materialService;
             _orderService = orderService;
             _tilesCalculationService = tilesCalculationService;
 
@@ -94,7 +109,12 @@ namespace ConstructionMaterial.ViewModels
             CalculateTilesCommand = new BaseCommand(p => CalculateTiles(), p => IsFormValid());
             SaveTilesCommand = new BaseCommand(p => SaveTiles(), p => IsFormValid());
 
+            MaterialNames = _materialService.GetAllMaterial()
+                .Where(m => m.Category == MaterialType.Tiles)
+                .ToList();
+
             if (TileSizes.Count > 1) SelectedTile = TileSizes[1]; // Default to 50x50
+            if (MaterialNames.Count > 0) SelectedMaterial = MaterialNames[0];
         }
 
         private void CalculateTiles()
@@ -111,22 +131,25 @@ namespace ConstructionMaterial.ViewModels
 
         private void SaveTiles()
         {
-            if (!IsFormValid() || SelectedTile == null)
+            if (!IsFormValid() || SelectedTile == null || SelectedMaterial == null)
             {
-                MessageBox.Show("Please enter valid room dimensions, waste percentage and select a tile size first.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Please enter valid room dimensions, waste percentage, select a tile size, and select a material first.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
+
+            double tilesCount = _tilesCalculationService.CalculateTilesCount(RoomLength, RoomWidth, SelectedTile.Size, WastePercentage);
+            double qty = RoomLength * RoomWidth;
 
             var nextOrderNumber = _orderService.GetAllOrders().Count + 1;
             var order = new OrderDto
             {
                 OrderNumber = nextOrderNumber,
-                MaterialName = $"Tiles ({SelectedTile.Name})",
+                MaterialName = SelectedMaterial.Name,
                 Category = MaterialType.Tiles.ToString(),
-                Quantity = RoomLength * RoomWidth,
-                Unit = "m²",
-                UnitPrice = 0,
-                Total = 0,
+                Quantity = qty,
+                Unit = "m2",
+                UnitPrice = SelectedMaterial.UnitPrice,
+                Total = qty * SelectedMaterial.UnitPrice,
                 ElementType = ElementType.Floor.ToString(),
                 Status = "Pending",
                 Date = DateTime.Now
@@ -138,7 +161,7 @@ namespace ConstructionMaterial.ViewModels
 
         public bool IsFormValid()
         {
-            return RoomLength > 0 && RoomWidth > 0 && WastePercentage >= 0 && SelectedTile != null;
+            return RoomLength > 0 && RoomWidth > 0 && WastePercentage >= 0 && SelectedTile != null && SelectedMaterial != null;
         }
 
         private void RaiseCanExecuteChanged()

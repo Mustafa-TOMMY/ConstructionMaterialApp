@@ -11,6 +11,7 @@ namespace ConstructionMaterial.ViewModels
 {
     public class SteelCalculationViewModel : BaseViewModel
     {
+        private readonly IMaterialService _materialService;
         private readonly IOrderService _orderService;
         private readonly ISteelCalculationService _steelCalculationService;
 
@@ -50,6 +51,18 @@ namespace ConstructionMaterial.ViewModels
             }
         }
 
+        private MaterialDto? _selectedMaterial;
+        public MaterialDto? SelectedMaterial
+        {
+            get => _selectedMaterial;
+            set
+            {
+                _selectedMaterial = value;
+                OnPropertyChanged();
+                RaiseCanExecuteChanged();
+            }
+        }
+
         private string _resultText = "0.00 kg | 0.000 ton";
         public string ResultText
         {
@@ -62,18 +75,26 @@ namespace ConstructionMaterial.ViewModels
         }
 
         public List<BarDiameter> BarDiameters { get; }
+        public List<MaterialDto> MaterialNames { get; }
         public BaseCommand CalculateSteelCommand { get; }
         public BaseCommand SaveSteelCommand { get; }
 
-        public SteelCalculationViewModel(IOrderService orderService, ISteelCalculationService steelCalculationService)
+        public SteelCalculationViewModel(IMaterialService materialService, IOrderService orderService, ISteelCalculationService steelCalculationService)
         {
+            _materialService = materialService;
             _orderService = orderService;
             _steelCalculationService = steelCalculationService;
+
             BarDiameters = Enum.GetValues(typeof(BarDiameter)).Cast<BarDiameter>().ToList();
             CalculateSteelCommand = new BaseCommand(p => CalculateSteel(), p => IsFormValid());
             SaveSteelCommand = new BaseCommand(p => SaveSteel(), p => IsFormValid());
 
+            MaterialNames = _materialService.GetAllMaterial()
+                .Where(m => m.Category == MaterialType.Steel)
+                .ToList();
+
             if (BarDiameters.Count > 0) SelectedDiameter = BarDiameters[0];
+            if (MaterialNames.Count > 0) SelectedMaterial = MaterialNames[0];
         }
 
         private void CalculateSteel()
@@ -91,22 +112,40 @@ namespace ConstructionMaterial.ViewModels
 
         private void SaveSteel()
         {
-            if (!IsFormValid())
+            if (!IsFormValid() || SelectedMaterial == null)
             {
-                MessageBox.Show("Please enter a valid length and count first.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Please enter a valid length, count and select a material first.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
+            }
+
+            double diameter = (double)SelectedDiameter;
+            var (totalWeight, tons) = _steelCalculationService.CalculateWeight(diameter, Length, BarsCount);
+
+            double qty = BarsCount;
+            string unit = "Bars";
+            double price = SelectedMaterial.UnitPrice;
+
+            if (SelectedMaterial.Unit.Equals("ton", StringComparison.OrdinalIgnoreCase))
+            {
+                qty = tons;
+                unit = "ton";
+            }
+            else if (SelectedMaterial.Unit.Equals("kg", StringComparison.OrdinalIgnoreCase))
+            {
+                qty = totalWeight;
+                unit = "kg";
             }
 
             var nextOrderNumber = _orderService.GetAllOrders().Count + 1;
             var order = new OrderDto
             {
                 OrderNumber = nextOrderNumber,
-                MaterialName = $"Steel Bars ({SelectedDiameter})",
+                MaterialName = SelectedMaterial.Name,
                 Category = MaterialType.Steel.ToString(),
-                Quantity = BarsCount,
-                Unit = "Bars",
-                UnitPrice = 0,
-                Total = 0,
+                Quantity = qty,
+                Unit = unit,
+                UnitPrice = price,
+                Total = qty * price,
                 ElementType = ElementType.Column.ToString(),
                 Status = "Pending",
                 Date = DateTime.Now
@@ -118,7 +157,7 @@ namespace ConstructionMaterial.ViewModels
 
         public bool IsFormValid()
         {
-            return Length > 0 && BarsCount > 0;
+            return Length > 0 && BarsCount > 0 && SelectedMaterial != null;
         }
 
         private void RaiseCanExecuteChanged()

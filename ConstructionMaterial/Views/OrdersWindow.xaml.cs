@@ -29,6 +29,8 @@ namespace ConstructionMaterial.Views
                 }
                 return null;
             };
+
+            this.Closed += (s, e) => orderViewModel.SaveFilePicker = null;
         }
     }
 }

@@ -9,7 +9,7 @@ namespace ConstructionMaterial
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window, INotifyPropertyChanged
+    public partial class MainWindow : Window
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly MainViewModel? _mianViewModel;
@@ -57,34 +57,38 @@ namespace ConstructionMaterial
         #region basic option in main window
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            Application.Current.Shutdown();
-        }
-
-        private void Save_Click(object sender, RoutedEventArgs e)
-        {
-            if (_mianViewModel != null)
-            {
-                _mianViewModel.LastSaved = $"Last Saved: {DateTime.Now:dd/MM/yyyy HH:mm}";
-            }
-            MessageBox.Show("All changes are automatically saved to file.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
-        }
-
-        private void Exit_Click(object sender, RoutedEventArgs e)
-        {
             MessageBoxResult result = MessageBox.Show("Do you want to save changes before exiting?",
-                                                    "Confirm Exit",
-                                                    MessageBoxButton.YesNoCancel,
-                                                    MessageBoxImage.Question);
+                                                     "Confirm Exit",
+                                                     MessageBoxButton.YesNoCancel,
+                                                     MessageBoxImage.Question);
 
             if (result == MessageBoxResult.Yes)
             {
-                SaveData();
+                if (_mianViewModel != null)
+                {
+                    _mianViewModel.LastSaved = $"Last Saved: {DateTime.Now:dd/MM/yyyy HH:mm}";
+                }
             }
             else if (result == MessageBoxResult.Cancel)
             {
                 e.Cancel = true;
             }
         }
+
+        private void Exit_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            string developerName = "Mustafa Abdelhamid Mustafa Abdelhamid";
+            MessageBox.Show($"Developed and Designed by: {developerName}",
+                            "About Developer",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Information);
+        }
+
         private void Window_Activated(object? sender, EventArgs e)
         {
             _mianViewModel?.Orders.LoadOrders();

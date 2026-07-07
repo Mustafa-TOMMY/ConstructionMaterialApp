@@ -8,6 +8,7 @@ namespace ConstructionMaterial.ViewModels
 {
     public class PaintCalculationViewModel : BaseViewModel
     {
+        private readonly IMaterialService _materialService;
         private readonly IOrderService _orderService;
         private readonly IPaintCalculationService _paintCalculationService;
 
@@ -59,6 +60,18 @@ namespace ConstructionMaterial.ViewModels
             }
         }
 
+        private MaterialDto? _selectedMaterial;
+        public MaterialDto? SelectedMaterial
+        {
+            get => _selectedMaterial;
+            set
+            {
+                _selectedMaterial = value;
+                OnPropertyChanged();
+                RaiseCanExecuteChanged();
+            }
+        }
+
         private string _resultText = "0.00 Liters";
         public string ResultText
         {
@@ -71,18 +84,26 @@ namespace ConstructionMaterial.ViewModels
         }
 
         public List<SurfaceType> SurfaceTypes { get; }
+        public List<MaterialDto> MaterialNames { get; }
         public BaseCommand CalculatePaintCommand { get; }
         public BaseCommand SavePaintCommand { get; }
 
-        public PaintCalculationViewModel(IOrderService orderService, IPaintCalculationService paintCalculationService)
+        public PaintCalculationViewModel(IMaterialService materialService, IOrderService orderService, IPaintCalculationService paintCalculationService)
         {
+            _materialService = materialService;
             _orderService = orderService;
             _paintCalculationService = paintCalculationService;
+
             SurfaceTypes = Enum.GetValues(typeof(SurfaceType)).Cast<SurfaceType>().ToList();
             CalculatePaintCommand = new BaseCommand(p => CalculatePaint(), p => IsFormValid());
             SavePaintCommand = new BaseCommand(p => SavePaint(), p => IsFormValid());
 
+            MaterialNames = _materialService.GetAllMaterial()
+                .Where(m => m.Category == MaterialType.Paint)
+                .ToList();
+
             if (SurfaceTypes.Count > 0) SelectedSurfaceType = SurfaceTypes[0];
+            if (MaterialNames.Count > 0) SelectedMaterial = MaterialNames[0];
         }
 
         private void CalculatePaint()
@@ -98,22 +119,24 @@ namespace ConstructionMaterial.ViewModels
 
         private void SavePaint()
         {
-            if (!IsFormValid())
+            if (!IsFormValid() || SelectedMaterial == null)
             {
-                MessageBox.Show("Please enter valid surface area, coats and coverage rate first.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Please enter valid surface area, coats, coverage rate and select a material first.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
+
+            double liters = _paintCalculationService.CalculateLiters(SurfaceArea, Coats, CoverageRate);
 
             var nextOrderNumber = _orderService.GetAllOrders().Count + 1;
             var order = new OrderDto
             {
                 OrderNumber = nextOrderNumber,
-                MaterialName = $"Paint ({SelectedSurfaceType})",
+                MaterialName = SelectedMaterial.Name,
                 Category = MaterialType.Paint.ToString(),
-                Quantity = SurfaceArea,
-                Unit = "m²",
-                UnitPrice = 0,
-                Total = 0,
+                Quantity = liters,
+                Unit = "Liter",
+                UnitPrice = SelectedMaterial.UnitPrice,
+                Total = liters * SelectedMaterial.UnitPrice,
                 ElementType = ElementType.Wall.ToString(),
                 Status = "Pending",
                 Date = DateTime.Now
@@ -125,7 +148,7 @@ namespace ConstructionMaterial.ViewModels
 
         public bool IsFormValid()
         {
-            return SurfaceArea > 0 && Coats > 0 && CoverageRate > 0;
+            return SurfaceArea > 0 && Coats > 0 && CoverageRate > 0 && SelectedMaterial != null;
         }
 
         private void RaiseCanExecuteChanged()

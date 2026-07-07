@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,7 +20,7 @@ namespace ConstructionMaterial.UserControls
     /// </summary>
     public partial class MenuBar : UserControl
     {
-        public event EventHandler SaveClicked;
+        public event EventHandler? SaveClicked;
         public MenuBar()
         {
             InitializeComponent();
